@@ -1,21 +1,21 @@
-const request = require("request");
-const http    = require("http");
-const mysql   = require('mysql');
-const schedule = require('node-schedule');
-const url = require('url');
+var request = require("request");
+var http    = require("http");
+var mysql   = require('mysql');
+var schedule = require('node-schedule');
+var url = require('url');
 var ytdl = require('ytdl-core');
-const ImagesClient = require('google-images');
+var ImagesClient = require('google-images');
 var express = require('express');
 var app = express();
 var server = http.createServer(app);
 var io = require('socket.io')(server);
 var port = process.env.PORT || 5000;
-const nani = require("nani").init(process.env.NANIID, process.env.NANISECRET);
+var nani = require("nani").init(process.env.NANIID, process.env.NANISECRET);
 app.use(express.static(__dirname + '/public'));
-let client = new ImagesClient(process.env.GGIMAGEID, process.env.GGIMAGEAPI);
+var client = new ImagesClient(process.env.GGIMAGEID, process.env.GGIMAGEAPI);
 server.listen(port);
 
-const prefix = "$";
+var prefix = "$";
 var session = 0;
 var game = 0;
 var rndP = [];
@@ -28,13 +28,13 @@ var challenger = [];
 var PrevRoles = {};
 var match = [];
 var games = {};
-let servants = {};
+var servants = {};
 var commands = {};
 var emoji = {};
 var reply = {};
-let event = "";
+var event = "";
 var ascii = {};
-let dispatcher;
+var dispatcher;
 function GetRoleID(e, role)
 {
 	admin = e.guild.roles.find("name", role);

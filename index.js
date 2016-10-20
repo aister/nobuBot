@@ -82,7 +82,6 @@ function matchprocess(m, mStr, w, l) {
 function kill(message, user) {
 	if (message.guild) {
 		user = message.guild.members.find("id", user.id);
-		console.log(user);
 		user.addRole("218012980019724288");
 	}
 }
@@ -454,6 +453,249 @@ nobuBot.on('message', (message) => {
 				}
 				break;
 /* ================ PREMIUM SERVER COMMANDS =============== */
+			case prefix + "skip":
+				if (message.channel.id == '221818180694179840') {
+					if (!HasRole(message, "Admin", message.member)) message.channel.sendMessage("Bạn phải là Admin để thực hiện lệnh này");
+					else if (game == 2 && session == 2)
+					{
+						pos++;
+						if (pos == rndP.length) pos = 0;
+						message.channel.sendMessage(story.join(". "));
+						setTimeout( function(){
+							repeat = "Story Game: Đến lượt của " + message.guild.members.find("id", rndP[pos]).user + ". Hãy sử dụng lệnh `" + prefix + "storyAdd` để viết tiếp câu chuyện";
+							message.channel.sendMessage(repeat);
+						}, 2000);
+					}
+				}
+				break;
+			case prefix + "join":
+				if (message.channel.id == '221818180694179840') {
+					if (session == 0) message.channel.sendMessage("Không có trò chơi nào đang diễn ra lúc này, không thể tham gia trò chơi");
+					else if (session == 1)
+					{
+						if (p.indexOf(message.member.id) == -1)
+						{
+							p.push(message.member.id);
+							message.channel.sendMessage(message.author + " đã tham gia " + games[game - 1].name);
+						}
+						else
+							message.channel.sendMessage(message.author + " đã trong danh sách tham gia " + games[game - 1].name);
+					}
+					else message.channel.sendMessage("Trò chơi đang diễn ra, không thể tham gia lúc này. Để tham gia, trò chơi cần phải được ngừng bằng lệnh `" + prefix + "stop`");
+				}
+				break;
+			case prefix + "repeat":
+				if (message.channel.id == '221818180694179840') {
+					if (game == 2)
+					{
+						message.channel.sendMessage(story.join(". "));
+						setTimeout( function(){
+							message.channel.sendMessage(repeat);
+						}, 2000);
+					} else message.channel.sendMessage(repeat);
+				}
+				break;
+			case prefix + "start":
+				if (message.channel.id == '221818180694179840') {
+					if (!HasRole(message, "Admin", message.member)) message.channel.sendMessage("Bạn phải là Admin để thực hiện lệnh này");
+					else
+					{
+						if (session >= 1)
+						{
+							session = 2;
+							var count, rand;
+							switch(game)
+							{
+								case 1:
+									message.channel.sendMessage("Ousama Game đã bắt đầu vòng mới - mọi người kiểm tra PM để biết số của mình");
+									randomlist();
+									rndP.forEach(function(participant)
+									{
+										message.guild.members.find("id", participant).sendMessage("Số của bạn là số " + (rndP.indexOf(participant) + 1) + ". Hãy giữ bí mật số của mình nhé!");
+									});
+									rand = rnd(rndP.length);
+									repeat = "Ousama Game: vua là số " + (rand + 1) + ": " + message.guild.members.find("id", rndP[rand]).user + ". Có tổng cộng " + rndP.length + " ngÆ°á»i chÆ¡i trong vÃ²ng nÃ y";
+									message.channel.sendMessage(repeat);
+									break;
+								case 2:
+									message.channel.sendMessage("Story Game đã bắt đầu vòng mới");
+									story.push("Story Game: Ngày xửa ngày xưa..");
+									submitter.push(message.member.id);
+									randomlist();
+									pos = 0;
+									message.channel.sendMessage(story[0] + ".");
+									repeat = "Story Game: Đến lượt của " + message.guild.members.find("id", rndP[pos]).user + ". Hãy sử dụng lệnh `" + prefix + "storyAdd` để viết tiếp câu chuyện";
+									message.channel.sendMessage(repeat);
+									break;
+								case 3:
+									message.channel.sendMessage("Truth or Dare Game đã bắt đầu vòng mới");
+									randomlist();
+									repeat = "Truth or Dare Game: " + message.guild.members.find("id", rndP[0]).user + " đã bị chọn, người hỏi là ";
+									if (rndP.length <= 1) repeat += message.guild.members.find("id", rndP[0]).user;
+									else repeat += message.guild.members.find("id", rndP[1]).user;
+									message.channel.sendMessage(repeat);
+									break;
+								default:
+									break;
+							}
+						}
+						else
+						{
+							message.channel.sendMessage("Không có trò nào đang diễn ra, không thể bắt đầu trò chơi");
+						}
+					}
+				}
+				break;
+			case prefix + "result":
+				if (message.channel.id == '221818180694179840') {
+					if (!HasRole(message, "Admin", message.member)) message.channel.sendMessage("Bạn phải là Admin để thực hiện lệnh này");
+					else
+					{
+						if (game == 2 && session == 2)
+						{
+							i = 0;
+							temp = "```\n";
+							story.forEach(function (line)
+							{
+								temp += message.guild.members.find("id", submitter[i]).user.name + ": \n" + line + "\n\n";
+								i++;
+							});
+							temp += "```";
+							message.channel.sendMessage(temp);
+						}
+					}
+				}
+				break;
+			case prefix + "stop":
+				if (message.channel.id == '221818180694179840') {
+					if (!HasRole(message, "Admin", message.member)) message.channel.sendMessage("Bạn phải là Admin để thực hiện lệnh này");
+					else
+					{
+						if (session >= 1)
+						{
+							message.channel.sendMessage(games[game - 1].name + " đã kết thúc, cám ơn các bạn đã tham gia");
+							p = [];
+							rndP = [];
+							session = 0;
+							game = 0;
+						}
+						else
+						{
+							message.channel.sendMessage("Không có trờ chơi nào đang diễn ra lúc này");
+						}
+						mybot.user.setStatus("online", null);
+					}
+				}
+				break;
+			case prefix + "whois":
+				if (message.channel.id == '221818180694179840') {
+					if (session == 0) message.channel.sendMessage("Không có game nào đang diễn ra, không thể thực hiện lệnh");
+					else if (session == 1) message.channel.sendMessage("Game chưa bắt đầu, không thể thực hiện lệnh");
+					else
+					{
+						if (!HasRole(message, "Admin", message.member)) message.channel.sendMessage("Bạn phải là admin để thực hiện lệnh này");
+						else
+						{
+							if (!isNaN(msg.slice(msg.indexOf(' ') + 1)))
+							{
+								i = parseInt(msg.slice(msg.indexOf(' ') + 1))
+								if (rndP.length >= i)
+								{
+									message.channel.sendMessage("Người số " + i + " là  " + message.guild.members.find("id", rndP[i - 1]).user);
+								}
+								else
+								{
+									message.channel.sendMessage("Không có người số " + i);
+								}
+							}
+							else
+							{
+								message.channel.sendMessage("Sai cấu trúc lệnh");
+							}
+						}
+					}
+				}
+				break;
+			case prefix + "add":
+				if (message.mentions.users.array().length > 0 && session == 2 && message.channel.id == '221818180694179840') {
+					temp = "";
+					message.mentions.users.array().forEach(function(user) {
+						if (rndP.indexOf(user) == -1)
+						{
+							rndP.push(user.id);
+							temp += user.user + " đã tham gia " + games[game - 1].name + '\n';
+						}
+						else
+							temp += user.user + " đã trong danh sách tham gia " + games[game - 1].name + '\n';
+					});
+					message.channel.sendMessage(temp);
+				}
+				break;
+			case prefix + "remove":
+				if (message.mentions.users.array().length > 0 && session >= 1 && message.channel.id == '221818180694179840') {
+					temp = "";
+					message.mentions.users.array().forEach(function(user) {
+						if (rndP.indexOf(user.id) > -1)
+						{
+							rndP.splice(rndP.indexOf(user.id), 1);
+							temp += user.user + " đã rời khỏi " + games[game - 1].name + '\n';
+						}
+						else if (p.indexOf(user.id) > -1) {
+							p.splice(p.indexOf(user.id), 1);
+							temp += user.user + " đã rời khỏi " + games[game - 1].name + '\n';
+						} else
+							temp += user.user + " không có trong danh sách tham gia " + games[game - 1].name + '\n';
+					});
+					message.channel.sendMessage(temp);
+				}
+				break;
+			case prefix + "begin":
+				if (message.channel.id == '221818180694179840') {
+					if (!HasRole(message, "Admin", message.member)) message.channel.sendMessage("Bạn phải là Admin để thực hiện lệnh này");
+					else
+					{
+						rndP = [];
+						p = [];
+						story = [];
+						game = 0;
+						switch (msg.slice(msg.indexOf(' ') + 1))
+						{
+							case "ousama":
+								game = 1;
+								break;
+							case "story":
+								game = 2;
+								break;
+							case "tod":
+								game = 3;
+								break;
+							default:
+								message.channel.sendMessage("Không có game này trong database");
+								break;
+						}
+						if (game != 0) {
+							session = 1;
+							mybot.user.setStatus("online", games[game - 1].name);
+							message.channel.sendMessage(games[game - 1].name + " đã được bắt đầu. Để tham gia mời gõ lệnh `" + prefix + "join`.");
+						}
+					}
+				}
+				break;
+			case prefix + "storyadd":
+				if (session == 2 && game == 2 && message.member.id == rndP[pos] && message.channel.id == '221818180694179840')
+				{
+					temp = msg.slice(msg.indexOf(' ') + 1);
+					story.push(temp.charAt(0).toUpperCase() + temp.slice(1));
+					submitter.push(message.member.id);
+					pos++;
+					if (pos == rndP.length) pos = 0;
+					message.channel.sendMessage(story.join(". "));
+					setTimeout( function(){
+						repeat = "Story Game: Đến lượt của " + message.guild.members.get("id", rndP[pos]).user + ". Hãy dùng lệnh `" + prefix + "storyAdd` để viết tiếp câu truyện.";
+						message.channel.sendMessage(repeat);
+					}, 2000);
+				}
+				break;
 			case prefix + "kill":
 				if (message.guild && premium.indexOf(message.guild.id) >= 0) {
 					if (!HasRole(message, "Admin", message.member)) message.channel.sendMessage("Bạn phải là Admin để thực hiện lệnh này");
@@ -471,102 +713,133 @@ nobuBot.on('message', (message) => {
 					}
 				}
 				break;
-				case prefix + "revive":
-					if (message.guild && premium.indexOf(message.guild.id) >= 0) {
-						if (!HasRole(message, "Admin", message.member)) message.channel.sendMessage("Bạn phải là Admin để thực hiện lệnh này");
-						else if (message.mentions.users.array().length > 0) {
+			case prefix + "revive":
+				if (message.guild && premium.indexOf(message.guild.id) >= 0) {
+					if (!HasRole(message, "Admin", message.member)) message.channel.sendMessage("Bạn phải là Admin để thực hiện lệnh này");
+					else if (message.mentions.users.array().length > 0) {
+						user = message.mentions.users.array()[0];
+						revive(message, user, 0);
+					}
+				}
+				break;
+			case prefix + "fight":
+				if (message.channel.id == "222738247942537216") {
+					if (HasRole(message, "Admin", message.member)) message.channel.sendMessage("Admin không thể thực hiện lệnh này");
+					else {
+						if (message.mentions.users.array().length > 0) {
 							user = message.mentions.users.array()[0];
-							revive(message, user, 0);
-						}
+							if (fight.indexOf(user.id) >= 0) message.channel.sendMessage(user + " hiện đang được thách đấu. Bạn không thể thách đấu người này");
+							else if (challenger.indexOf(message.member.id) >= 0) message.channel.sendMessage("Bạn hiện đang thách đấu người khác, và không thể thách đấu trong lúc này");
+							else if (user.id == message.member.id) message.channel.sendMessage("Bạn không thể thách đấu với chính mình");
+							else
+							{
+								message.channel.sendMessage(user + ", " + message.author + " muốn thách đấu với bạn. Bạn có 20 giây để trả lời `" + prefix + "yes` hoặc `" + prefix + "no` để chấp nhận hoặc từ chối lời thách đấu");
+								fight.push(user.id);
+								challenger.push(message.member.id);
+								setTimeout(function() {
+									if (fight.indexOf(user.id) >= 0)
+									{
+										message.channel.sendMessage("Đã quá 20 giây và " + user + " đã không trả lời lời thách đấu của " + message.author + ". Lời thách đấu vô hiệu");
+										fight.splice(fight.indexOf(user.id), 1);
+										challenger.splice(fight.indexOf(message.member.id), 1);
+									}
+								}, 20000);
+							}
+						} else message.channel.sendMessage("Invalid format");
 					}
-					break;
-				case prefix + "fight":
-					if (message.channel.id == "222738247942537216") {
-						if (HasRole(message, "Admin", message.member)) message.channel.sendMessage("Admin không thể thực hiện lệnh này");
-						else {
-							if (message.mentions.users.array().length > 0) {
-								user = message.mentions.users.array()[0];
-								if (fight.indexOf(user.id) >= 0) message.channel.sendMessage(user + " hiện đang được thách đấu. Bạn không thể thách đấu người này");
-								else if (challenger.indexOf(message.member.id) >= 0) message.channel.sendMessage("Bạn hiện đang thách đấu người khác, và không thể thách đấu trong lúc này");
-								else if (user.id == message.member.id) message.channel.sendMessage("Bạn không thể thách đấu với chính mình");
-								else
-								{
-									message.channel.sendMessage(user + ", " + message.author + " muốn thách đấu với bạn. Bạn có 20 giây để trả lời `" + prefix + "yes` hoặc `" + prefix + "no` để chấp nhận hoặc từ chối lời thách đấu");
-									fight.push(user.id);
-									challenger.push(message.member.id);
-									setTimeout(function() {
-										if (fight.indexOf(user.id) >= 0)
-										{
-											message.channel.sendMessage("Đã quá 20 giây và " + user + " đã không trả lời lời thách đấu của " + message.author + ". Lời thách đấu vô hiệu");
-											fight.splice(fight.indexOf(user.id), 1);
-											challenger.splice(fight.indexOf(message.member.id), 1);
-										}
-									}, 20000);
-								}
-							} else message.channel.sendMessage("Invalid format");
-						}
-					}
-					break;
-				case prefix + "yes":
-					if (fight.indexOf(message.member.id) >= 0 && message.channel.id == '222738247942537216')
+				}
+				break;
+			case prefix + "yes":
+				if (fight.indexOf(message.member.id) >= 0 && message.channel.id == '222738247942537216')
+				{
+					chIndex = fight.indexOf(message.member.id);
+					ch = challenger[chIndex];
+					challenger.splice(chIndex, 1);
+					fight.splice(chIndex, 1);
+					if (HasRole(message, "Admin", message.member))
 					{
-						chIndex = fight.indexOf(message.member.id);
-						ch = challenger[chIndex];
-						challenger.splice(chIndex, 1);
-						fight.splice(chIndex, 1);
-						if (HasRole(message, "Admin", message.member))
+						loser = message.guild.members.find("id", ch).user;
+						user = message.author;
+						matchprocess(message, match[0], user, loser);
+					}
+					else
+					{
+						if (rnd(2) == 0)
 						{
-							loser = message.guild.members.find("id", ch).user;
-							user = message.author;
-							matchprocess(message, match[0], user, loser);
+							loser = message.author;
+							user = message.guild.members.find("id", ch).user;
 						}
 						else
 						{
-							if (rnd(2) == 0)
+							loser = message.guild.members.find("id", ch).user;
+							user = message.author;
+						}
+						matchprocess(message, match[rnd(match.length - 1) + 1], user, loser);
+					}
+				}
+				break;
+			case prefix + "no":
+				if (fight.indexOf(message.member.id) >= 0 && message.channel.id == '222738247942537216')
+				{
+					chIndex = fight.indexOf(message.member.id);
+					ch = challenger[chIndex];
+					challenger.splice(chIndex, 1);
+					fight.splice(chIndex, 1);
+					message.channel.sendMessage(message.author + " đã từ chối lời mời thách đấu của " + message.guild.members.find("id", ch).user);
+				}
+				break;
+			case prefix + "roulette":
+				if (message.channel.id == '222738247942537216') {
+					message.channel.sendMessage(message.author + " put the gun on his head :persevere: :gun:");
+					setTimeout(function() {
+						if (HasRole(message, "Admin", message.member))
+						{
+							message.channel.sendMessage("The gun fires, but the bullet bounced out of " + message.author + "'s head.");
+						}
+						else if (rnd(6) >= 3)
+						{
+							message.channel.sendMessage("The gun fires. And " + message.author + " lays dead on the ground. He will be revived after 1 minute");
+							kill(message, message.member);
+							revive(message, message.member, 1);
+						}
+						else
+						{
+							message.channel.sendMessage("The gun clicks. " + message.author + " survives for another day");
+						}
+					}, 2000);
+				}
+				break;
+			case prefix + "list":
+				if (message.channel.id == '222738247942537216') {
+					if (!HasRole(message, "Admin", message.member)) message.channel.sendMessage("Bạn phải là Admin để thực hiện lệnh này");
+					else if (session == 0) message.channel.sendMessage("Không có game nào đang diễn ra lúc này");
+					else
+					{
+						temp = "Những người đã tham gia chơi " + games[game - 1].name + ":\n```\n";
+						if (rndP.length == 0)
+						{
+							p.forEach(function (participant)
 							{
-								loser = message.author;
-								user = message.guild.members.find("id", ch).user;
-							}
-							else
+								temp += message.guild.members.find("id", participant).user.name + "\n";
+							});
+							temp += "```";
+							message.channel.sendMessage(temp);
+						}
+						else
+						{
+							i = 0;
+							rndP.forEach(function (participant)
 							{
-								loser = message.guild.members.find("id", ch).user;
-								user = message.author;
-							}
-							matchprocess(message, match[rnd(match.length - 1) + 1], user, loser);
+								i++;
+								if (game == 1) temp += i + ": ";
+								temp += message.guild.members.find("id", participant).user.name + "\n";
+							});
+							temp += "```";
+							message.channel.sendMessage(temp);
 						}
 					}
-					break;
-				case prefix + "no":
-					if (fight.indexOf(message.member.id) >= 0 && message.channel.id == '222738247942537216')
-					{
-						chIndex = fight.indexOf(message.member.id);
-						ch = challenger[chIndex];
-						challenger.splice(chIndex, 1);
-						fight.splice(chIndex, 1);
-						message.channel.sendMessage(message.author + " đã từ chối lời mời thách đấu của " + message.guild.members.find("id", ch).user);
-					}
-					break;
-				case prefix + "roulette":
-					if (message.channel.id == '222738247942537216') {
-						message.channel.sendMessage(message.author + " put the gun on his head :persevere: :gun:");
-						setTimeout(function() {
-							if (HasRole(message, "Admin", message.member))
-							{
-								message.channel.sendMessage("The gun fires, but the bullet bounced out of " + message.author + "'s head.");
-							}
-							else if (rnd(6) >= 3)
-							{
-								message.channel.sendMessage("The gun fires. And " + message.author + " lays dead on the ground. He will be revived after 1 minute");
-								kill(message, message.member);
-								revive(message, message.member, 1);
-							}
-							else
-							{
-								message.channel.sendMessage("The gun clicks. " + message.author + " survives for another day");
-							}
-						}, 2000);
-					}
-					break;
+				}
+				break;
 /* ================= END PREMIUM SERVER COMMANDS ============ */
 			default:
 				if (msg in emoji) message.channel.sendFile(emoji[msg]);

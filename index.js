@@ -34,7 +34,7 @@ var emoji = {};
 var reply = {};
 var event = "";
 var ascii = {};
-var dispatcher;
+var premium = ["217325563516420096", "217282275350544384"];
 function GetRoleID(e, role)
 {
 	admin = e.guild.roles.find("name", role);
@@ -468,7 +468,7 @@ nobuBot.on('message', (message) => {
 				break;
 /* ================ PREMIUM SERVER COMMANDS =============== */
 			case prefix + "kill":
-				if (message.guild && message.guild.id == "217282275350544384") {
+				if (message.guild && premium.indexOf(message.guild.id) >= 0) {
 					if (!HasRole(message, "Admin", message.member)) message.channel.sendMessage("Bạn phải là Admin để thực hiện lệnh này");
 					else
 					{

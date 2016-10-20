@@ -481,8 +481,7 @@ nobuBot.on('message', (message) => {
 				case prefix + "fight":
 					if (message.channel.id == "222738247942537216") {
 						if (HasRole(message, "Admin", message.member)) message.channel.sendMessage("Admin không thể thực hiện lệnh này");
-						else if (message.channel.id == BattleArena)
-						{
+						else {
 							if (message.mentions.users.array().length > 0) {
 								user = message.mentions.users.array()[0];
 								if (fight.indexOf(user.id) >= 0) message.channel.sendMessage(user + " hiện đang được thách đấu. Bạn không thể thách đấu người này");

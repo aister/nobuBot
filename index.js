@@ -159,6 +159,8 @@ function load_custom_command() {
 			for (i = 0; i < tempObj.length; i++) {
 				commands[tempObj[i].command] = tempObj[i].respond;
 			}
+			match = body.match;
+			games = body.game;
 			tempObj = body.emoji;
 			for (i = 0; i < tempObj.length; i++) {
 				emoji[tempObj[i].command] = tempObj[i].respond;

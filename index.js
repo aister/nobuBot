@@ -81,32 +81,16 @@ function matchprocess(m, mStr, w, l) {
 }
 function kill(message, user) {
 	if (message.guild) {
-		roles = [];
-		var Ded = [];
 		user = message.guild.members.find("id", user.id);
-		message.guild.roles.array().forEach(function (role) {
-			if (HasRole(message, role, user)) {
-				roles.push(role.id);
-			}
-			if (role.name == "Ded") Ded.push(role);
-		});
-		PrevRoles[user.id] = roles;
-		user.setRoles(Ded);
+		user.addRole("218012980019724288");
 	}
 }
 function revive(message, user, t) {
 	if (message.guild) {
 		setTimeout(function() {
 			user = message.guild.members.find("id", user.id);
-			if (user.id in PrevRoles) {
-				var Ded = [];
-				message.guild.roles.forEach(function (role) {
-					if (role.name == "Ded") Ded.push(role);
-				});
-				user.setRoles(PrevRoles[user.id]);
-				delete PrevRoles[user.id];
-				message.channel.sendMessage(user.user + " đã sống lại!")
-			}
+			user.removeRole('218012980019724288');
+			message.channel.sendMessage(user.user + " đã sống lại!")
 		}, t * 60000);
 	}
 }
@@ -484,6 +468,103 @@ nobuBot.on('message', (message) => {
 					}
 				}
 				break;
+				case "revive":
+					if (message.guild && premium.indexOf(message.guild.id) >= 0) {
+						if (!HasRole(message, "Admin", message.member)) message.channel.sendMessage("Bạn phải là Admin để thực hiện lệnh này");
+						else if (message.mentions.users.array().length > 0) {
+							user = message.mentions.users.array()[0];
+							revive(message, user, 0);
+						}
+					}
+					break;
+				case "fight":
+					if (message.channel.id == "222738247942537216") {
+						if (HasRole(message, "Admin", message.member)) message.channel.sendMessage("Admin không thể thực hiện lệnh này");
+						else if (message.channel.id == BattleArena)
+						{
+							if (message.mentions.users.array().length > 0) {
+								user = message.mentions.users.array()[0];
+								if (fight.indexOf(user.id) >= 0) message.channel.sendMessage(user + " hiện đang được thách đấu. Bạn không thể thách đấu người này");
+								else if (challenger.indexOf(message.member.id) >= 0) message.channel.sendMessage("Bạn hiện đang thách đấu người khác, và không thể thách đấu trong lúc này");
+								else if (user.id == message.member.id) message.channel.sendMessage("Bạn không thể thách đấu với chính mình");
+								else
+								{
+									message.channel.sendMessage(user + ", " + message.author + " muốn thách đấu với bạn. Bạn có 20 giây để trả lời `" + prefix + "yes` hoặc `" + prefix + "no` để chấp nhận hoặc từ chối lời thách đấu");
+									fight.push(user.id);
+									challenger.push(message.member.id);
+									setTimeout(function() {
+										if (fight.indexOf(user.id) >= 0)
+										{
+											message.channel.sendMessage("Đã quá 20 giây và " + user + " đã không trả lời lời thách đấu của " + message.author + ". Lời thách đấu vô hiệu");
+											fight.splice(fight.indexOf(user.id), 1);
+											challenger.splice(fight.indexOf(message.member.id), 1);
+										}
+									}, 20000);
+								}
+							} else message.channel.sendMessage("Invalid format");
+						}
+					}
+					break;
+				case "yes":
+					if (fight.indexOf(message.member.id) >= 0 && message.channel.id == '222738247942537216')
+					{
+						chIndex = fight.indexOf(message.member.id);
+						ch = challenger[chIndex];
+						challenger.splice(chIndex, 1);
+						fight.splice(chIndex, 1);
+						if (HasRole(message, "Admin", message.member))
+						{
+							loser = message.guild.members.find("id", ch).user;
+							user = message.author;
+							matchprocess(message, match[0], user, loser);
+						}
+						else
+						{
+							if (rnd(2) == 0)
+							{
+								loser = message.author;
+								user = message.guild.members.find("id", ch).user;
+							}
+							else
+							{
+								loser = message.guild.members.find("id", ch).user;
+								user = message.author;
+							}
+							matchprocess(message, match[rnd(match.length - 1) + 1], user, loser);
+						}
+					}
+					break;
+				case "no":
+					if (fight.indexOf(message.member.id) >= 0 && message.channel.id == '222738247942537216')
+					{
+						chIndex = fight.indexOf(message.member.id);
+						ch = challenger[chIndex];
+						challenger.splice(chIndex, 1);
+						fight.splice(chIndex, 1);
+						message.channel.sendMessage(message.author + " đã từ chối lời mời thách đấu của " + message.guild.members.find("id", ch).user);
+					}
+					break;
+				case "roulette":
+					if (message.channel.id == '222738247942537216') {
+						message.channel.sendMessage(message.author + " put the gun on his head :persevere: :gun:");
+						setTimeout(function() {
+							if (HasRole(message, "Admin", message.member))
+							{
+								message.channel.sendMessage("The gun fires, but the bullet bounced out of " + message.author + "'s head.");
+							}
+							else if (rnd(6) >= 3)
+							{
+								message.channel.sendMessage("The gun fires. And " + message.author + " lays dead on the ground. He will be revived after 1 minute");
+								kill(message, message.member);
+								revive(message, message.member, 1);
+							}
+							else
+							{
+								message.channel.sendMessage("The gun clicks. " + message.author + " survives for another day");
+							}
+						}, 2000);
+					}
+					break;
 /* ================= END PREMIUM SERVER COMMANDS ============ */
 			default:
 				if (msg in emoji) message.channel.sendFile(emoji[msg]);

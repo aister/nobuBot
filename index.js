@@ -82,6 +82,7 @@ function matchprocess(m, mStr, w, l) {
 function kill(message, user) {
 	if (message.guild) {
 		user = message.guild.members.find("id", user.id);
+		console.log(user);
 		user.addRole("218012980019724288");
 	}
 }
@@ -468,7 +469,7 @@ nobuBot.on('message', (message) => {
 					}
 				}
 				break;
-				case "revive":
+				case prefix + "revive":
 					if (message.guild && premium.indexOf(message.guild.id) >= 0) {
 						if (!HasRole(message, "Admin", message.member)) message.channel.sendMessage("Bạn phải là Admin để thực hiện lệnh này");
 						else if (message.mentions.users.array().length > 0) {
@@ -477,7 +478,7 @@ nobuBot.on('message', (message) => {
 						}
 					}
 					break;
-				case "fight":
+				case prefix + "fight":
 					if (message.channel.id == "222738247942537216") {
 						if (HasRole(message, "Admin", message.member)) message.channel.sendMessage("Admin không thể thực hiện lệnh này");
 						else if (message.channel.id == BattleArena)
@@ -505,7 +506,7 @@ nobuBot.on('message', (message) => {
 						}
 					}
 					break;
-				case "yes":
+				case prefix + "yes":
 					if (fight.indexOf(message.member.id) >= 0 && message.channel.id == '222738247942537216')
 					{
 						chIndex = fight.indexOf(message.member.id);
@@ -534,7 +535,7 @@ nobuBot.on('message', (message) => {
 						}
 					}
 					break;
-				case "no":
+				case prefix + "no":
 					if (fight.indexOf(message.member.id) >= 0 && message.channel.id == '222738247942537216')
 					{
 						chIndex = fight.indexOf(message.member.id);
@@ -544,7 +545,7 @@ nobuBot.on('message', (message) => {
 						message.channel.sendMessage(message.author + " đã từ chối lời mời thách đấu của " + message.guild.members.find("id", ch).user);
 					}
 					break;
-				case "roulette":
+				case prefix + "roulette":
 					if (message.channel.id == '222738247942537216') {
 						message.channel.sendMessage(message.author + " put the gun on his head :persevere: :gun:");
 						setTimeout(function() {

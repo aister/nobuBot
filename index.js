@@ -16,6 +16,18 @@ let client = new ImagesClient(process.env.GGIMAGEID, process.env.GGIMAGEAPI);
 server.listen(port);
 
 const prefix = "$";
+var session = 0;
+var game = 0;
+var rndP = [];
+var story = [];
+var p = [];
+var submitter = [];
+var commands = {};
+var fight = [];
+var challenger = [];
+var PrevRoles = {};
+var match = [];
+var games = {};
 let servants = {};
 var commands = {};
 var emoji = {};
@@ -23,6 +35,81 @@ var reply = {};
 let event = "";
 var ascii = {};
 let dispatcher;
+function GetRoleID(e, role)
+{
+	admin = e.guild.roles.find("name", role);
+	return admin;
+}
+function HasRole(e, role, user)
+{
+	return user.roles.exists("name", role);
+}
+function rnd(max) {
+	return Math.floor(Math.random() * max);
+}
+function randomlist() {
+	if (rndP.length > 0)
+	{
+		p = rndP;
+	}
+	rndP = [];
+	count = p.length;
+	for (i = 0; i < count; i++)
+	{
+		rand = rnd(p.length);
+		rndP.push(p[rand]);
+		p.splice(rand, 1);
+	}
+}
+function getOrderedGroups(roles) {
+  return roles.sort((r1, r2) => {
+    if(r1.position != r2.position) {
+      return r2.position - r1.position;
+    }
+    return r1.id-r2.id
+  })
+}
+var stream;
+function matchprocess(m, mStr, w, l) {
+	mStr = mStr.replace(/<w>/g, w);
+	mStr = mStr.replace(/<l>/g, l);
+	m.channel.sendMessage(mStr);
+	setTimeout(function() { 
+		kill(m, l);
+		revive(m, l, 2);
+	}, 2000);
+}
+function kill(message, user) {
+	if (message.guild) {
+		roles = [];
+		var Ded = [];
+		user = message.guild.members.find("id", user.id);
+		message.guild.roles.array().forEach(function (role) {
+			if (HasRole(message, role, user)) {
+				roles.push(role.id);
+			}
+			if (role.name == "Ded") Ded.push(role);
+		});
+		PrevRole[user.id] = roles;
+		user.setRoles(Ded);
+	}
+}
+function revive(message, user, t) {
+	if (message.guild) {
+		setTimeout(function() {
+			user = message.guild.members.find("id", user.id);
+			if (user.id in PrevRoles) {
+				var Ded = [];
+				message.guild.roles.forEach(function (role) {
+					if (role.name == "Ded") Ded.push(role);
+				});
+				user.setRoles(PrevRoles[user.id]);
+				delete PrevRoles[user.id];
+				message.channel.sendMessage(user.user + " đã sống lại!")
+			}
+		}, t * 60000);
+	}
+}
 function defyNull(obj) {
 	for (var key in obj) {
 		if (obj[key] === null) obj[key] = "";
@@ -379,6 +466,25 @@ nobuBot.on('message', (message) => {
 					message.channel.sendMessage("Successfully loaded");
 				}
 				break;
+/* ================ PREMIUM SERVER COMMANDS =============== */
+			case prefix + "kill":
+				if (message.guild && message.guild.id == "217282275350544384") {
+					if (!HasRole(message, "Admin", message.member)) message.channel.sendMessage("Bạn phải là Admin để thực hiện lệnh này");
+					else
+					{
+						if (message.mentions.users.array().length > 0) {
+							user = message.mentions.users.array()[0];
+							if (user.id in PrevRoles) message.channel.sendMessage(user + " đã chết rồi, hãy để hắn yên nghỉ!");
+							else {
+								kill(message, user);
+								message.channel.sendMessage(message.author + " đã giết " + user + ". " + user + " sẽ được hồi sinh trong 1 phút");
+								revive(message, user, 1);
+							}
+						}
+					}
+				}
+				break;
+/* ================= END PREMIUM SERVER COMMANDS ============ */
 			default:
 				if (msg in emoji) message.channel.sendFile(emoji[msg]);
 				else if (msg.charAt(0) == prefix && msg.slice(1) in commands) message.channel.sendMessage(commands[msg]);

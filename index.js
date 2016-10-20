@@ -90,7 +90,7 @@ function kill(message, user) {
 			}
 			if (role.name == "Ded") Ded.push(role);
 		});
-		PrevRole[user.id] = roles;
+		PrevRoles[user.id] = roles;
 		user.setRoles(Ded);
 	}
 }

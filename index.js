@@ -4,7 +4,6 @@ var mysql   = require('mysql');
 var schedule = require('node-schedule');
 var url = require('url');
 var ytdl = require('ytdl-core');
-var ImagesClient = require('google-images');
 var express = require('express');
 var app = express();
 var server = http.createServer(app);
@@ -12,7 +11,6 @@ var io = require('socket.io')(server);
 var port = process.env.PORT || 5000;
 var nani = require("nani").init(process.env.NANIID, process.env.NANISECRET);
 app.use(express.static(__dirname + '/public'));
-var client = new ImagesClient(process.env.GGIMAGEID, process.env.GGIMAGEAPI);
 server.listen(port);
 
 var prefix = "$";
@@ -92,6 +90,24 @@ function revive(message, user, t) {
 			user.removeRole('218012980019724288');
 			message.channel.sendMessage(user.user + " đã sống lại!")
 		}, t * 60000);
+	}
+}
+function gg(q, image) {
+	if (image) {
+		request('https://www.google.com/search?tbm=isch&q=' + q, function(err, res, body) {
+			if (err) return err;
+			body = body.slice(body.indexOf('<img'));
+			body = body.slice(body.indexOf('src="') + 5);
+			body = body.slice(0, body.indexOf('"'));
+			return body;
+		});
+	} else {
+		request('https://www.google.com/search?q=' + q, function(err, res, body) {
+			if (err) return err;
+			body = body.slice(body.indexOf('/url?q=') + 7);
+			body = body.slice(0, body.indexOf('"'));
+			return body;
+		});
 	}
 }
 function defyNull(obj) {
@@ -407,17 +423,22 @@ nobuBot.on('message', (message) => {
 				message.channel.sendFile("http://moesocial.com/cirno.php?text=" + encodeURI(msgArray.slice(1).join(" ")), "cirno.png"); 
 				break;
 			case prefix + "search":
+				searchTerm = msgArray.slice(2).join(' ');
 				switch (msgArray[1]) {
 					case "image":
-						client.search(msgArray.slice(2).join(' ')).then(function (images) {
-							console.log(images);
-							message.channel.sendFile(images[0].url, "image.png");
+						message.channel.sendMessage("Searching...").then(msg => {
+							message.channel.sendFile(gg(searchTerm, true), "image.png", "Image found for query: " + searchTerm).then(mes => { msg.delete(); });
+						});
+						break;
+					case "google":
+						message.channel.sendMessage("Searching...").then(msg => {
+							msg.edit(gg(searchTerm));
 						});
 						break;
 					case "yt":
 						request({
 							url: "https://www.googleapis.com/youtube/v3/search?part=snippet&q=" +
-								msgArray.slice(2).join(" ") + "&key=" + process.env.YTTOKEN2,
+								searchTerm + "&key=" + process.env.YTTOKEN2,
 							json: true
 						}, function (error, response, body) {
 							item = body.items[0].id;

@@ -112,8 +112,7 @@ function gg(q, image, callback) {
 			else {
 				body = body.slice(body.indexOf('/url?q=') + 7);
 				body = body.slice(0, body.indexOf('&'));
-				console.log(body);
-				callback("Result: " + body);
+				callback(body);
 			}
 		});
 	}
@@ -448,14 +447,16 @@ nobuBot.on('message', (message) => {
 						message.channel.sendMessage("Searching...").then(msg => {
 							gg(searchTerm, true, function(data) {
 								msg.delete();
-								message.channel.sendFile(data, "image.png", "Image found for query: " + searchTerm);
+								if (data) message.channel.sendFile(data, "image.png", "First image found for query: " + searchTerm);
+								else message.channel.sendMessage("There is no image found for query " + searchTerm);
 							});
 						});
 						break;
 					case "google":
 						message.channel.sendMessage("Searching...").then(msg => {
 							gg(searchTerm, false, function(data) {
-								msg.edit(data);
+								if (data) msg.edit("First result found for query " + searchTerm + ": " + data);
+								else msg.edit("There is no result found for query " + searchTerm);
 							});
 						});
 						break;

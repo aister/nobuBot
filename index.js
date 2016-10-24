@@ -109,9 +109,9 @@ function gg(q, image, callback) {
 			if (err) callback(err);
 			else {
 				body = body.slice(body.indexOf('/url?q=') + 7);
-				body = body.slice(0, body.indexOf('"'));
-				body = body.slice(0, body.indexOf('&amp;'));
-				callback(body);
+				body = body.slice(0, body.indexOf('&'));
+				console.log(body);
+				callback("Result: " + body);
 			}
 		});
 	}

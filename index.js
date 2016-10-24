@@ -96,13 +96,12 @@ function revive(message, user, t) {
 	}
 }
 function gg(q, image, callback) {
-	console.log(q);
 	if (image) {
-		request('https://www.google.com/search?tbm=isch&q=' + q, function(err, res, body) {
+		request('http://www.bing.com/images/search?q=' + q, function(err, res, body) {
 			if (err) callback(err);
 			else {
-				body = body.slice(body.indexOf('<img'));
-				body = body.slice(body.indexOf('src="') + 5);
+				body = body.slice(body.indexOf('class="thumb" '));
+				body = body.slice(body.indexOf('href="') + 6);
 				body = body.slice(0, body.indexOf('"'));
 				callback(body);
 			}

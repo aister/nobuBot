@@ -328,11 +328,11 @@ nobuBot.on('message', (message) => {
 				if (message.author.id == "184369428002111488") {
 					dVersion = require('./node_modules/discord.js/package.json');
 					const code = msgArray.slice(1).join(' ');
-					if (!code.length) return message.reply('there\'s no code!');
+					if (!code.length) return message.channel.sendMessage('there\'s no code!');
 					try {
-						message.edit("`INPUT (running in discord.js v." + dVersion.version + "):`\n```\n" + code + "\n```\n`OUTPUT:`\n```\n" + eval(code) + "\n```");
+						message.channel.sendMessage("`INPUT (running in discord.js v." + dVersion.version + "):`\n```\n" + code + "\n```\n`OUTPUT:`\n```\n" + eval(code) + "\n```");
 					} catch(err) {
-						message.edit("`INPUT (running in discord.js v." + dVersion.version + "):`\n```\n" + code + "\n```\n`ERROR:`\n```\n" + err + "\n```");
+						message.channel.sendMessage("`INPUT (running in discord.js v." + dVersion.version + "):`\n```\n" + code + "\n```\n`ERROR:`\n```\n" + err + "\n```");
 					}
 				}
 				break;

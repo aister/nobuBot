@@ -93,6 +93,7 @@ function revive(message, user, t) {
 	}
 }
 function gg(q, image, callback) {
+	console.log(q);
 	if (image) {
 		request('https://www.google.com/search?tbm=isch&q=' + q, function(err, res, body) {
 			if (err) callback(err);

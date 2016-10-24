@@ -92,21 +92,25 @@ function revive(message, user, t) {
 		}, t * 60000);
 	}
 }
-function gg(q, image) {
+function gg(q, image, callback) {
 	if (image) {
 		request('https://www.google.com/search?tbm=isch&q=' + q, function(err, res, body) {
-			if (err) return err;
-			body = body.slice(body.indexOf('<img'));
-			body = body.slice(body.indexOf('src="') + 5);
-			body = body.slice(0, body.indexOf('"'));
-			return body;
+			if (err) callback(err);
+			else {
+				body = body.slice(body.indexOf('<img'));
+				body = body.slice(body.indexOf('src="') + 5);
+				body = body.slice(0, body.indexOf('"'));
+				callback(body);
+			}
 		});
 	} else {
 		request('https://www.google.com/search?q=' + q, function(err, res, body) {
-			if (err) return err;
-			body = body.slice(body.indexOf('/url?q=') + 7);
-			body = body.slice(0, body.indexOf('"'));
-			return body;
+			if (err) callback(err);
+			else {
+				body = body.slice(body.indexOf('/url?q=') + 7);
+				body = body.slice(0, body.indexOf('"'));
+				callback(body);
+			}
 		});
 	}
 }
@@ -438,12 +442,17 @@ nobuBot.on('message', (message) => {
 				switch (msgArray[1]) {
 					case "image":
 						message.channel.sendMessage("Searching...").then(msg => {
-							message.channel.sendFile(gg(searchTerm, true), "image.png", "Image found for query: " + searchTerm).then(mes => { msg.delete(); });
+							gg(searchTerm, true, function(data) {
+								msg.delete();
+								message.channel.sendFile(data, "image.png", "Image found for query: " + searchTerm);
+							});
 						});
 						break;
 					case "google":
 						message.channel.sendMessage("Searching...").then(msg => {
-							msg.edit(gg(searchTerm));
+							gg(searchTerm, false, function(data) {
+								msg.edit(data);
+							});
 						});
 						break;
 					case "yt":

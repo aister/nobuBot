@@ -105,6 +105,7 @@ function gg(q, image, callback) {
 					body = body.slice(body.indexOf('class="thumb" '));
 					body = body.slice(body.indexOf('href="') + 6);
 					body = body.slice(0, body.indexOf('"'));
+					body = decodeURI(body);
 				} else body = null;
 				callback(body);
 			}
@@ -116,6 +117,7 @@ function gg(q, image, callback) {
 				if (body.indexOf('/url?q=') > -1) {
 					body = body.slice(body.indexOf('/url?q=') + 7);
 					body = body.slice(0, body.indexOf('&'));
+					body = decodeURI(body);
 				} else body = null;
 				callback(body);
 			}

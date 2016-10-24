@@ -96,6 +96,7 @@ function revive(message, user, t) {
 	}
 }
 function gg(q, image, callback) {
+	q = encodeURI(q);
 	if (image) {
 		request('http://www.bing.com/images/search?q=' + q, function(err, res, body) {
 			if (err) callback(err);

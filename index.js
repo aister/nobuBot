@@ -4,7 +4,14 @@ var mysql   = require('mysql');
 var schedule = require('node-schedule');
 var url = require('url');
 var ytdl = require('ytdl-core');
+var express = require('express');
+var app = express();
+var server = http.createServer(app);
+var io = require('socket.io')(server);
+var port = process.env.PORT || 5000;
 var nani = require("nani").init(process.env.NANIID, process.env.NANISECRET);
+app.use(express.static(__dirname + '/public'));
+server.listen(port);
 
 var prefix = "$";
 var session = 0;
@@ -887,3 +894,7 @@ nobuBot.on('message', (message) => {
 nobuBot.on("guildMemberAdd", (guild, member) => {
 	guild.defaultChannel.sendMessage("Welcome " + member.user + " to " + guild.name);
 });
+setInterval(function() {
+	load_custom_command();
+	http.get("http://lmaobot.herokuapp.com");
+}, 300000);

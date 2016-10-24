@@ -229,7 +229,7 @@ nobuBot.on('message', (message) => {
 	var msg = message.content.trim();
 	msgArray = msg.split(' ');
 	if (msg.includes("I love you")) message.channel.sendMessage("I love Emilia");
-	else if (!message.member.bot) {
+	else if (message.author && !message.author.bot) {
 		switch (msgArray[0])
 		{
 			case prefix + "say":

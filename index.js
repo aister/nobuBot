@@ -101,18 +101,22 @@ function gg(q, image, callback) {
 		request('http://www.bing.com/images/search?q=' + q, function(err, res, body) {
 			if (err) callback(err);
 			else {
-				body = body.slice(body.indexOf('class="thumb" '));
-				body = body.slice(body.indexOf('href="') + 6);
-				body = body.slice(0, body.indexOf('"'));
+				if (body.indexOf('class="thumb" ') > -1) {
+					body = body.slice(body.indexOf('class="thumb" '));
+					body = body.slice(body.indexOf('href="') + 6);
+					body = body.slice(0, body.indexOf('"'));
+				} else body = null;
 				callback(body);
 			}
 		});
 	} else {
-		request('https://www.google.com/search?q=' + q, function(err, res, body) {
+		request('https://www.google.com/search?safe=active&q=' + q, function(err, res, body) {
 			if (err) callback(err);
 			else {
-				body = body.slice(body.indexOf('/url?q=') + 7);
-				body = body.slice(0, body.indexOf('&'));
+				if (body.indexOf('/url?q=') > -1) {
+					body = body.slice(body.indexOf('/url?q=') + 7);
+					body = body.slice(0, body.indexOf('&'));
+				} else body = null;
 				callback(body);
 			}
 		});
@@ -441,56 +445,63 @@ nobuBot.on('message', (message) => {
 			case prefix + "cirno":
 				message.channel.sendFile("http://moesocial.com/cirno.php?text=" + encodeURI(msgArray.slice(1).join(" ")), "cirno.png"); 
 				break;
-			case prefix + "search":
-				searchTerm = msgArray.slice(2).join(' ');
-				switch (msgArray[1]) {
-					case "image":
-						message.channel.sendMessage("Searching...").then(msg => {
-							gg(searchTerm, true, function(data) {
-								msg.delete();
-								if (data) message.channel.sendFile(data, "image.png", "First image found for query: " + searchTerm);
-								else message.channel.sendMessage("There is no image found for query " + searchTerm);
-							});
-						});
-						break;
-					case "google":
-						message.channel.sendMessage("Searching...").then(msg => {
-							gg(searchTerm, false, function(data) {
-								if (data) msg.edit("First result found for query " + searchTerm + ": " + data);
-								else msg.edit("There is no result found for query " + searchTerm);
-							});
-						});
-						break;
-					case "yt":
-						request({
-							url: "https://www.googleapis.com/youtube/v3/search?part=snippet&q=" +
-								searchTerm + "&key=" + process.env.YTTOKEN2,
-							json: true
-						}, function (error, response, body) {
-							item = body.items[0].id;
-							switch (item.kind) {
-								case "youtube#video":
-									message.reply("First result: <https://www.youtube.com/watch?v=" + item.videoId + ">");
-									break;
-								case "youtube#channel":
-									message.reply("First result: <https://www.youtube.com/channel/" + item.channelId + ">");
-									break;
-								case "youtube#playlist":
-									message.reply("First result: <https://www.youtube.com/playlist?list=" + item.channelId + ">");
-									break
-							}
-						});
-						break;
-				}
+			case prefix + "image":
+				searchTerm = msgArray.slice(1).join(' ');
+				message.channel.sendMessage("Searching...").then(msg => {
+					gg(searchTerm, true, function(data) {
+						msg.delete();
+						if (data) message.channel.sendFile(data, "image.png", "First image found for query: " + searchTerm);
+						else message.channel.sendMessage("There is no image found for query " + searchTerm);
+					});
+				});
+				break;
+			case prefix + "google":
+				searchTerm = msgArray.slice(1).join(' ');
+				message.channel.sendMessage("Searching...").then(msg => {
+					gg(searchTerm, false, function(data) {
+						if (data) msg.edit("First result found for query " + searchTerm + ": " + data);
+						else msg.edit("There is no result found for query " + searchTerm);
+					});
+				});
+				break;
+			case prefix + "youtube":
+				request({
+					url: "https://www.googleapis.com/youtube/v3/search?part=snippet&q=" +
+						searchTerm + "&key=" + process.env.YTTOKEN2,
+					json: true
+				}, function (error, response, body) {
+					item = body.items[0].id;
+					switch (item.kind) {
+						case "youtube#video":
+							message.reply("First result: <https://www.youtube.com/watch?v=" + item.videoId + ">");
+							break;
+						case "youtube#channel":
+							message.reply("First result: <https://www.youtube.com/channel/" + item.channelId + ">");
+							break;
+						case "youtube#playlist":
+							message.reply("First result: <https://www.youtube.com/playlist?list=" + item.channelId + ">");
+							break
+					}
+				});
 				break;
 			case prefix + "help":
-				message.channel.sendMessage("" +
+				message.channel.sendMessage("```asciidoc\n" +
 					//"**Music:** `$play <url | playlist url>` `$next` `$leave` `$current` `$queue` `$vol <number from 0 to 1>`\n\n" +
-					"**Fate Grand Order:** `$ce <search category: name|id|class> <search term>` `$servant <search category: name|id|class> <search term>`\n\n" +
-					"**Wikia:** `$touhou <search term>`\n\n" + 
-					"**Others:** `$image <image search term>`\n\n" +
+					"== Fate Grand Order:\n" +
+						"$ce <search category: name|id|class> <search term> :: Search CE\n" + 
+						"$servant <search category: name|id|class> <search term> :: Search Servant\n" +
+					"== Wikia:\n" + 
+						"$touhou <search term> :: Search in Touhou Wikia\n" + 
+					"== Search: (All are safe-search enabled)\n" + 
+						"$google <google search query> :: Google Search\n" +
+						"$youtube <youtube search query> :: Youtube Search\n" + 
+						"$image <image search query> :: Image Search\n" + 
+						"$anilist <anilist search query> :: Anilist Search\n" +
+					"== Fun stuffs:\n" +
+						"$cirno <text> :: Post an image with cirno and the text\n" +
+						"$ascii <text> :: Post an ascii text\n" +
 					//"**Setting:** `$setting <setting name> <value>` (use `$setting` only to see available settings, omit value to check current value)"
-					+ ""
+					"```"
 				);
 				break;
 			case prefix + "cload":

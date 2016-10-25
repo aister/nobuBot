@@ -237,6 +237,7 @@ nobuBot.on('message', (message) => {
 				if (mentions) {
 					if (message.guild && message.guild.members.get(mentions.id).nickname) message.channel.sendFile("http://moesocial.com/slap.php?text=" + encodeURI(message.guild.members.get(mentions.id).nickname), "slap.png");
 					else  message.channel.sendFile("http://moesocial.com/slap.php?text=" + encodeURI(mentions.username), "slap.png");
+				}
 				break;
 			case prefix + "say":
 				if (message.author.id == "184369428002111488") {

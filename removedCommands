@@ -1,0 +1,80 @@
+case prefix + "ce":
+	if (msgArray.length > 1) {
+		message.channel.sendMessage("Searching...").then(mes => {
+			args = msg.slice(msg.indexOf(' ') + 1).split(' ');
+			if (args.length >= 2) {
+				results = [];
+				key2 = args[0];
+				if (key2 == "id") results.push(args.slice(1).join(' ').toLowerCase());
+				else {
+					if (key2 == "class") key2 = "servantClass";
+					for (var key in CE.list) {
+						if (CE.list[key][key2].toLowerCase().includes(args.slice(1).join(' ').toLowerCase())) {
+							results.push(key);
+						}
+					}
+				}
+				if (results.length == 1) {
+					result = CE.list[results[0]];
+					mes.delete();
+					message.channel.sendFile(result.image, "image.png", "**" + result.name + " (ID: " + results[0] + ")**").then(mes2 => {
+						message.channel.sendMessage("**Link:** <" + result.link
+							+ ">\n\n**Cost:** " + result.cost
+							+ "\n**HP:** " + result.baseHP + " (" + result.maxHP + "\n**ATK:** " + result.baseATK + " (" + result.maxATK
+							+ "\n\n**Description:**\n" + result.desc + "\n\n**Note:** " + result.note, {"split": true }
+						);
+					});
+				} else if (results.length > 1) {
+					temp = "";
+					for (i = 0; i <= results.length; i++) {
+						if (i == results.length) mes.edit(temp);
+						else temp += results[i] + ": " + CE.list[results[i]].name + "\n";
+					}
+				} else mes.edit("Cannot found CE");
+			} else mes.edit("Wrong syntax");
+		});
+	} else { 
+		message.channel.sendMessage("Check the list of servants here: https://lmaobot.herokuapp.com/?mode=ce");
+	}
+	break;
+case prefix + "servant":
+	if (msgArray.length > 1) {
+		message.channel.sendMessage("Searching...").then(mes => {
+			args = msg.slice(msg.indexOf(' ') + 1).split(' ');
+			if (args.length >= 2) {
+				results = [];
+				key2 = args[0];
+				if (key2 == "id") results.push(args.slice(1).join(' ').toLowerCase());
+				else {
+					if (key2 == "class") key2 = "servantClass";
+					for (var key in servants.list) {
+						if (servants.list[key][key2].toLowerCase().includes(args.slice(1).join(' ').toLowerCase())) {
+							results.push(key);
+						}
+					}
+				}
+				if (results.length == 1) {
+					result = servants.list[results[0]];
+					attacks = result.attacks;
+					attacks = attacks.map(function(atk) { return atkType[atk]; });
+					mes.delete();
+					message.channel.sendFile(result.image, "image.png", "**" + result.name + " (ID: " + results[0] + ")**").then(mes2 => {
+						message.channel.sendMessage("**Link:** <" + result.link
+							+ ">\n\n**Class:** " + result.servantClass + "\n**Cost:** " + result.cost
+							+ "\n**HP:** " + result.baseHP + " (" + result.maxHP + "\n**ATK:** " + result.baseATK + " (" + result.maxATK
+							+ "\n**Attacks:** " + attacks.join(", ") + "\n\n**NP:**\nType: " + atkType[result.NP.slice(0,2)] + "\n" + result.NP.slice(3)
+							+ "\n\n**Skills:**\n" + result.skills + "\n\n**Note:**\n" + result.note, {"split": true }
+						);
+					});
+				} else if (results.length > 1) {
+					temp = "";
+					for (i = 0; i <= results.length; i++) {
+						if (i == results.length) mes.edit(temp);
+						else temp += results[i] + ": " + servants.list[results[i]].name + " (" + servants.list[results[i]].servantClass + ")\n";
+					}
+				} else mes.edit("Cannot found Servant");
+			} else mes.edit("Wrong syntax");
+		});
+	} else { 
+		message.channel.sendMessage("Check the list of servants here: https://lmaobot.herokuapp.com/?mode=ce");
+	}

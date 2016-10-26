@@ -12,7 +12,7 @@ exports.exec = (bot, message, msgArray) => {
 					body = body.slice(body.indexOf('href="') + 6);
 					body = body.slice(0, body.indexOf('"'));
 					body = decodeURIComponent(body);
-					message.channel.sendFile(data, "image.png", "First image found for query: " + searchTerm);
+					message.channel.sendFile(body, "image.png", "First image found for query: " + searchTerm);
 				} else message.channel.sendMessage("There is no image found for query " + searchTerm);
 			}
 		});

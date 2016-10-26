@@ -61,16 +61,16 @@ nobuBot.on('message', (message) => {
 			}
 		} else {
 			if (msg in emoji) message.channel.sendFile(emoji[msg]);
-		}
-	} else {
-		msg.replace(/https?:\/\/danbooru\.donmai\.us\/posts\/\d+/g, function(match) {
-			request({
-				url: match + '.json',
-				json: true
-			}, function (err, res, body) {
-				message.channel.sendFile("https://danbooru.donmai.us" + body.file_url);
+			msg.replace(/https?:\/\/danbooru\.donmai\.us\/posts\/\d+/g, function(match) {
+				request({
+					url: match + '.json',
+					json: true
+				}, function (err, res, body) {
+					message.channel.sendFile("https://danbooru.donmai.us" + body.file_url);
+				});
+				return match;
 			});
-		});
+		}
 	}
 });
 nobuBot.on("guildMemberAdd", (guild, member) => {

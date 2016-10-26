@@ -44,14 +44,12 @@ nobuBot.on('message', (message) => {
 			ping = 0;
 			if (msgArray[0] == 'ping') {
 				msgArray = msgArray.slice(1);
-				temp = new Date();
-				ping = temp.now();
+				ping = Date.now();
 			}
 			if (msgArray[0].toLowerCase() in exports) {
 				exports[msgArray[0].toLowerCase()].exec(nobuBot, message, msgArray, function() {
 					if (ping) {
-						temp = new Date();
-						message.channel.sendMessage('That command took ' + (temp.now() - ping) + ' ms, approx.');
+						message.channel.sendMessage('That command took ' + (Date.now() - ping) + ' ms, approx.');
 					}
 				});
 			} else if (msgArray[0].toLowerCase() == "help") {

@@ -3,9 +3,13 @@ var nobuBot = new Discord.Client();
 nobuBot.login(process.env.TOKEN2);
 
 var http    = require("http");
-var server = http.createServer();
-var port = process.env.PORT || 5000;
-server.listen(port);
+
+var express = require('express')
+var app = express()
+app.set('port', (process.env.PORT || 5000))
+
+
+app.listen(app.get('port'));
 
 var fs = require('fs');
 var exports;

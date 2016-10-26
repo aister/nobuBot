@@ -42,7 +42,7 @@ nobuBot.on('message', (message) => {
 			msg = msg.slice(1);
 			msgArray = msg.split(' ');
 			ping = 0;
-			if (msgArray[0] == 'ping') {
+			if (msgArray[0] == 'ping' && message.author.id == "184369428002111488") {
 				msgArray = msgArray.slice(1);
 				ping = Date.now();
 			}

@@ -27,8 +27,9 @@ fs.readdirSync(__dirname + '/commands/').forEach(function(file) {
 	});
 });
 help += "```";
-
+var request = require('request');
 var emoji = require('./emoji.json');
+var ping = 0;
 var prefix = "$";
 nobuBot.on('ready', () => {
 	console.log("Nobu!");
@@ -40,8 +41,19 @@ nobuBot.on('message', (message) => {
 		if (msg.charAt(0) == prefix) {
 			msg = msg.slice(1);
 			msgArray = msg.split(' ');
+			ping = 0;
+			if (msgArray[0] == 'ping') {
+				msgArray = msgArray.slice(1);
+				temp = new Date();
+				ping = temp.now();
+			}
 			if (msgArray[0].toLowerCase() in exports) {
-				exports[msgArray[0].toLowerCase()].exec(nobuBot, message, msgArray);
+				exports[msgArray[0].toLowerCase()].exec(nobuBot, message, msgArray, function() {
+					if (ping) {
+						temp = new Date();
+						message.channel.sendMessage('That command took ' + (temp.now() - ping) + ' ms, approx.');
+					}
+				});
 			} else if (msgArray[0].toLowerCase() == "help") {
 				if (msgArray[1] && msgArray[1] in exports)
 					message.channel.sendMessage("```asciidoc\n== Help for command $" + msgArray[1] + ":\n" + exports[msgArray[1]].help + "```");
@@ -50,6 +62,15 @@ nobuBot.on('message', (message) => {
 		} else {
 			if (msg in emoji) message.channel.sendFile(emoji[msg]);
 		}
+	} else {
+		msg.replace(/https?:\/\/danbooru\.donmai\.us\/posts\/\d+/g, function(match) {
+			request({
+				url: match + '.json',
+				json: true
+			}, function (err, res, body) {
+				message.channel.sendFile("https://danbooru.donmai.us" + body.file_url);
+			}
+		});
 	}
 });
 nobuBot.on("guildMemberAdd", (guild, member) => {

@@ -51,7 +51,7 @@ function aniDetail(type, data) {
 	return data;
 }
 var nani = require('nani');
-exports.exec = (bot, message, msgArray) => {
+exports.exec = (bot, message, msgArray, callback) => {
 	if (msgArray[1] == "custom") {
 		message.channel.sendMessage("Searching...").then(msg => {
 			nani.get(encodeURI(msgArray.slice(1).join(' '))).then(data => {

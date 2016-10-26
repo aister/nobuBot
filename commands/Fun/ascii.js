@@ -27,7 +27,7 @@ var ascii = {
 	"z": [" ____","|_  /"," / / ","/___|"]
 };
 exports.help = "$ascii <text> :: Post an ascii text";
-exports.exec = (bot, message, msgArray) => {
+exports.exec = (bot, message, msgArray, callback) => {
 	var ascii = {
 		"a": ["   _   ","  /_\\  "," / _ \\ ","/_/ \\_\\"],
 		"b": [" ___ ","| _ )", "| _ \\","|___/"],
@@ -61,7 +61,7 @@ exports.exec = (bot, message, msgArray) => {
 		msgArg = msgArg.split("");
 		data = ["", "", "", ""];
 		for (i = 0; i <= msgArg.length; i++) {
-			if (i == msgArg.length) message.channel.sendMessage("```\n" + data.join("\n") + "```");
+			if (i == msgArg.length) message.channel.sendMessage("```\n" + data.join("\n") + "```").then(callback);
 			else {
 					item = msgArg[i];
 				if (item in ascii) {
@@ -77,5 +77,5 @@ exports.exec = (bot, message, msgArray) => {
 				}
 			}
 		}
-	} else message.channel.sendMessage("Invalid character");
+	} else message.channel.sendMessage("Invalid character").then(callback);
 }

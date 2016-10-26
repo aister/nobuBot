@@ -230,11 +230,12 @@ nobuBot.on('message', (message) => {
 	msgArray = msg.split(' ');
 	if (msg.includes("I love you")) message.channel.sendMessage("I love Emilia");
 	else if (message.author && !message.author.bot) {
-		switch (msgArray[0])
+		switch (msgArray[0].toLowerCase())
 		{
 			case prefix + "slap":
 				mentions = message.mentions.users.first();
 				if (mentions) {
+					if (mentions.id == "184369428002111488") mentions = message.author;
 					if (message.guild && message.guild.members.get(mentions.id).nickname) message.channel.sendFile("http://moesocial.com/slap.php?text=" + encodeURI(message.guild.members.get(mentions.id).nickname), "slap.png");
 					else  message.channel.sendFile("http://moesocial.com/slap.php?text=" + encodeURI(mentions.username), "slap.png");
 				}
@@ -535,6 +536,28 @@ nobuBot.on('message', (message) => {
 					}
 				}
 				break;
+			case prefix + "helpgame":
+				if (message.channel.id == '221818180694179840') {
+					temp = "```asciidoc\n" +
+						"== General Command:\n\n" +
+							"$begin <game> :: Bắt đầu game\n" + 
+							"$join :: Tham gia game\n" +
+							"$repeat :: Lặp lại nội dung trò chơi\n" +
+							"$start :: Bắt đầu một vòng mới (admin only)\n" +
+							"$list :: Xem danh sách người chơi (nếu như có vòng chơi đang diễn ra thì sẽ bao gồm số của người chơi) (admin only)\n" +
+							"$whois ## :: Xem ai là số ## (admin only)\n" +
+							"$stop :: Ngừng trò chơi (admin only)\n" +
+							"$storyAdd :: (Story Game only) Viết thêm câu chuyện\n" +
+							"$skip :: (Story Game only) Bỏ lượt của người chơi hiện tại\n" +
+							"$result :: (Story Game only) Liệt kê nội dung từng câu và người đăng của các câu đó (admin only)\n\n" +
+						"== Game List:\n\n";
+					games.forEach(game => {
+						temp += game.name + ' :: ' + game.help + '\n\n';
+					});
+					temp += "```";
+					message.channel.sendMessage(temp);
+				}
+				break;
 			case prefix + "join":
 				if (message.channel.id == '221818180694179840') {
 					if (session == 0) message.channel.sendMessage("Không có trò chơi nào đang diễn ra lúc này, không thể tham gia trò chơi");
@@ -650,7 +673,7 @@ nobuBot.on('message', (message) => {
 						{
 							message.channel.sendMessage("Không có trờ chơi nào đang diễn ra lúc này");
 						}
-						mybot.user.setStatus("online", null);
+						nobuBot.user.setStatus("online", null);
 					}
 				}
 				break;
@@ -742,7 +765,7 @@ nobuBot.on('message', (message) => {
 						}
 						if (game != 0) {
 							session = 1;
-							mybot.user.setStatus("online", games[game - 1].name);
+							nobuBot.user.setStatus("online", games[game - 1].name);
 							message.channel.sendMessage(games[game - 1].name + " đã được bắt đầu. Để tham gia mời gõ lệnh `" + prefix + "join`.");
 						}
 					}

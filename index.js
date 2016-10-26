@@ -69,7 +69,7 @@ nobuBot.on('message', (message) => {
 				json: true
 			}, function (err, res, body) {
 				message.channel.sendFile("https://danbooru.donmai.us" + body.file_url);
-			}
+			});
 		});
 	}
 });

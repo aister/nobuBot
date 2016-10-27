@@ -1,5 +1,6 @@
+config = require('../../config.json');
 exports.exec = (bot, message, msgArray, callback) => {
-	if (message.author.id == "184369428002111488") {
+	if (message.author.id == config.ownerID) {
 		code = msgArray.slice(1).join(' ');
 		if (!code.length) return message.channel.sendMessage('there\'s no code!').then(callback);
 		try {

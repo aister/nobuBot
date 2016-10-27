@@ -1,12 +1,13 @@
 var Discord = require("discord.js");
+var config = require('./config.json');
 var nobuBot = new Discord.Client();
-nobuBot.login(process.env.TOKEN2);
+nobuBot.login(config.botToken || process.env.TOKEN2);
 
 var http    = require("http");
 
-var express = require('express')
-var app = express()
-app.set('port', (process.env.PORT || 5000))
+var express = require('express');
+var app = express();
+app.set('port', (process.env.PORT || 5000));
 
 
 app.listen(app.get('port'));
@@ -17,6 +18,7 @@ var help;
 exports = {};
 web = {};
 webList = [];
+var prefix = config.prefix;
 help = "```asciidoc\n";
 fs.readdirSync(__dirname + '/commands/').forEach(function(file) {
 	if (file != "Admin" && file != "Website") help += "== " + file + "\n";
@@ -28,7 +30,7 @@ fs.readdirSync(__dirname + '/commands/').forEach(function(file) {
 				webList.push(name);
 				web[name] = require('./commands/' + file + '/' + file2);
 			}
-			if (file != "Admin" && file != "Website") help += exports[name].help + '\n';
+			if (file != "Admin" && file != "Website") help += prefix + exports[name].help + '\n';
 		}
 	});
 });
@@ -36,7 +38,6 @@ help += "```";
 var request = require('request');
 var emoji = require('./emoji.json');
 var ping = 0;
-var prefix = "$";
 nobuBot.on('ready', () => {
 	console.log("Nobu!");
 });
@@ -48,7 +49,7 @@ nobuBot.on('message', (message) => {
 			msg = msg.slice(1);
 			msgArray = msg.split(' ');
 			ping = 0;
-			if (msgArray[0] == 'ping' && message.author.id == "184369428002111488") {
+			if (msgArray[0] == 'ping' && message.author.id == config.ownerID) {
 				msgArray = msgArray.slice(1);
 				ping = Date.now();
 			}
@@ -60,7 +61,7 @@ nobuBot.on('message', (message) => {
 				});
 			} else if (msgArray[0].toLowerCase() == "help") {
 				if (msgArray[1] && msgArray[1] in exports)
-					message.channel.sendMessage("```asciidoc\n== Help for command $" + msgArray[1] + ":\n" + exports[msgArray[1]].help + "```");
+					message.channel.sendMessage("```asciidoc\n== Help for command " + prefix + msgArray[1] + ":\n" + exports[msgArray[1]].help + "```");
 				else if (!msgArray[1]) message.channel.sendMessage(help);
 			}
 		} else {

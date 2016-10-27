@@ -26,7 +26,7 @@ var ascii = {
 	"y": ["__   __","\\ \\ / /"," \\ V / ","  |_|  "],
 	"z": [" ____","|_  /"," / / ","/___|"]
 };
-exports.help = "$ascii <text> :: Post an ascii text";
+exports.help = "ascii <text> :: Post an ascii text";
 exports.exec = (bot, message, msgArray, callback) => {
 	var ascii = {
 		"a": ["   _   ","  /_\\  "," / _ \\ ","/_/ \\_\\"],

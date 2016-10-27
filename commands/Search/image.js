@@ -1,5 +1,5 @@
 var request = require('request');
-exports.help = "$image <image search query> :: Image Search";
+exports.help = "image <image search query> :: Image Search";
 exports.exec = (bot, message, msgArray, callback) => {
 	searchTerm = msgArray.slice(1).join(' ');
 	message.channel.sendMessage("Searching...").then(msg => {

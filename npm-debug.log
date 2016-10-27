@@ -1,0 +1,153 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'D:\\Program Files\\nodejs\\node.exe',
+1 verbose cli   'C:\\Users\\Administrator\\AppData\\Roaming\\npm\\node_modules\\npm\\bin\\npm-cli.js',
+1 verbose cli   'install',
+1 verbose cli   'request' ]
+2 info using npm@3.10.6
+3 info using node@v6.5.0
+4 silly loadCurrentTree Starting
+5 silly install loadCurrentTree
+6 silly install readLocalPackageData
+7 silly fetchPackageMetaData request@github:request/request
+8 silly fetchOtherPackageData request@github:request/request
+9 silly cache add args [ 'request@github:request/request', null ]
+10 verbose cache add spec request@github:request/request
+11 silly cache add parsed spec Result {
+11 silly cache add   raw: 'request@github:request/request',
+11 silly cache add   scope: null,
+11 silly cache add   escapedName: 'request',
+11 silly cache add   name: 'request',
+11 silly cache add   rawSpec: 'github:request/request',
+11 silly cache add   spec: 'github:request/request',
+11 silly cache add   type: 'hosted',
+11 silly cache add   hosted:
+11 silly cache add    { type: 'github',
+11 silly cache add      ssh: 'git@github.com:request/request.git',
+11 silly cache add      sshUrl: 'git+ssh://git@github.com/request/request.git',
+11 silly cache add      httpsUrl: 'git+https://github.com/request/request.git',
+11 silly cache add      gitUrl: 'git://github.com/request/request.git',
+11 silly cache add      shortcut: 'github:request/request',
+11 silly cache add      directUrl: 'https://raw.githubusercontent.com/request/request/master/package.json' } }
+12 verbose addRemoteGit caching github:request/request
+13 verbose addRemoteGit request/request is a repository hosted by github
+14 silly tryGitProto attempting to clone git://github.com/request/request.git
+15 silly tryClone cloning request/request via git://github.com/request/request.git
+16 verbose tryClone git-github-com-request-request-git-e85393bc not in flight; caching
+17 verbose correctMkdir C:\Users\Administrator\AppData\Roaming\npm-cache\_git-remotes correctMkdir not in flight; initializing
+18 warn addRemoteGit Error: not found: git
+18 warn addRemoteGit     at getNotFoundError (C:\Users\Administrator\AppData\Roaming\npm\node_modules\npm\node_modules\which\which.js:14:12)
+18 warn addRemoteGit     at F (C:\Users\Administrator\AppData\Roaming\npm\node_modules\npm\node_modules\which\which.js:69:19)
+18 warn addRemoteGit     at E (C:\Users\Administrator\AppData\Roaming\npm\node_modules\npm\node_modules\which\which.js:81:29)
+18 warn addRemoteGit     at C:\Users\Administrator\AppData\Roaming\npm\node_modules\npm\node_modules\which\which.js:90:16
+18 warn addRemoteGit     at C:\Users\Administrator\AppData\Roaming\npm\node_modules\npm\node_modules\which\node_modules\isexe\index.js:44:5
+18 warn addRemoteGit     at C:\Users\Administrator\AppData\Roaming\npm\node_modules\npm\node_modules\which\node_modules\isexe\windows.js:29:5
+18 warn addRemoteGit     at FSReqWrap.oncomplete (fs.js:123:15)
+18 warn addRemoteGit  request/request resetting remote C:\Users\Administrator\AppData\Roaming\npm-cache\_git-remotes\git-github-com-request-request-git-e85393bc because of error: { Error: not found: git
+18 warn addRemoteGit     at getNotFoundError (C:\Users\Administrator\AppData\Roaming\npm\node_modules\npm\node_modules\which\which.js:14:12)
+18 warn addRemoteGit     at F (C:\Users\Administrator\AppData\Roaming\npm\node_modules\npm\node_modules\which\which.js:69:19)
+18 warn addRemoteGit     at E (C:\Users\Administrator\AppData\Roaming\npm\node_modules\npm\node_modules\which\which.js:81:29)
+18 warn addRemoteGit     at C:\Users\Administrator\AppData\Roaming\npm\node_modules\npm\node_modules\which\which.js:90:16
+18 warn addRemoteGit     at C:\Users\Administrator\AppData\Roaming\npm\node_modules\npm\node_modules\which\node_modules\isexe\index.js:44:5
+18 warn addRemoteGit     at C:\Users\Administrator\AppData\Roaming\npm\node_modules\npm\node_modules\which\node_modules\isexe\windows.js:29:5
+18 warn addRemoteGit     at FSReqWrap.oncomplete (fs.js:123:15) code: 'ENOGIT' }
+19 info resetRemote resetting C:\Users\Administrator\AppData\Roaming\npm-cache\_git-remotes\git-github-com-request-request-git-e85393bc for request/request
+20 silly gentlyRm C:\Users\Administrator\AppData\Roaming\npm-cache\_git-remotes\git-github-com-request-request-git-e85393bc is being purged
+21 verbose gentlyRm don't care about contents; nuking C:\Users\Administrator\AppData\Roaming\npm-cache\_git-remotes\git-github-com-request-request-git-e85393bc
+22 silly vacuum-fs purging C:\Users\Administrator\AppData\Roaming\npm-cache\_git-remotes\git-github-com-request-request-git-e85393bc
+23 silly vacuum-fs quitting because other entries in C:\Users\Administrator\AppData\Roaming\npm-cache\_git-remotes
+24 error git clone --template=C:\Users\Administrator\AppData\Roaming\npm-cache\_git-remotes\_templates --mirror git://github.com/request/request.git C:\Users\Administrator\AppData\Roaming\npm-cache\_git-remotes\git-github-com-request-request-git-e85393bc: undefined
+24 error git clone --template=C:\Users\Administrator\AppData\Roaming\npm-cache\_git-remotes\_templates --mirror git://github.com/request/request.git C:\Users\Administrator\AppData\Roaming\npm-cache\_git-remotes\git-github-com-request-request-git-e85393bc: undefined
+25 silly tryHTTPS attempting to clone git+https://github.com/request/request.git
+26 silly tryClone cloning request/request via git+https://github.com/request/request.git
+27 verbose tryClone git-https-github-com-request-request-git-3b401791 not in flight; caching
+28 verbose correctMkdir C:\Users\Administrator\AppData\Roaming\npm-cache\_git-remotes correctMkdir not in flight; initializing
+29 warn addRemoteGit Error: not found: git
+29 warn addRemoteGit     at getNotFoundError (C:\Users\Administrator\AppData\Roaming\npm\node_modules\npm\node_modules\which\which.js:14:12)
+29 warn addRemoteGit     at F (C:\Users\Administrator\AppData\Roaming\npm\node_modules\npm\node_modules\which\which.js:69:19)
+29 warn addRemoteGit     at E (C:\Users\Administrator\AppData\Roaming\npm\node_modules\npm\node_modules\which\which.js:81:29)
+29 warn addRemoteGit     at C:\Users\Administrator\AppData\Roaming\npm\node_modules\npm\node_modules\which\which.js:90:16
+29 warn addRemoteGit     at C:\Users\Administrator\AppData\Roaming\npm\node_modules\npm\node_modules\which\node_modules\isexe\index.js:44:5
+29 warn addRemoteGit     at C:\Users\Administrator\AppData\Roaming\npm\node_modules\npm\node_modules\which\node_modules\isexe\windows.js:29:5
+29 warn addRemoteGit     at FSReqWrap.oncomplete (fs.js:123:15)
+29 warn addRemoteGit  request/request resetting remote C:\Users\Administrator\AppData\Roaming\npm-cache\_git-remotes\git-https-github-com-request-request-git-3b401791 because of error: { Error: not found: git
+29 warn addRemoteGit     at getNotFoundError (C:\Users\Administrator\AppData\Roaming\npm\node_modules\npm\node_modules\which\which.js:14:12)
+29 warn addRemoteGit     at F (C:\Users\Administrator\AppData\Roaming\npm\node_modules\npm\node_modules\which\which.js:69:19)
+29 warn addRemoteGit     at E (C:\Users\Administrator\AppData\Roaming\npm\node_modules\npm\node_modules\which\which.js:81:29)
+29 warn addRemoteGit     at C:\Users\Administrator\AppData\Roaming\npm\node_modules\npm\node_modules\which\which.js:90:16
+29 warn addRemoteGit     at C:\Users\Administrator\AppData\Roaming\npm\node_modules\npm\node_modules\which\node_modules\isexe\index.js:44:5
+29 warn addRemoteGit     at C:\Users\Administrator\AppData\Roaming\npm\node_modules\npm\node_modules\which\node_modules\isexe\windows.js:29:5
+29 warn addRemoteGit     at FSReqWrap.oncomplete (fs.js:123:15) code: 'ENOGIT' }
+30 info resetRemote resetting C:\Users\Administrator\AppData\Roaming\npm-cache\_git-remotes\git-https-github-com-request-request-git-3b401791 for request/request
+31 silly gentlyRm C:\Users\Administrator\AppData\Roaming\npm-cache\_git-remotes\git-https-github-com-request-request-git-3b401791 is being purged
+32 verbose gentlyRm don't care about contents; nuking C:\Users\Administrator\AppData\Roaming\npm-cache\_git-remotes\git-https-github-com-request-request-git-3b401791
+33 silly vacuum-fs purging C:\Users\Administrator\AppData\Roaming\npm-cache\_git-remotes\git-https-github-com-request-request-git-3b401791
+34 silly vacuum-fs quitting because other entries in C:\Users\Administrator\AppData\Roaming\npm-cache\_git-remotes
+35 error git clone --template=C:\Users\Administrator\AppData\Roaming\npm-cache\_git-remotes\_templates --mirror https://github.com/request/request.git C:\Users\Administrator\AppData\Roaming\npm-cache\_git-remotes\git-https-github-com-request-request-git-3b401791: undefined
+35 error git clone --template=C:\Users\Administrator\AppData\Roaming\npm-cache\_git-remotes\_templates --mirror https://github.com/request/request.git C:\Users\Administrator\AppData\Roaming\npm-cache\_git-remotes\git-https-github-com-request-request-git-3b401791: undefined
+36 silly trySSH attempting to clone git@github.com:request/request.git
+37 silly tryClone cloning request/request via git@github.com:request/request.git
+38 verbose tryClone git-github-com-request-request-git-0919a5c0 not in flight; caching
+39 verbose correctMkdir C:\Users\Administrator\AppData\Roaming\npm-cache\_git-remotes correctMkdir not in flight; initializing
+40 warn addRemoteGit Error: not found: git
+40 warn addRemoteGit     at getNotFoundError (C:\Users\Administrator\AppData\Roaming\npm\node_modules\npm\node_modules\which\which.js:14:12)
+40 warn addRemoteGit     at F (C:\Users\Administrator\AppData\Roaming\npm\node_modules\npm\node_modules\which\which.js:69:19)
+40 warn addRemoteGit     at E (C:\Users\Administrator\AppData\Roaming\npm\node_modules\npm\node_modules\which\which.js:81:29)
+40 warn addRemoteGit     at C:\Users\Administrator\AppData\Roaming\npm\node_modules\npm\node_modules\which\which.js:90:16
+40 warn addRemoteGit     at C:\Users\Administrator\AppData\Roaming\npm\node_modules\npm\node_modules\which\node_modules\isexe\index.js:44:5
+40 warn addRemoteGit     at C:\Users\Administrator\AppData\Roaming\npm\node_modules\npm\node_modules\which\node_modules\isexe\windows.js:29:5
+40 warn addRemoteGit     at FSReqWrap.oncomplete (fs.js:123:15)
+40 warn addRemoteGit  request/request resetting remote C:\Users\Administrator\AppData\Roaming\npm-cache\_git-remotes\git-github-com-request-request-git-0919a5c0 because of error: { Error: not found: git
+40 warn addRemoteGit     at getNotFoundError (C:\Users\Administrator\AppData\Roaming\npm\node_modules\npm\node_modules\which\which.js:14:12)
+40 warn addRemoteGit     at F (C:\Users\Administrator\AppData\Roaming\npm\node_modules\npm\node_modules\which\which.js:69:19)
+40 warn addRemoteGit     at E (C:\Users\Administrator\AppData\Roaming\npm\node_modules\npm\node_modules\which\which.js:81:29)
+40 warn addRemoteGit     at C:\Users\Administrator\AppData\Roaming\npm\node_modules\npm\node_modules\which\which.js:90:16
+40 warn addRemoteGit     at C:\Users\Administrator\AppData\Roaming\npm\node_modules\npm\node_modules\which\node_modules\isexe\index.js:44:5
+40 warn addRemoteGit     at C:\Users\Administrator\AppData\Roaming\npm\node_modules\npm\node_modules\which\node_modules\isexe\windows.js:29:5
+40 warn addRemoteGit     at FSReqWrap.oncomplete (fs.js:123:15) code: 'ENOGIT' }
+41 info resetRemote resetting C:\Users\Administrator\AppData\Roaming\npm-cache\_git-remotes\git-github-com-request-request-git-0919a5c0 for request/request
+42 silly gentlyRm C:\Users\Administrator\AppData\Roaming\npm-cache\_git-remotes\git-github-com-request-request-git-0919a5c0 is being purged
+43 verbose gentlyRm don't care about contents; nuking C:\Users\Administrator\AppData\Roaming\npm-cache\_git-remotes\git-github-com-request-request-git-0919a5c0
+44 silly vacuum-fs purging C:\Users\Administrator\AppData\Roaming\npm-cache\_git-remotes\git-github-com-request-request-git-0919a5c0
+45 silly vacuum-fs quitting because other entries in C:\Users\Administrator\AppData\Roaming\npm-cache\_git-remotes
+46 error git clone --template=C:\Users\Administrator\AppData\Roaming\npm-cache\_git-remotes\_templates --mirror git@github.com:request/request.git C:\Users\Administrator\AppData\Roaming\npm-cache\_git-remotes\git-github-com-request-request-git-0919a5c0: undefined
+46 error git clone --template=C:\Users\Administrator\AppData\Roaming\npm-cache\_git-remotes\_templates --mirror git@github.com:request/request.git C:\Users\Administrator\AppData\Roaming\npm-cache\_git-remotes\git-github-com-request-request-git-0919a5c0: undefined
+47 silly fetchPackageMetaData Error: not found: git
+47 silly fetchPackageMetaData     at getNotFoundError (C:\Users\Administrator\AppData\Roaming\npm\node_modules\npm\node_modules\which\which.js:14:12)
+47 silly fetchPackageMetaData     at F (C:\Users\Administrator\AppData\Roaming\npm\node_modules\npm\node_modules\which\which.js:69:19)
+47 silly fetchPackageMetaData     at E (C:\Users\Administrator\AppData\Roaming\npm\node_modules\npm\node_modules\which\which.js:81:29)
+47 silly fetchPackageMetaData     at C:\Users\Administrator\AppData\Roaming\npm\node_modules\npm\node_modules\which\which.js:90:16
+47 silly fetchPackageMetaData     at C:\Users\Administrator\AppData\Roaming\npm\node_modules\npm\node_modules\which\node_modules\isexe\index.js:44:5
+47 silly fetchPackageMetaData     at C:\Users\Administrator\AppData\Roaming\npm\node_modules\npm\node_modules\which\node_modules\isexe\windows.js:29:5
+47 silly fetchPackageMetaData     at FSReqWrap.oncomplete (fs.js:123:15)
+47 silly fetchPackageMetaData  error for request@github:request/request { Error: not found: git
+47 silly fetchPackageMetaData     at getNotFoundError (C:\Users\Administrator\AppData\Roaming\npm\node_modules\npm\node_modules\which\which.js:14:12)
+47 silly fetchPackageMetaData     at F (C:\Users\Administrator\AppData\Roaming\npm\node_modules\npm\node_modules\which\which.js:69:19)
+47 silly fetchPackageMetaData     at E (C:\Users\Administrator\AppData\Roaming\npm\node_modules\npm\node_modules\which\which.js:81:29)
+47 silly fetchPackageMetaData     at C:\Users\Administrator\AppData\Roaming\npm\node_modules\npm\node_modules\which\which.js:90:16
+47 silly fetchPackageMetaData     at C:\Users\Administrator\AppData\Roaming\npm\node_modules\npm\node_modules\which\node_modules\isexe\index.js:44:5
+47 silly fetchPackageMetaData     at C:\Users\Administrator\AppData\Roaming\npm\node_modules\npm\node_modules\which\node_modules\isexe\windows.js:29:5
+47 silly fetchPackageMetaData     at FSReqWrap.oncomplete (fs.js:123:15) code: 'ENOGIT' }
+48 silly rollbackFailedOptional Starting
+49 silly rollbackFailedOptional Finishing
+50 silly runTopLevelLifecycles Starting
+51 silly runTopLevelLifecycles Finishing
+52 silly install printInstalled
+53 verbose stack Error: not found: git
+53 verbose stack     at getNotFoundError (C:\Users\Administrator\AppData\Roaming\npm\node_modules\npm\node_modules\which\which.js:14:12)
+53 verbose stack     at F (C:\Users\Administrator\AppData\Roaming\npm\node_modules\npm\node_modules\which\which.js:69:19)
+53 verbose stack     at E (C:\Users\Administrator\AppData\Roaming\npm\node_modules\npm\node_modules\which\which.js:81:29)
+53 verbose stack     at C:\Users\Administrator\AppData\Roaming\npm\node_modules\npm\node_modules\which\which.js:90:16
+53 verbose stack     at C:\Users\Administrator\AppData\Roaming\npm\node_modules\npm\node_modules\which\node_modules\isexe\index.js:44:5
+53 verbose stack     at C:\Users\Administrator\AppData\Roaming\npm\node_modules\npm\node_modules\which\node_modules\isexe\windows.js:29:5
+53 verbose stack     at FSReqWrap.oncomplete (fs.js:123:15)
+54 verbose cwd C:\Users\Administrator\Documents\GitHub\nobuBot
+55 error Windows_NT 6.1.7601
+56 error argv "D:\\Program Files\\nodejs\\node.exe" "C:\\Users\\Administrator\\AppData\\Roaming\\npm\\node_modules\\npm\\bin\\npm-cli.js" "install" "request"
+57 error node v6.5.0
+58 error npm  v3.10.6
+59 error code ENOGIT
+60 error not found: git
+61 error Failed using git.
+61 error This is most likely not a problem with npm itself.
+61 error Please check if you have git installed and in your PATH.
+62 verbose exit [ 1, true ]

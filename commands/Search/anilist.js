@@ -1,4 +1,4 @@
-exports.help = "$anilist <anilist search query> :: Anilist Search";
+exports.help = "anilist <anilist search query> :: Anilist Search";
 function defyNull(obj) {
 	for (var key in obj) {
 		if (obj[key] === null) obj[key] = "";
@@ -50,7 +50,8 @@ function aniDetail(type, data) {
 	}
 	return data;
 }
-var nani = require('nani');
+var config = require('../../config.json');
+var nani = require('nani').init(config.naniID || process.env.NANIID, config.naniSECRET || process.env.NANISECRET);
 exports.exec = (bot, message, msgArray, callback) => {
 	if (msgArray[1] == "custom") {
 		message.channel.sendMessage("Searching...").then(msg => {

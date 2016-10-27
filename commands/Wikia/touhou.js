@@ -1,5 +1,5 @@
 var request = require('request');
-exports.help = "$touhou <search term> :: Search in Touhou Wikia";
+exports.help = "touhou <search term> :: Search in Touhou Wikia";
 exports.exec = (bot, message, msgArray, callback) => {
 	msgArg = msgArray.slice(1).join(' ');
 	msgArg = "http://touhou.wikia.com/api/v1/Search/List?lang=en&limit=1&batch=1&query=" + encodeURI(msgArg);

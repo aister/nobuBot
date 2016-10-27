@@ -1,5 +1,5 @@
 var request = require('request');
-exports.help = "$google <google search query> :: Google Search";
+exports.help = "google <google search query> :: Google Search";
 exports.exec = (bot, message, msgArray, callback) => {
 	searchTerm = msgArray.slice(1).join(' ');
 	message.channel.sendMessage("Searching...").then(msg => {

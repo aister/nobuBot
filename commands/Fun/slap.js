@@ -1,4 +1,4 @@
-exports.help = "$slap <mention> :: Slap the mentioned user";
+exports.help = "slap <mention> :: Slap the mentioned user";
 exports.exec = (bot, message, msgArray, callback) => {
 	mentions = message.mentions.users.first();
 	if (mentions) {

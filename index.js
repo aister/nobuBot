@@ -21,16 +21,16 @@ webList = [];
 var prefix = config.prefix;
 help = "```asciidoc\n";
 fs.readdirSync(__dirname + '/commands/').forEach(function(file) {
-	if (file != "Admin" && file != "Website") help += "== " + file + "\n";
+	if (!file.startsWith('!')) help += "== " + file + "\n";
 	fs.readdirSync(__dirname + '/commands/' + file + '/').forEach(function(file2) {
 		if (file2.match(/\.js$/) !== null && file2 !== 'index.js') {
 			var name = file2.replace('.js', '');
-			if (file != "Website") exports[name] = require('./commands/' + file + '/' + file2);
+			if (file != "!Website") exports[name] = require('./commands/' + file + '/' + file2);
 			else {
 				webList.push(name);
 				web[name] = require('./commands/' + file + '/' + file2);
 			}
-			if (file != "Admin" && file != "Website") help += prefix + exports[name].help + '\n';
+			if (!file.startsWith('!')) help += prefix + exports[name].help + '\n';
 		}
 	});
 });
@@ -66,16 +66,14 @@ nobuBot.on('message', (message) => {
 			}
 		} else {
 			if (msg in emoji) message.channel.sendFile(emoji[msg]);
-			reg = new RegExp('https?:\/\/(' + webList.join('|').replace(/\./g, '\.') + ')', 'g');
+			reg = new RegExp('https?:\/\/(' + webList.join('|').replace(/\./g, '\.') + ')');
 			website = msg.match(reg);
-			if (website.length > 0) {
-				website.forEach(item => {
-					item = item.slice(item.indexOf('//') + 2);
-					if (item in web) {
-						web[item].exec(nobuBot, message);
-					}
-				});
-				message.delete();
+			if (website) {
+				item = website[0];
+				item = item.slice(item.indexOf('//') + 2);
+				if (item in web) {
+					web[item].exec(nobuBot, message);
+				}
 			}
 		}
 	}

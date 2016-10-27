@@ -6,7 +6,7 @@ exports.exec = (bot, message) => {
 			url: match + '.json',
 			json: true
 		}, function (err, res, body) {
-			message.channel.sendFile("https://danbooru.donmai.us" + body.file_url, "photo.png", match);
+			message.channel.sendFile("https://danbooru.donmai.us" + body.file_url, "photo.png", "<" + match + ">");
 		});
 	});
 }

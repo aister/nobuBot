@@ -18,7 +18,7 @@ var help;
 exports = {};
 web = {};
 webList = [];
-var prefix = config.prefix;
+var prefix = config.prefix || "$";
 help = "```asciidoc\n";
 fs.readdirSync(__dirname + '/commands/').forEach(function(file) {
 	if (!file.startsWith('!')) help += "== " + file + "\n";

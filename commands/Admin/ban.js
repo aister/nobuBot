@@ -1,4 +1,4 @@
-exports.help = "kick <mentions>: Kick all mentioned people";
+exports.help = "ban <mentions>: Ban all mentioned people";
 exports.exec = (bot, message, msgArray, callback) => {
 	if (message.member.highestRole.name.toLowerCase().includes('admin')) {
 		message.mentions.users.forEach(user => {

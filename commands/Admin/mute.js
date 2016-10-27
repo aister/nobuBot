@@ -1,4 +1,4 @@
-exports.help = "kick <mentions>: Kick all mentioned people";
+exports.help = "mute <mentions>: Mute all mentioned people";
 exports.exec = (bot, message, msgArray, callback) => {
 	if (message.member.highestRole.name.toLowerCase().includes('admin')) {
 		if (!message.guild.roles.exists('name', 'Muted')) {

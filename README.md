@@ -3,7 +3,7 @@ node-modules are not included.
 to install, clone the repo and run `npm install`. Then create the config.json with following keys:
 
 ownerID (required): the ID of the bot owner, bot owner will be able to run commands in /commands/Admin
-prefix (required): the prefix of the bot
+prefix: the prefix of the bot, if environment variable PREFIX is defined, the bot will use the env var instead.
 botToken: the token of your bot, if unprovided, it will retrieve from environment variable TOKEN2
 ytToken: the token for youtube API, if unprovided, it will retrieve from environment variable YTTOKEN2
 naniID: the ID of anilist client, if unprovided, it will retrieve from environment variable NANIID

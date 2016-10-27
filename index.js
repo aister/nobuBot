@@ -1,5 +1,4 @@
 var Discord = require("discord.js");
-var config = require('./config.json');
 var nobuBot = new Discord.Client();
 nobuBot.login(config.botToken || process.env.TOKEN2);
 
@@ -18,7 +17,6 @@ var help;
 exports = {};
 web = {};
 webList = [];
-var prefix = config.prefix || "$";
 help = "```asciidoc\n";
 fs.readdirSync(__dirname + '/commands/').forEach(function(file) {
 	if (!file.startsWith('!')) help += "== " + file + "\n";

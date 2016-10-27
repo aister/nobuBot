@@ -13,14 +13,8 @@
   "dependencies": {
     "discord.js": "10.0.0",
     "express": "^4.14.0",
-    "google-images": "vdemedes/google-images",
-    "mysql": "felixge/node-mysql",
     "nani": "^1.2.0",
-    "node-schedule": "node-schedule/node-schedule",
-    "request": "request/request",
-    "socket.io": "^1.4.8",
-    "ytdl-core": "fent/node-ytdl-core",
-    "concat-stream": "maxogden/concat-stream"
+    "request": "request/request"
   },
   "keywords": [
     "node",

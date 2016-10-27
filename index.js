@@ -15,14 +15,20 @@ var fs = require('fs');
 var exports;
 var help;
 exports = {};
+web = {};
+webList = [];
 help = "```asciidoc\n";
 fs.readdirSync(__dirname + '/commands/').forEach(function(file) {
-	if (file != "Admin") help += "== " + file + "\n";
+	if (file != "Admin" && file != "Website") help += "== " + file + "\n";
 	fs.readdirSync(__dirname + '/commands/' + file + '/').forEach(function(file2) {
 		if (file2.match(/\.js$/) !== null && file2 !== 'index.js') {
 			var name = file2.replace('.js', '');
-			exports[name] = require('./commands/' + file + '/' + file2);
-			if (file != "Admin") help += exports[name].help + '\n';
+			if (file != "Website") exports[name] = require('./commands/' + file + '/' + file2);
+			else {
+				webList.push(name);
+				web[name] = require('./commands/' + file + '/' + file2);
+			}
+			if (file != "Admin" && file != "Website") help += exports[name].help + '\n';
 		}
 	});
 });
@@ -59,20 +65,22 @@ nobuBot.on('message', (message) => {
 			}
 		} else {
 			if (msg in emoji) message.channel.sendFile(emoji[msg]);
-			msg.replace(/https?:\/\/danbooru\.donmai\.us\/posts\/\d+/g, function(match) {
-				request({
-					url: match + '.json',
-					json: true
-				}, function (err, res, body) {
-					message.channel.sendFile("https://danbooru.donmai.us" + body.file_url);
+			reg = new RegExp('https?:\/\/(' + webList.join('|').replace(/\./g, '\.') + ')', 'g');
+			website = msg.match(reg);
+			if (website.length > 0) {
+				website.forEach(item => {
+					item = item.slice(item.indexOf('//') + 2));
+					if (item in web) {
+						web[item].exec(nobuBot, message);
+					}
 				});
-				return match;
-			});
+				message.delete();
+			}
 		}
 	}
 });
-nobuBot.on("guildMemberAdd", (guild, member) => {
-	guild.defaultChannel.sendMessage("Welcome " + member.user + " to " + guild.name);
+nobuBot.on("guildMemberAdd", (member) => {
+	member.guild.defaultChannel.sendMessage("Welcome " + member.user + " to " + member.guild.name);
 });
 setInterval(function() {
 	http.get("http://lmaobot.herokuapp.com");

@@ -69,7 +69,7 @@ nobuBot.on('message', (message) => {
 			website = msg.match(reg);
 			if (website.length > 0) {
 				website.forEach(item => {
-					item = item.slice(item.indexOf('//') + 2));
+					item = item.slice(item.indexOf('//') + 2);
 					if (item in web) {
 						web[item].exec(nobuBot, message);
 					}

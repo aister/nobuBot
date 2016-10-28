@@ -30,7 +30,7 @@ exports.exec = (bot, message, msgArray, callback) => {
 				if (!member.highestRole.name.toLowerCase().includes('admin')) {
 					if (!member.hasRole(role)) {
 						member.addRole(role).then(() => {
-							message.channel.sendMessage("Muted " + user);.then(() => {
+							message.channel.sendMessage("Muted " + user);
 							if (message.guild.channels.exists("name", "mod-log")) { 
 								message.guild.channels.find("name", "mod-log").sendMessage(message.author + " has banned " + user);
 							} else {

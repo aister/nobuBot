@@ -13,6 +13,11 @@ exports.exec = (bot, message, msgArray, callback) => {
 						if (!member.hasRole(role)) {
 							member.addRole(role).then(() => {
 								message.channel.sendMessage("Muted " + user);
+								if (message.guild.channels.exists("name", "mod-log")) { 
+									message.guild.channels.find("name", "mod-log").sendMessage(message.author + " has muted " + user);
+								} else {
+									message.guild.createChannel("mod-log", "text").then(channel => { channel.sendMessage(message.author + " has muted " + user); });
+								}
 							});
 						} else message.channel.sendMessage("This person has been muted");
 					}
@@ -25,7 +30,12 @@ exports.exec = (bot, message, msgArray, callback) => {
 				if (!member.highestRole.name.toLowerCase().includes('admin')) {
 					if (!member.hasRole(role)) {
 						member.addRole(role).then(() => {
-							message.channel.sendMessage("Muted " + user);
+							message.channel.sendMessage("Muted " + user);.then(() => {
+							if (message.guild.channels.exists("name", "mod-log")) { 
+								message.guild.channels.find("name", "mod-log").sendMessage(message.author + " has banned " + user);
+							} else {
+								message.guild.createChannel("mod-log", "text").then(channel => { channel.sendMessage(message.author + " has banned " + user); });
+							}
 						});
 					} else message.channel.sendMessage("This person has been muted");
 				}

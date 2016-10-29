@@ -1,4 +1,5 @@
 *.bak
 node_modules
 config.json
+selfbot
 *.tmp

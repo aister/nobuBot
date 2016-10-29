@@ -1,7 +1,8 @@
 var Discord = require("discord.js");
 config = require('./config.json');
 var nobuBot = new Discord.Client();
-nobuBot.login(config.botToken || process.env.TOKEN2);
+if (config.selfbot) nobuBot.login(config.email, config.password);
+else nobuBot.login(config.botToken || process.env.TOKEN2);
 
 var http    = require("http");
 
@@ -40,14 +41,17 @@ var emoji = require('./emoji.json');
 var ping = 0;
 nobuBot.on('ready', () => {
 	console.log("Nobu!");
+	if (config.logChannel && channel = nobuBot.channels.get(config.logChannel)) channel.sendMessage("Bot is running. " + process.env.HEROKU_RELEASE_VERSION || "");
 });
 nobuBot.on('message', (message) => {
 	var msg = message.content.trim();
-	if (msg.includes("I love you")) message.channel.sendMessage("I love Emilia");
-	else if (!message.author.bot) {
-		if (msg.charAt(0) == prefix) {
-			msg = msg.slice(1);
+	console.log(msg);
+	if (!message.author.bot) {
+		if (config.selfbot && message.author.id !== config.ownerID) return;
+		if (msg.startsWith(prefix)) {
+			msg = msg.slice(prefix.length);
 			msgArray = msg.split(' ');
+			console.log(exports);
 			ping = 0;
 			if (msgArray[0] == 'ping' && message.author.id == config.ownerID) {
 				msgArray = msgArray.slice(1);
@@ -65,7 +69,10 @@ nobuBot.on('message', (message) => {
 				else if (!msgArray[1]) message.channel.sendMessage(help);
 			}
 		} else {
-			if (msg in emoji) message.channel.sendFile(emoji[msg]);
+			if (msg in emoji) {
+				if (emoji[msg].includes("http://")) message.channel.sendFile(emoji[msg]);
+				else message.channel.sendMessage(emoji[msg]);
+			}
 			reg = new RegExp('https?:\/\/(www\.)?(' + webList.join('|').replace(/\./g, '\.') + ')');
 			website = msg.match(reg);
 			if (website) {
@@ -79,13 +86,11 @@ nobuBot.on('message', (message) => {
 		}
 	}
 });
-nobuBot.on("guildMemberAdd", (member) => {
-	member.guild.defaultChannel.sendMessage("Welcome " + member.user + " to " + member.guild.name);
-});
-setInterval(function() {
-	http.get("http://lmaobot.herokuapp.com");
-}, 300000);
-
+if (process.env.HEROKU_APP_NAME) {
+	setInterval(function() {
+		http.get("http://" + process.env.HEROKU_APP_NAME + ".herokuapp.com");
+	}, 300000);
+}
 
 
 

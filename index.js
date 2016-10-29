@@ -41,7 +41,7 @@ var emoji = require('./emoji.json');
 var ping = 0;
 nobuBot.on('ready', () => {
 	console.log("Nobu!");
-	if (config.logChannel && channel = nobuBot.channels.get(config.logChannel)) channel.sendMessage("Bot is running. " + process.env.HEROKU_RELEASE_VERSION || "");
+	if (config.logChannel && (channel = nobuBot.channels.get(config.logChannel))) channel.sendMessage("Bot is running. " + process.env.HEROKU_RELEASE_VERSION || "");
 });
 nobuBot.on('message', (message) => {
 	var msg = message.content.trim();

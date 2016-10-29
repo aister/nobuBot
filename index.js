@@ -45,7 +45,6 @@ nobuBot.on('ready', () => {
 });
 nobuBot.on('message', (message) => {
 	var msg = message.content.trim();
-	console.log(msg);
 	if (!message.author.bot) {
 		if (config.selfbot && message.author.id !== config.ownerID) return;
 		if (msg.startsWith(prefix)) {

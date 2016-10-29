@@ -15,7 +15,8 @@
     "express": "^4.14.0",
     "nani": "^1.2.0",
     "request": "2.76.0",
-    "imgur-node-api": "0.1.0"
+    "imgur-node-api": "0.1.0",
+    "flip-text": "1.1.0"
   },
   "keywords": [
     "node",

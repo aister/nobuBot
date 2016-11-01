@@ -6,6 +6,7 @@ exports.exec = (bot, message) => {
     msg.replace(/https?:\/\/(www\.)?pixiv\.net\/member_illust\.php[^ ]+/g, function(match) {
         message.channel.sendMessage('Retrieving links...').then(msg => {
             request(match, function (err, res, body) {
+                console.log(err + body);
                 body = body.slice(body.indexOf('data-title="registerImage'));
                 body = body.slice(body.indexOf('src="') + 5);
                 body = body.slice(0, body.indexOf('"'));

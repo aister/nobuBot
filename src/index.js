@@ -35,7 +35,7 @@ module.exports = (config, emoji, commands) => {
             var name = file2.replace('.js', '');
             if (!isBlacklist(commands, file + '/' + name)) {
               if (file != "!Website") {
-              	delete require.cache[require.resolve('../commands/' + file + '/' + file2)];
+                delete require.cache[require.resolve('../commands/' + file + '/' + file2)];
                 exportedCommands[name] = require('../commands/' + file + '/' + file2);
               } else {
                 webList.push(name);
@@ -43,8 +43,7 @@ module.exports = (config, emoji, commands) => {
               }
               if (!file.startsWith('!')) {
                 help += prefix + exportedCommands[name].help + '\n';
-                console.log(exportedCommands[name].help);
-              }	
+              }  
             }
           }
         });
@@ -71,26 +70,30 @@ module.exports = (config, emoji, commands) => {
         msgArray = msg.split(' ');
         ping = 0;
         if (message.author.id == config.ownerID) {
-        	if (!isBlacklist(commands, msgArray[0])) {
-	        	switch (msgArray[0]) {
-	        		case "ping":
-	        			msgArray = msgArray.slice(1);
-	          		ping = Date.now();
-	          		break;
-	          	case "reload":
-	          		load(function() {message.channel.sendMessage('Code reloaded!'); });
-	          		break;
-	          	case "inspect":
-	        	     msgArray.slice(1).forEach(command => {
-						      if (command.toLowerCase() in exportedCommands) {
-						        message.channel.sendMessage('The code for command ' + prefix + command + ":```js\n" + exportedCommands[command].exec.toString() + '```');
-						      } else {
-						        message.channel.sendMessage("There's no command " + prefix + command);
-						      }
-						    });
-	        	     break;
-	          }
-	        }
+          if (!isBlacklist(commands, msgArray[0])) {
+            if (msgArray[0] == "exec") {
+              message.channel = nobuBot.channels.get(msgArray[1]);
+              msgArray = msgArray.slice(2);
+            }
+            switch (msgArray[0]) {
+              case "ping":
+                msgArray = msgArray.slice(1);
+                ping = Date.now();
+                break;
+              case "reload":
+                load(function() {message.channel.sendMessage('Code reloaded!'); });
+                break;
+              case "inspect":
+                 msgArray.slice(1).forEach(command => {
+                  if (command.toLowerCase() in exportedCommands) {
+                    message.channel.sendMessage('The code for command ' + prefix + command + ":```js\n" + exportedCommands[command].exec.toString() + '```');
+                  } else {
+                    message.channel.sendMessage("There's no command " + prefix + command);
+                  }
+                });
+                 break;
+            }
+          }
         }
         if (msgArray[0].toLowerCase() in exportedCommands) {
           exportedCommands[msgArray[0].toLowerCase()].exec(nobuBot, message, msgArray, function() {

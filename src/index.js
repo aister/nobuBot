@@ -37,14 +37,13 @@ module.exports = (config, emoji, commands) => {
               if (file != "!Website") {
               	delete require.cache[require.resolve('../commands/' + file + '/' + file2)];
                 exportedCommands[name] = require('../commands/' + file + '/' + file2);
-                } else {
-                  webList.push(name);
-                  web[name] = require('../commands/' + file + '/' + file2);
-                }
-                if (!file.startsWith('!')) {
-                  help += prefix + exportedCommands[name].help + '\n';
-                  console.log(exportedCommands[name].help);
-                }
+              } else {
+                webList.push(name);
+                web[name] = require('../commands/' + file + '/' + file2);
+              }
+              if (!file.startsWith('!')) {
+                help += prefix + exportedCommands[name].help + '\n';
+                console.log(exportedCommands[name].help);
               }	
             }
           }

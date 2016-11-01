@@ -6,16 +6,19 @@ exports.exec = (bot, message) => {
     msg.replace(/https?:\/\/(www\.)?pixiv\.net\/member_illust\.php[^ ]+/g, function(match) {
         message.channel.sendMessage('Retrieving links...').then(msg => {
             request(match, function (err, res, body) {
-                console.log(err + body);
-                body = body.slice(body.indexOf('data-title="registerImage'));
-                body = body.slice(body.indexOf('src="') + 5);
-                body = body.slice(0, body.indexOf('"'));
-                body = decodeURIComponent(body);
-                msg.edit("Link retrieved, uploading to imgur...");
-                imgur.upload(body, function (err, res) {
-                    msg.edit("Uploading to discord...");
-                    message.channel.sendFile(res.data.link, "photo.png", "<" + match + ">").then(() => { msg.delete(); message.delete(); }).catch(console.log);
-                });
+                if (body && !err) {
+                    body = body.slice(body.indexOf('data-title="registerImage'));
+                    body = body.slice(body.indexOf('src="') + 5);
+                    body = body.slice(0, body.indexOf('"'));
+                    body = decodeURIComponent(body);
+                    msg.edit("Link retrieved, uploading to imgur...");
+                    imgur.upload(body, function (err, res) {
+                        msg.edit("Uploading to discord...");
+                        message.channel.sendFile(res.data.link, "photo.png", "<" + match + ">").then(() => { msg.delete(); message.delete(); }).catch(console.log);
+                    });
+                } else {
+                    msg.edit("Failed to retrieve link, please try again later");
+                }
             });
         });
     });

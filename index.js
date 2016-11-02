@@ -4,4 +4,4 @@ var client = {
   config,
   emoji
 }
-require('../src').exec(client);
+require('./src').exec(client);

@@ -5,28 +5,13 @@ exports.exec = (client, message, ping) => {
     if (msg.startsWith(client.prefix)) {
       msg = msg.slice(client.prefix.length);
       msgArray = msg.split(' ');
-          /*switch (msgArray[0]) {
-            case "inspect":
-               msgArray.slice(1).forEach(command => {
-                if (command.toLowerCase() in client.commands) {
-                  message.channel.sendMessage('The code for command ' + client.prefix + command + ":```js\n" + client.commands[command].exec.toString() + '```');
-                } else {
-                  message.channel.sendMessage("There's no command " + client.prefix + command);
-                }
-              });
-               break;
-          }*/
       if (msgArray[0].toLowerCase() in client.commands) {
         client.commands[msgArray[0].toLowerCase()].exec(client, message, msgArray, function() {
           if (ping) {
             message.channel.sendMessage('That command took ' + (Date.now() - ping) + ' ms, approx.');
           }
         });
-      }/* else if (msgArray[0].toLowerCase() == "help") {
-        if (msgArray[1] && msgArray[1] in client.commands)
-          message.channel.sendMessage("```asciidoc\n== Help for command " + client.prefix + msgArray[1] + ":\n" + client.commands[msgArray[1]].help + "```");
-        else if (!msgArray[1]) message.channel.sendMessage(help);
-      }*/
+      }
     } else {
       if (msg in client.emoji) {
         if (client.emoji[msg].includes("http://")) message.channel.sendFile(client.emoji[msg]);

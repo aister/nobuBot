@@ -1,3 +1,7 @@
 var config = require('./config.json');
 var emoji = require('./emoji.json');
-require('./src')(config, emoji);
+var client = {
+  config,
+  emoji
+}
+require('../src').exec(client);

@@ -1,7 +1,6 @@
-config = require('../../config.json');
 util = require('util');
-exports.exec = (bot, message, msgArray, callback) => {
-    if (message.author.id == config.ownerID) {
+exports.exec = (client, message, msgArray, callback) => {
+    if (message.author.id == client.config.ownerID) {
         code = msgArray.slice(1).join(' ');
         if (!code.length) return message.channel.sendMessage('there\'s no code!').then(callback);
         try {

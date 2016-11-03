@@ -9,7 +9,7 @@ function isBlacklist(list, text) {
 exports.exec = (client) => {
   client.bot = new Discord.Client({
     fetchAllMembers: true,
-    disabledEvents: [ "channelCreate", "channelDelete", "channelPinsUpdate", "channelUpdate", "debug", "disconnect", "error", "guildBanAdd", "guildBanRemove", "guildCreate", "guildDelete", "guildEmojiCreate", "guildEmojiDelete", "guildEmojiUpdate", "guildMemberAvailable", "guildMemberRemove", "guildMembersChunk", "guildMemberSpeaking", "guildMemberUpdate", "guildUnavailable", "guildUpdate", "messageDelete", "messageDeleteBulk", "messageUpdate", "presenceUpdate", "reconnecting", "roleCreate", "roleDelete", "roleUpdate", "typingStart", "typingStop", "userUpdate", "voiceStateUpdate", "warn" ]
+    disabledEvents: [ "channelCreate", "channelDelete", "channelPinsUpdate", "channelUpdate", "debug", "disconnect", "error", "guildBanAdd", "guildBanRemove", "guildEmojiCreate", "guildEmojiDelete", "guildEmojiUpdate", "guildMemberAvailable", "guildMemberRemove", "guildMembersChunk", "guildMemberSpeaking", "guildMemberUpdate", "guildUnavailable", "guildUpdate", "messageDelete", "messageDeleteBulk", "messageUpdate", "presenceUpdate", "reconnecting", "roleCreate", "roleDelete", "roleUpdate", "typingStart", "typingStop", "userUpdate", "voiceStateUpdate", "warn" ]
   });
 
 
@@ -29,6 +29,12 @@ exports.exec = (client) => {
     });
     client.bot.on('message', (message) => {
       client.exec(client, message);
+    });
+    client.bot.on('guildCreate', (guild) => {
+      if (client.config.logChannel && (channel = client.bot.channels.get(client.config.logChannel))) channel.sendMessage("Bot has been added to server " + guild + " (ID: " + guild.id + ")");
+    });
+    client.bot.on('guildDelete', (guild) => {
+      if (client.config.logChannel && (channel = client.bot.channels.get(client.config.logChannel))) channel.sendMessage("Bot has been removed from server " + guild + " (ID: " + guild.id + ")");
     });
   });
   var ping = 0;

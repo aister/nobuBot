@@ -7,7 +7,10 @@ function isBlacklist(list, text) {
 }
 
 exports.exec = (client) => {
-  client.bot = new Discord.Client();
+  client.bot = new Discord.Client({
+    fetchAllMembers: true,
+    disabledEvents: [ "channelCreate", "channelDelete", "channelPinsUpdate", "channelUpdate", "debug", "disconnect", "error", "guildBanAdd", "guildBanRemove", "guildCreate", "guildDelete", "guildEmojiCreate", "guildEmojiDelete", "guildEmojiUpdate", "guildMemberAvailable", "guildMemberRemove", "guildMembersChunk", "guildMemberSpeaking", "guildMemberUpdate", "guildUnavailable", "guildUpdate", "messageDelete", "messageDeleteBulk", "messageUpdate", "presenceUpdate", "reconnecting", "roleCreate", "roleDelete", "roleUpdate", "typingStart", "typingStop", "userUpdate", "voiceStateUpdate", "warn" ]
+  });
 
 
   var app = express();

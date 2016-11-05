@@ -7,14 +7,6 @@ exports.exec = (bot, message, msgArray, callback) => {
   message.guild.fetchInvites().then(invites => {
     invites = invites.filter(i => i.channel.id == channelID);
     if (invites.size > 0) message.channel.sendMessage("<http://discord.gg/" + invites.first().code + ">");
-    else message.channel.sendMessage("No invite found for this channel. Do you want to create an invite link?\nSay `" + bot.prefix + "yes` to create one").then(msg => {
-      message.channel.awaitMessages(m => m.author.id == message.author.id && m.content == bot.prefix + "yes", {max: 1, time: 30000, errors: ['time']}).then(confirm => {
-        confirm.first().delete();
-        msg.delete();
-        if (message.member.hasPermission("CREATE_INSTANT_INVITE")) {
-          message.channel.createInvite().
-        }
-      });
-    });
+    else message.channel.sendMessage("No invite found for this channel");
   });
 }

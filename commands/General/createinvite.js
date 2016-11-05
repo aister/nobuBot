@@ -1,4 +1,4 @@
-exports.help = "createinvite <channel mention> :: Create an invite code to the mentioned channel, valid for 24 hours";
+exports.help = "createinvite <channel mention> :: Create a 24-hour invite code for the mentioned channel";
 exports.exec = (client, message, msgArray, callback) => {
   if (!message.guild) return;
   if (message.member.hasPermission("CREATE_INSTANT_INVITE")) {

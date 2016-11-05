@@ -2,6 +2,7 @@ exports.help = "unban <mentions> :: Unban all mentioned people";
 exports.exec = (client, message, msgArray, callback) => {
   if (!message.guild) return;
   if (message.member.highestRole.name.toLowerCase().includes('admin')) {
+    if (message.mentions.users.size == 0) return;
     message.reply("why do you want to unban these users?\nType " + client.prefix + "cancel or say nothing for 30 seconds to cancel").then(msg => {
       message.channel.awaitMessages(m => m.author.id == message.author.id, {max: 1, time: 30000, errors: ['time']}).then(confirm => {
         msg.delete();

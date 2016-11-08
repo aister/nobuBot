@@ -1,5 +1,5 @@
 exports.exec = (client, message, ping) => {
-  var msg = message.content.trim();
+  var msg = message.content.trim().replace(/ +/g, ' ');
   if (!message.author.bot) {
     if (client.config.selfbot && message.author.id !== client.config.ownerID) return;
     if (msg.startsWith(client.prefix)) {

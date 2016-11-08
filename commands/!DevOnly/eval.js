@@ -1,6 +1,6 @@
 util = require('util');
 function removeToken(client, str) {
-  if (str) {
+  if (typeof str == "string") {
     reg = new RegExp(client.bot.token + '|' + client.bot.email + '|' + client.bot.password, 'g');
     str = str.replace(reg, 'Removed');
   }

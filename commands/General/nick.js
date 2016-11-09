@@ -13,7 +13,7 @@ exports.exec = (client, message, msgArray, callback) => {
     } else {
       name = "";
       if (msgArray.length > 1) name = msgArray.slice(1).join(' ');
-        message.member.setNickname(name).then(() => {
+      message.member.setNickname(name).then(() => {
         message.channel.sendMessage('Nickname changed');
         callback();
       });

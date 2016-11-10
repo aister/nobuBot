@@ -1,6 +1,7 @@
 var Discord = require("discord.js");
 var http  = require("http");
 var express = require('express');
+var util = require("util");
 function isBlacklist(list, text) {
   if (list) return list.indexOf(text) >= 0;
   else return false;
@@ -20,21 +21,16 @@ exports.exec = (client) => {
   app.listen(app.get('port'));
   client.load = require('./load.js').exec;
   client.exec = require('./exec.js').exec;
+
   client.load(client, function() {
     if (client.config.selfbot) client.bot.login(client.config.email, client.config.password);
     else client.bot.login(client.config.botToken || process.env.TOKEN2);
-    client.bot.on('ready', () => {
-      console.log("Nobu!");
-      if (client.config.logChannel && (channel = client.bot.channels.get(client.config.logChannel))) channel.sendMessage("Bot is running. " + process.env.HEROKU_RELEASE_VERSION || "");
+    client.events.forEach(event => {
+      event.func.init(client);
+      client.bot.on(event.name, event.func.exec);
     });
     client.bot.on('message', (message) => {
       client.exec(client, message);
-    });
-    client.bot.on('guildCreate', (guild) => {
-      if (client.config.logChannel && (channel = client.bot.channels.get(client.config.logChannel))) channel.sendMessage("Bot has been added to server " + guild + " (ID: " + guild.id + ")");
-    });
-    client.bot.on('guildDelete', (guild) => {
-      if (client.config.logChannel && (channel = client.bot.channels.get(client.config.logChannel))) channel.sendMessage("Bot has been removed from server " + guild + " (ID: " + guild.id + ")");
     });
   });
   var ping = 0;

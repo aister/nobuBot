@@ -7,6 +7,7 @@ exports.exec = (client, callback) => {
   client.commands = {};
   client.web = {};
   client.webList = [];
+  client.events = [];
   client.prefix = process.env.PREFIX || client.config.prefix;
   client.help = "```asciidoc\n";
   fs.readdirSync(__dirname + '/../commands/').forEach(function(file) {
@@ -33,8 +34,16 @@ exports.exec = (client, callback) => {
       client.help += help.join(' | ') + '\n';
     }
   });
+  fs.readdirSync(__dirname + '/../events/').forEach(function(file) {
+    if (!isBlacklist(client.blEvent, file)) {
+      var name = file.replace('.js', '');
+      delete require.cache[require.resolve('../events/' + file)];
+      client.events.push({name, func: require('../events/' + file)});
+    }
+  });
   client.help += "\nUse " + client.prefix + "help <command> for individual command helps```";
   if (typeof callback == "function") {
+    console.log(client.commands);
     callback();
   }
 }

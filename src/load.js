@@ -12,6 +12,7 @@ exports.exec = (client, callback) => {
   fs.readdirSync(__dirname + '/../commands/').forEach(function(file) {
     if (!isBlacklist(client.blacklist, file)) {
       if (!file.startsWith('!')) client.help += "== " + file + "\n";
+      help = [];
       fs.readdirSync(__dirname + '/../commands/' + file + '/').forEach(function(file2) {
         if (file2.match(/\.js$/) !== null && file2 !== 'index.js') {
           var name = file2.replace('.js', '');
@@ -24,14 +25,15 @@ exports.exec = (client, callback) => {
               client.web[name] = require('../commands/' + file + '/' + file2);
             }
             if (!file.startsWith('!')) {
-              client.help += client.prefix + client.commands[name].help + '\n';
-            }  
+              help.push(name);
+            }
           }
         }
       });
+      client.help += help.join(' | ') + '\n';
     }
   });
-  client.help += "```";
+  client.help += "\nUse " + client.prefix + "help <command> for individual command helps```";
   if (typeof callback == "function") {
     callback();
   }

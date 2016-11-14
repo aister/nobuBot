@@ -1,12 +1,12 @@
 exports.exec = (client, message, ping) => {
-  var msg = message.content.trim().replace(/ +/g, ' ');
+  var msg = message.content.trim().replace(/ +/g, ' ').toLowerCase();
   if (!message.author.bot) {
     if (client.config.selfbot && message.author.id !== client.config.ownerID) return;
     if (msg.startsWith(client.prefix)) {
       msg = msg.slice(client.prefix.length);
       msgArray = msg.split(' ');
-      if (msgArray[0].toLowerCase() in client.commands) {
-        client.commands[msgArray[0].toLowerCase()].exec(client, message, msgArray, function() {
+      if (msgArray[0] in client.commands) {
+        client.commands[msgArray[0]].exec(client, message, msgArray, function() {
           if (ping) {
             message.channel.sendMessage('That command took ' + (Date.now() - ping) + ' ms, approx.');
           }

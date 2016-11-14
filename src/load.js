@@ -38,12 +38,11 @@ exports.exec = (client, callback) => {
     if (!isBlacklist(client.blEvent, file)) {
       var name = file.replace('.js', '');
       delete require.cache[require.resolve('../events/' + file)];
-      client.events.push({name, func: require('../events/' + file)});
+      client.events.push({name, exec: require('../events/' + file).exec});
     }
   });
   client.help += "\nUse " + client.prefix + "help <command> for individual command helps```";
   if (typeof callback == "function") {
-    console.log(client.commands);
     callback();
   }
 }

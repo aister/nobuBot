@@ -4,9 +4,11 @@ var decode = new Decode();
 var fml = [];
 function load() {
   request('http://www.fmylife.com/random', function(err, res, body) {
-    body.replace(/<p class="content"><a href="[^>]+>([^<]+)/g, function(match, text) {
-      fml.push(text);
-    });
+    if (body) {
+      body.replace(/<p class="content"><a href="[^>]+>([^<]+)/g, function(match, text) {
+        fml.push(text);
+      });
+    }
   });
 }
 load();

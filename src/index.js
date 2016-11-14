@@ -26,8 +26,7 @@ exports.exec = (client) => {
     if (client.config.selfbot) client.bot.login(client.config.email, client.config.password);
     else client.bot.login(client.config.botToken || process.env.TOKEN2);
     client.events.forEach(event => {
-      event.func.init(client);
-      client.bot.on(event.name, event.func.exec);
+      client.bot.on(event.name, event.exec(client));
     });
     client.bot.on('message', (message) => {
       client.exec(client, message);

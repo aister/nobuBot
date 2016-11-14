@@ -1,3 +1,6 @@
+function regExpEscape(literal_string) {
+    return literal_string.replace(/[-[\]{}()*+!<=:?.\/\\^$|#\s,]/g, '\\$&');
+}
 exports.help = "" +
   "story <story name> :: Start a story game\n\n" + 
   "Omit <story name> to list all the stories in the database";
@@ -23,7 +26,7 @@ exports.exec = (client, message, msgArray, callback) => {
         });
       }
       if (display.length > 0) {
-        text = new RegExp('^' + client.prefix + '(' + display.join('|') + ')$', "i");
+        text = new RegExp('^' + regExpEscape(client.prefix) + '(' + display.join('|') + ')$', "i");
         message.channel.sendMessage(data).then(() => {
           message.channel.awaitMessages(m => m.author.id == message.author.id && (m.content.match(text) || m.content == client.prefix + 'stop'), {max: 1}).then(msg => {
             if (msg.first().content == client.prefix + 'stop') message.channel.sendMessage("the game has been stopped");

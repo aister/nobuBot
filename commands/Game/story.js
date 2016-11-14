@@ -37,8 +37,8 @@ exports.exec = (client, message, msgArray, callback) => {
   } else {
     data = [];
     for (var storyName in story) {
-      data.push(storyName);
+      data.push("- " + storyName);
     }
-    message.channel.sendMessage("Current stories that are in the database:\n\n" + storyName.push('\n'));
+    message.channel.sendMessage("Current stories that are in the database:\n\n" + data.join('\n'));
   }
 }

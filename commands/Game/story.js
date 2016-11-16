@@ -11,7 +11,7 @@ exports.exec = (client, message, msgArray, callback) => {
       if (stage == "start") {
         data = "Welcome to " + userStory.name + "\n\n" +
           "During the game, you will be given options that might or might not change the course of the story. The options will be provided in these [boxes]\n\n" + 
-          "When you've decided which option you want to take. Please enter `" + client.prefix + " + the number of the choice` to select. Good luck!\n\n" + 
+          "When you've decided which option you want to take. Please enter `" + client.prefix + " + the number of the choice` to select. Or enter `" + client.prefix + "stop` to stop the game. Good luck!\n\n" + 
           "[1. Continue]";
         destination = ["default"];
         display = ["1"];

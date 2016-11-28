@@ -14,7 +14,7 @@ exports.exec = (client, message, msgArray, callback) => {
     json: true
   }, function (err, res, body) {
     if (body.length > 0) {
-      if (body[0].file_url) message.channel.sendFile("https://danbooru.donmai.us/" + body[0].file_url, "image.png", "https://danbooru.donmai.us/posts/" + body[0].id);
+      if (body[0].file_url) message.channel.sendFile("https://danbooru.donmai.us/" + body[0].file_url, "image.png", "<https://danbooru.donmai.us/posts/" + body[0].id + ">");
       else message.channel.sendMessage('Post found, however no image data can be found\n\nHere\'s the link: https://danbooru.donmai.us/posts/' + body[0].id);
     } else message.channel.sendMessage('No result found');
   });

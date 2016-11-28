@@ -17,14 +17,16 @@ exports.exec = (client, message, ping) => {
         if (client.emoji[msg].includes("http://")) message.channel.sendFile(client.emoji[msg]);
         else message.channel.sendMessage(client.emoji[msg]);
       }
-      reg = new RegExp('https?:\/\/(www\.)?(' + client.webList.join('|').replace(/\./g, '\.') + ')');
-      website = msg.match(reg);
-      if (website) {
-        item = website[0];
-        item = item.slice(item.indexOf('//') + 2);
-        if (item.indexOf("www.") >= 0) item = item.slice(4);
-        if (item in client.web) {
-          client.web[item].exec(client.bot, message);
+      if (message.author.id !== client.config.ownerID) {
+        reg = new RegExp('https?:\/\/(www\.)?(' + client.webList.join('|').replace(/\./g, '\.') + ')');
+        website = msg.match(reg);
+        if (website) {
+          item = website[0];
+          item = item.slice(item.indexOf('//') + 2);
+          if (item.indexOf("www.") >= 0) item = item.slice(4);
+          if (item in client.web) {
+            client.web[item].exec(client.bot, message);
+          }
         }
       }
     }

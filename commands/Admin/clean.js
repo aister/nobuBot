@@ -1,7 +1,7 @@
 exports.help = "clean <number> :: Clear xx messages";
 exports.exec = (bot, message, msgArray, callback) => {
   if (!message.guild) return;
-  if (message.member.highestRole.name.toLowerCase().includes('admin')) {
+  if (message.member.highestRole.name.toLowerCase().includes('admin') || message.author.id == message.guild.ownerID) {
     if (msgArray.length == 1) return;
     if (!isNaN(msgArray[1])) {
       (function deleteMessages(number) {

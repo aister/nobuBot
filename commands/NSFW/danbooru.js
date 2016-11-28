@@ -7,7 +7,7 @@ exports.exec = (client, message, msgArray, callback) => {
     else tag = "rating:e ";
   } else tag = "rating:s ";
   msgArray = message.content.replace(/rating:[^ ]+/g, '').split(' ');
-  tag += msgArray.slice(1).join('* ') + '*';
+  tag += '*' + msgArray.slice(1).join('* *') + '*';
 
   request({
     url: 'https://danbooru.donmai.us/posts.json?random=true&limit=1&tags=' + encodeURI(tag),

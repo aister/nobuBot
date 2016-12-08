@@ -11,15 +11,15 @@
     "start": "node index.js"
   },
   "dependencies": {
-    "cleverbot-node": "0.2.2",
+    "cleverbot-node": "^0.2.4",
     "discord.js": "10.0.0",
     "express": "^4.14.0",
-    "flip-text": "1.1.0",
+    "flip-text": "^1.1.0",
     "google-translate-api": "^2.2.2",
-    "html-entities": "1.2.0",
-    "imgur-node-api": "0.1.0",
+    "html-entities": "^1.2.0",
+    "imgur-node-api": "^0.1.0",
     "nani": "^1.2.0",
-    "request": "2.76.0"
+    "request": "^2.79.0"
   },
   "keywords": [
     "node",

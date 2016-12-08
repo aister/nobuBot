@@ -8,6 +8,8 @@ function isBlacklist(list, text) {
 }
 
 exports.exec = (client) => {
+  console.log('Initiate Client');
+  client.initTime = Date.now();
   client.bot = new Discord.Client({
     fetchAllMembers: true,
     disabledEvents: [ "channelCreate", "channelDelete", "channelPinsUpdate", "channelUpdate", "debug", "disconnect", "error", "guildBanAdd", "guildBanRemove", "guildEmojiCreate", "guildEmojiDelete", "guildEmojiUpdate", "guildMemberAvailable", "guildMemberRemove", "guildMembersChunk", "guildMemberSpeaking", "guildMemberUpdate", "guildUnavailable", "guildUpdate", "messageDelete", "messageDeleteBulk", "messageUpdate", "presenceUpdate", "reconnecting", "roleCreate", "roleDelete", "roleUpdate", "typingStart", "typingStop", "userUpdate", "voiceStateUpdate", "warn" ]
@@ -25,6 +27,9 @@ exports.exec = (client) => {
   client.load(client, function() {
     if (client.config.selfbot) client.bot.login(client.config.email, client.config.password);
     else client.bot.login(client.config.botToken || process.env.TOKEN2);
+    taken = Date.now() - client.initTime;
+    console.log('Modules loaded. Took ' + taken + 'ms to load.\nLogging in Discord...');
+    client.initTime = taken + client.initTime;
     client.events.forEach(event => {
       client.bot.on(event.name, event.exec(client));
     });

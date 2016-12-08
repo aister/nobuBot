@@ -4,6 +4,7 @@ function isBlacklist(list, text) {
   else return false;
 }
 exports.exec = (client, callback) => {
+  time = Date.now();
   client.commands = {};
   client.web = {};
   client.webList = [];
@@ -21,9 +22,15 @@ exports.exec = (client, callback) => {
             if (file != "!Website") {
               delete require.cache[require.resolve('../commands/' + file + '/' + file2)];
               client.commands[name] = require('../commands/' + file + '/' + file2);
+              taken = Date.now() - time;
+              time = taken + time;
+              console.log("Command " + name + " loaded. Took: " + taken + "ms");
             } else {
               client.webList.push(name);
               client.web[name] = require('../commands/' + file + '/' + file2);
+              taken = Date.now() - time;
+              time = taken + time;
+              console.log("Website " + name + " loaded. Took: " + taken + "ms");
             }
             if (!file.startsWith('!')) {
               help.push(name);
@@ -39,6 +46,9 @@ exports.exec = (client, callback) => {
       var name = file.replace('.js', '');
       delete require.cache[require.resolve('../events/' + file)];
       client.events.push({name, exec: require('../events/' + file).exec});
+      taken = Date.now() - time;
+      time = taken + time;
+      console.log("Event " + name + " loaded. Took: " + taken + "ms");
     }
   });
   client.help += "\nUse " + client.prefix + "help <command> for individual command helps```";

@@ -1,3 +1,5 @@
+A Discord Bot Framework
+
 Node-modules are not included.
 
 To install, clone the repo and run `npm install`. Then create the config.json with following keys:
@@ -9,7 +11,7 @@ ytToken: the token for youtube API
 naniID: the ID of anilist client
 naniSECRET: the secret of anilist client
 selfbot: [true / false] Is your bot a selfbot?
-username: your account username (required if selfbot = true)
+email: your account email (required if selfbot = true)
 password: your account password (required if selfbot = true)
 botToken: the token of your bot (required if selfbot = false)
 ```

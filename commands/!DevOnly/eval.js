@@ -1,3 +1,4 @@
+var util = require('util');
 function removeToken(client, str) {
   if (typeof str == "string") {
     reg = new RegExp(client.bot.token.replace(/\./g, "\\.") + '|' + client.bot.email.replace(/\./g, "\\.") + '|' + client.bot.password.replace(/\./g, "\\."), 'g');
@@ -13,7 +14,7 @@ exports.exec = (client, message, msgArray, callback) => {
       try {
         var evaled = eval(code);
         if (typeof evaled == "object")
-          message.channel.sendMessage("`EVAL TO:`\n```js\n" + removeToken(client, client.require.util.inspect(evaled, {depth: 0})) + "\n```").then(callback);
+          message.channel.sendMessage("`EVAL TO:`\n```js\n" + removeToken(client, util.inspect(evaled, {depth: 0})) + "\n```").then(callback);
         else
           message.channel.sendMessage("`EVAL TO:`\n```js\n" + removeToken(client, evaled) + "\n```").then(callback);
       } catch(err) {

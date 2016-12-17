@@ -2,15 +2,17 @@ var request = require('request');
 exports.help = "danbooru <tags>:: Search for random image with tags\n\nAutomatically turn on safe mode if used outside nsfw channel";
 exports.exec = (client, message, msgArray, callback) => {
   console.log(msgArray[0]);
+  var tag = "";
   if (message.channel.name == "nsfw") {
     if (message.guild.id == "232256303509012480") tag = "rating:q ";
     else tag = "rating:e ";
-  } else tag = "rating:s ";
+    url = 'https://danbooru.donmai.us/posts.json?random=true&limit=1&tags=';
+  } else url = 'https://safebooru.donmai.us/posts.json?random=true&limit=1&tags=';
   msgArray = message.content.replace(/rating:[^ ]+/g, '').split(' ');
   tag += '*' + msgArray.slice(1).join('* *') + '*';
 
   request({
-    url: 'https://danbooru.donmai.us/posts.json?random=true&limit=1&tags=' + encodeURI(tag),
+    url: url + encodeURI(tag),
     json: true
   }, function (err, res, body) {
     if (body.length > 0) {

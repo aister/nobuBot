@@ -1,31 +1,21 @@
-A Discord Bot Framework
+A Discord Bot Framework based on discord.js
 
 Node-modules are not included.
 
-To install, clone the repo and run `npm install`. Then create the config.json with following keys:
+To install, clone the repo or download and run `npm install`. Then create / edit the config.json with following keys:
 
 ```
 ownerID: the ID of the bot owner, bot owner will be able to run commands in /commands/!Admin
 prefix: the prefix of the bot
 ytToken: the token for youtube API
-naniID: the ID of anilist client
-naniSECRET: the secret of anilist client
 selfbot: [true / false] Is your bot a selfbot?
-email: your account email (required if selfbot = true)
-password: your account password (required if selfbot = true)
-botToken: the token of your bot (required if selfbot = false)
+botToken: login token
 ```
 
-if you don't like or want to disable a certain features, include an array of the features you want to block, like this:
+If you are running on selfbot, do these steps to get the login token
+* Step 1: Login your discord in any modern browser
+* Step 2: Open browser console (F12 on Window)
+* Step 3: type in localStorage.token, hit enter (note: case-sensitive)
+* Step 4: copy the whole bunch to the botToken value
 
-```js
-var config = require('./config.json');
-var emoji = require('./emoji.json');
-require('./src')(config, emoji, ['!DevOnly', 'Search/image']);
-```
-
-This would disable all the commands in `!DevOnly` folders, as well as `image` commands in `Search` folder
-
-The help command is automatically generated using the command's exports.help. However, commands in folders that start with ! will be ignored.
-
-If you need to run several bots, just point the config.json and emoji.json to the right file.
+Please keep your login tokens absolute secret

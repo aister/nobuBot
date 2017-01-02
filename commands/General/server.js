@@ -7,15 +7,34 @@ exports.exec = (bot, message, msgArray, callback) => {
     if (invites.size > 0) {
       invite = "<http://discord.gg/" + invites.first().code + ">";
     }
-    message.channel.sendMessage("" + 
-      "**__INFO FOR SERVER:__**\n\n" +
-      "**Name:** " + message.guild.name + " (ID: " + message.guild.id + ")\n" +
-      "**Created At:** " + message.guild.createdAt.toUTCString() + "\n" +
-      "**Server Creator:** " + message.guild.owner.user.username + " (ID: " + message.guild.owner.id + ")\n" +
-      "**Custom Emoji:** " + message.guild.emojis.size + "\n" +
-      "**Member Count:** " + message.guild.memberCount + "\n" +
-      "**Icon URL:** <" + message.guild.iconURL + ">\n" +
-      "**Default Channel Invite Link:** " + invite +
-    "");
+    embed = {
+      title: "Server Info of: " + message.guild.name + " (ID: " + message.guild.id + ")",
+      description: "\u200b",
+      fields: [
+        {
+          name: "Owner",
+          value: message.guild.owner.displayName,
+          inline: true
+        },
+        {
+          name: "Member Count",
+          value: message.guild.members.size,
+          inline: true
+        },
+        {
+          name: "Default Channel Invite Link",
+          value: invite,
+          inline: true
+        },
+        {
+          name: "Created At",
+          value: message.guild.createdAt.toUTCString()
+        }
+      ],
+      thumbnail: {
+        url: message.guild.iconURL
+      }
+    }
+    message.channel.sendMessage('', {embed}).catch(console.log);
   });
 }

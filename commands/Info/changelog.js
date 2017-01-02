@@ -10,8 +10,12 @@ exports.exec = (bot, message, msgArray, callback) => {
         "Accept": "application/vnd.github.v3+json",
         "User-Agent": "aister"
       }
-    }, function(err, res, body) { 
-      message.channel.sendMessage('**__Changelog__**: \n\nVersion ' + process.env.HEROKU_RELEASE_VERSION + ': ' + body.message).then(callback);
+    }, function(err, res, body) {
+      embed = {
+        title: "Changelog",
+        description: 'Version ' + process.env.HEROKU_RELEASE_VERSION + ': ' + body.message
+      }
+      message.channel.sendMessage('', {embed}).then(callback);
     });
   } else {
     message.channel.sendMessage('Cannot retrieve changelog').then(callback);

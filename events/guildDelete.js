@@ -1,5 +1,5 @@
 exports.exec = (client) => {
-  return (guild) => {
-    if (client.config.logChannel && (channel = client.bot.channels.get(client.config.logChannel))) channel.sendMessage("Bot has been removed from server " + guild + " (ID: " + guild.id + ")");
-  }
+  return () => {
+    client.bot.channels.get('265147163321958400').sendMessage(client.bot.user.username + " has been removed from a guild! Total guild count: " + client.bot.guilds.size)
+  };
 }

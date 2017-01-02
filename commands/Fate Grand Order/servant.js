@@ -5,65 +5,73 @@ exports.exec = (bot, message, msgArray, callback) => {
     msgArg = msgArray.slice(1).join(' ');
     if (msgArg.startsWith('id:')) msgArg = "http://aister.site90.com/api.php?mode=servants&c=dataID&query=" + encodeURI(msgArg.slice(3));
     else msgArg = "http://aister.site90.com/api.php?mode=servants&c=name&query=" + encodeURI(msgArg);
-    console.log(msgArg);
-      request({ url: msgArg, json: true, followRedirect: false }, function(err, res, body) {
-        if (res.statusCode != 302 && body.item) {
-          body = body.item;
-          attack = body.attacks.replace(/.{2}/g, function (match) {
-            switch (match) {
-              case "01": return "Quick, ";
-              case "02": return "Arts, ";
-              case "03": return "Buster, ";
-            }
-          }).slice(0, -2);
-          field = [
-            {
-              name: "Class",
-              value: body.class,
-              inline: true
-            },
-            {
-              name: "Cost",
-              value: body.cost,
-              inline: true
-            },
-            {
-              name: "HP",
-              value: body.baseHP + ' (' + body.maxHP + ')',
-              inline: true
-            },
-            {
-              name: "ATK",
-              value: body.baseATK + ' (' + body.maxATK + ')',
-              inline: true
-            },
-            {
-              name: "Attacks",
-              value: attack
-            },
-            {
-              name: "Description",
-              value: body.description
-            }
-          ];
-          if (body.note && body.note != ' ') {
-            field.push({
-              name: 'Note',
-              value: body.note
-            });
+    request({ url: msgArg, json: true, followRedirect: false }, function(err, res, result) {
+      if (res.statusCode != 302 && result.item) {
+        body = result.item;
+        attack = body.attacks.replace(/.{2}/g, function (match) {
+          switch (match) {
+            case "01": return "Quick, ";
+            case "02": return "Arts, ";
+            case "03": return "Buster, ";
           }
-          embed = {
-            title: body.name + ' (ID: ' + body.dataID + ')',
-            color: 0xff0000,
-            fields: field,
-            thumbnail: {
-              url: body.image
-            },
-            url: body.link
+        }).slice(0, -2);
+        field = [
+          {
+            name: "Rarity",
+            value: body.rarity
+          },
+          {
+            name: "Class",
+            value: body.class,
+            inline: true
+          },
+          {
+            name: "Cost",
+            value: body.cost,
+            inline: true
+          },
+          {
+            name: "HP",
+            value: body.baseHP + ' (' + body.maxHP + ')',
+            inline: true
+          },
+          {
+            name: "ATK",
+            value: body.baseATK + ' (' + body.maxATK + ')',
+            inline: true
+          },
+          {
+            name: "Attacks",
+            value: attack
+          },
+          {
+            name: "Description",
+            value: body.description
+          },
+          {
+            name: 'Note',
+            value: (body.note || "none") + "\n\u200b"
           }
-          message.channel.sendMessage('', {embed}).then(callback).catch(console.log);
-        } else message.channel.sendMessage("Not found").then(callback);
-      });
+        ];
+        if (result.other) {
+          field.push({
+            name: "Other results (in servant ID)",
+            value: result.other + "\n\nUse `id:<servantID>` for precise search"
+          })
+        }
+        embed = {
+          title: body.name + ' (ID: ' + body.dataID + ')',
+          color: 0xff0000,
+          fields: field,
+          description: "\u200b",
+          thumbnail: {
+            url: body.image
+          },
+          url: body.link
+        }
+        message.channel.sendMessage('', {embed}).then(callback).catch(console.log);
+      } else message.channel.sendMessage("Not found").then(callback);
+    });
   } else {
     message.channel.sendMessage('Wrong syntax');
   }

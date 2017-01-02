@@ -9,14 +9,33 @@ exports.exec = (bot, message, msgArray, callback) => {
       if (invites.size > 0) {
         invite = "<http://discord.gg/" + invites.first().code + ">";
       }
-      console.log(invite);
-      message.channel.sendMessage("" + 
-        "**__INFO FOR CHANNEL:__**\n\n" +
-        "**Name:** " + message.channel.name + " (ID: " + message.channel.id + ")\n" +
-        "**In Server:** " + message.guild.name + " (ID: " + message.guild.id + ")\n" +
-        "**Created At:** " + message.channel.createdAt.toUTCString() + "\n" +
-        "**Member Count:** " + message.channel.members.size + "\n" +
-        "**Channel Invite Link:** " + invite +
-      "");
+      topic = "None";
+      if (message.channel.topic) topic = message.channel.topic;
+      embed = {
+        title: "Channel Info For: " + message.channel.name + " (ID: " + message.channel.id + ")",
+        fields: [
+          {
+            name: "Server",
+            value: message.guild.name,
+            inline: true
+          },
+          {
+            name: "Member Count",
+            value: message.channel.members.size,
+            inline: true
+          },
+          {
+            name: "Invite Link",
+            value: invite,
+            inline: true
+          },
+          {
+            name: "Created At",
+            value: message.channel.createdAt.toUTCString()
+          }
+        ],
+        description: "Topic: " + topic + "\n\u200b"
+      }
+      message.channel.sendMessage('', { embed }).catch(console.log);
     });
 }

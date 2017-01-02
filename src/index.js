@@ -1,7 +1,4 @@
 var Discord = require("discord.js");
-var http  = require("http");
-var express = require('express');
-var util = require("util");
 function isBlacklist(list, text) {
   if (list) return list.indexOf(text) >= 0;
   else return false;
@@ -10,23 +7,13 @@ function isBlacklist(list, text) {
 exports.exec = (client) => {
   console.log('Initiate Client');
   client.initTime = Date.now();
-  client.bot = new Discord.Client({
-    fetchAllMembers: true,
-    disabledEvents: [ "channelCreate", "channelDelete", "channelPinsUpdate", "channelUpdate", "debug", "disconnect", "error", "guildBanAdd", "guildBanRemove", "guildEmojiCreate", "guildEmojiDelete", "guildEmojiUpdate", "guildMemberAvailable", "guildMemberRemove", "guildMembersChunk", "guildMemberSpeaking", "guildMemberUpdate", "guildUnavailable", "guildUpdate", "messageDelete", "messageDeleteBulk", "messageUpdate", "presenceUpdate", "reconnecting", "roleCreate", "roleDelete", "roleUpdate", "typingStart", "typingStop", "userUpdate", "voiceStateUpdate", "warn" ]
-  });
+  client.bot = new Discord.Client();
 
-
-  var app = express();
-  app.set('port', (process.env.PORT || 3000));
-
-
-  app.listen(app.get('port'));
   client.load = require('./load.js').exec;
   client.exec = require('./exec.js').exec;
 
   client.load(client, function() {
-    if (client.config.selfbot) client.bot.login(client.config.email, client.config.password);
-    else client.bot.login(client.config.botToken || process.env.TOKEN2);
+    client.bot.login(client.config.botToken || process.env.TOKEN2).catch(console.log);
     taken = Date.now() - client.initTime;
     console.log('Modules loaded. Took ' + taken + 'ms to load.\nLogging in Discord...');
     client.initTime = taken + client.initTime;
@@ -38,11 +25,6 @@ exports.exec = (client) => {
     });
   });
   var ping = 0;
-  if (process.env.HEROKU_APP_NAME) {
-    setInterval(function() {
-      http.get("http://" + process.env.HEROKU_APP_NAME + ".herokuapp.com");
-    }, 300000);
-  }
 
   process.on('uncaughtException', function(err) {
     if (err.code == 'ECONNRESET') {

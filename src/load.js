@@ -6,8 +6,6 @@ function isBlacklist(list, text) {
 exports.exec = (client, callback) => {
   time = Date.now();
   client.commands = {};
-  client.web = {};
-  client.webList = [];
   client.events = [];
   client.prefix = process.env.PREFIX || client.config.prefix;
   client.help = "```asciidoc\n";
@@ -19,19 +17,11 @@ exports.exec = (client, callback) => {
         if (file2.match(/\.js$/) !== null && file2 !== 'index.js') {
           var name = file2.replace('.js', '');
           if (!isBlacklist(client.blacklist, file + '/' + name)) {
-            if (file != "!Website") {
-              delete require.cache[require.resolve('../commands/' + file + '/' + file2)];
-              client.commands[name] = require('../commands/' + file + '/' + file2);
-              taken = Date.now() - time;
-              time = taken + time;
-              console.log("Command " + name + " loaded. Took: " + taken + "ms");
-            } else {
-              client.webList.push(name);
-              client.web[name] = require('../commands/' + file + '/' + file2);
-              taken = Date.now() - time;
-              time = taken + time;
-              console.log("Website " + name + " loaded. Took: " + taken + "ms");
-            }
+            delete require.cache[require.resolve('../commands/' + file + '/' + file2)];
+            client.commands[name] = require('../commands/' + file + '/' + file2);
+            taken = Date.now() - time;
+            time = taken + time;
+            console.log("Command " + name + " loaded. Took: " + taken + "ms");
             if (!file.startsWith('!')) {
               help.push(name);
             }

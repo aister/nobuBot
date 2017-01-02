@@ -50,10 +50,11 @@ exports.exec = (bot, message, msgArray, callback) => {
           },
           {
             name: 'Note',
-            value: (body.note || "none") + "\n\u200b"
+            value: (body.note || "none")
           }
         ];
         if (result.other) {
+          field[field.length - 1].value += "\n\u200b";
           field.push({
             name: "Other results (in servant ID)",
             value: result.other + "\n\nUse `id:<servantID>` for precise search"

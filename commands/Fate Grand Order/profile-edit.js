@@ -1,6 +1,7 @@
 var redis = require('redis');
 var db = redis.createClient(process.env.REDIS_URL);
-exports.help = "profile :: Get your saved FGO profile";
+exports.help = "profile-edit name: <Your IGN> | id: <Friend ID> | ... :: Save or edit FGO profile\n\n" +
+                "Also attach an image that show your support servants (can be screenshot or custom design) by uploading to discord";
 exports.exec = (bot, message, msgArray, callback) => {
   db.get('fgoProfile_' + message.author.id, function (err, result) {
     if (result) obj = JSON.parse(result);

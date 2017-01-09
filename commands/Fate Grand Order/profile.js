@@ -26,5 +26,6 @@ exports.exec = (bot, message, msgArray, callback) => {
     } else {
       message.channel.sendMessage("Profile not found, please use `" + bot.prefix + "profile-edit` to create one");
     }
+    db.quit();
   })
 }

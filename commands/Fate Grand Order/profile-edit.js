@@ -16,6 +16,7 @@ exports.exec = (bot, message, msgArray, callback) => {
     obj = JSON.stringify(obj);
     db.set('fgoProfile_' + message.author.id, obj, function() {
       message.channel.sendMessage('Profile saved successfully');
+      db.quit();
     });
   });
 }

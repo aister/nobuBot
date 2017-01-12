@@ -18,14 +18,14 @@ exports.func = (user, obj) => {
   if (obj.support) embed.image = { url: obj.support }
   return embed;
 }
-exports.exec = (bot, message, msgArray, callback) => {
+exports.exec = (client, message, msgArray, callback) => {
   func = this.func;
   client.db.get('fgoProfile_' + message.author.id, function (err, result) {
     if (result) {
       obj = JSON.parse(result);
       message.channel.sendMessage('', {embed: func(message.author, obj)});
     } else {
-      message.channel.sendMessage("Profile not found, please use `" + bot.prefix + "profile-edit` to create one");
+      message.channel.sendMessage("Profile not found, please use `" + client.prefix + "profile-edit` to create one");
     }
   })
 }

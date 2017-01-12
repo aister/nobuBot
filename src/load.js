@@ -18,8 +18,8 @@ exports.exec = (client, callback) => {
           var name = file2.replace('.js', '');
           if (!isBlacklist(client.blacklist, file + '/' + name)) {
             delete require.cache[require.resolve('../commands/' + file + '/' + file2)];
-            client.commands[name].count = 0;
             client.commands[name] = require('../commands/' + file + '/' + file2);
+            client.commands[name].count = 0;
             taken = Date.now() - time;
             time = taken + time;
             console.log("Command " + name + " loaded. Took: " + taken + "ms");

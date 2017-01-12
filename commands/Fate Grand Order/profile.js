@@ -1,32 +1,31 @@
-var redis = require('redis');
 exports.help = "profile :: Get your saved FGO profile";
+exports.func = (user, obj) => {
+  embed = {
+    title: "FGO Profile for " + user.username,
+    fields: [
+      {
+        name: "IGN",
+        value: obj.name || "Not Provided"
+      },
+      {
+        name: "Friend ID",
+        value: obj.id || "Not Provided"
+      }
+    ],
+    description: "\u200b",
+    thumbnail: { url: user.displayAvatarURL }
+  }
+  if (obj.support) embed.image = { url: obj.support }
+  return embed;
+}
 exports.exec = (bot, message, msgArray, callback) => {
-  var db = require('redis').createClient(process.env.REDIS_URL);
-  db.get('fgoProfile_' + message.author.id, function (err, result) {
+  func = this.func;
+  client.db.get('fgoProfile_' + message.author.id, function (err, result) {
     if (result) {
       obj = JSON.parse(result);
-      embed = {
-        title: "FGO Profile for " + message.author.username,
-        fields: [
-          {
-            name: "IGN",
-            value: obj.name || "Not Provided",
-            inline: true
-          },
-          {
-            name: "Friend ID",
-            value: obj.id || "Not Provided",
-            inline: true
-          }
-        ],
-        description: "\u200b",
-        thumbnail: { url: message.author.displayAvatarURL }
-      }
-      if (obj.support) embed.image = { url: obj.support }
-      message.channel.sendMessage('', {embed});
+      message.channel.sendMessage('', {embed: func(message.author, obj)});
     } else {
       message.channel.sendMessage("Profile not found, please use `" + bot.prefix + "profile-edit` to create one");
     }
-    db.quit();
   })
 }

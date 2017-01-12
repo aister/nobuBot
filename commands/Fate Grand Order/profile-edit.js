@@ -1,9 +1,7 @@
-var redis = require('redis');
 exports.help = "profile-edit name: <Your IGN> | id: <Friend ID> :: Save or edit FGO profile\n\n" +
                 "Also attach an image that show your support servants (can be screenshot or custom design) by uploading to discord";
 exports.exec = (bot, message, msgArray, callback) => {
-  var db = redis.createClient(process.env.REDIS_URL);
-  db.get('fgoProfile_' + message.author.id, function (err, result) {
+  client.db.get('fgoProfile_' + message.author.id, function (err, result) {
     if (result) obj = JSON.parse(result);
     else obj = {};
     msgArray.slice(1).join(' ').replace(/ ?\| ?/g, '|').split('|').forEach(item => {
@@ -14,10 +12,9 @@ exports.exec = (bot, message, msgArray, callback) => {
     if (img = message.attachments.first()) {
       obj.support = img.url;
     }
-    obj = JSON.stringify(obj);
-    db.set('fgoProfile_' + message.author.id, obj, function() {
-      message.channel.sendMessage('Profile saved successfully');
-      db.quit();
+    result = JSON.stringify(obj);
+    client.db.set('fgoProfile_' + message.author.id, result, function() {
+      message.channel.sendMessage('Profile saved successfully', {embed: bot.commands.profile.func(message.author, obj)});
     });
   });
 }

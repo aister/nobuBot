@@ -6,6 +6,7 @@ exports.exec = (client, message, ping) => {
       msg = msg.slice(client.prefix.length);
       msgArray = msg.split(' ');
       if (msgArray[0].toLowerCase() in client.commands) {
+        client.commands[msgArray[0].toLowerCase()].count++;
         client.commands[msgArray[0].toLowerCase()].exec(client, message, msgArray, function() {
           if (ping) {
             message.channel.sendMessage('That command took ' + (Date.now() - ping) + ' ms, approx.');

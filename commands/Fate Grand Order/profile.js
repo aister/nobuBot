@@ -18,14 +18,22 @@ exports.func = (user, obj) => {
   if (obj.support) embed.image = { url: obj.support }
   return embed;
 }
+function send(result, message, func) {
+  if (result) {
+    obj = JSON.parse(result);
+    message.channel.sendMessage('', {embed: func(message.author, obj)});
+  } else {
+    message.channel.sendMessage("Profile not found, please use `" + client.prefix + "profile-edit` to create one");
+  }
+}
 exports.exec = (client, message, msgArray, callback) => {
   func = this.func;
-  client.db.get('fgoProfile_' + message.author.id, function (err, result) {
-    if (result) {
-      obj = JSON.parse(result);
-      message.channel.sendMessage('', {embed: func(message.author, obj)});
-    } else {
-      message.channel.sendMessage("Profile not found, please use `" + client.prefix + "profile-edit` to create one");
-    }
-  })
+  if (('fgoProfile_' + message.author.id) in client.dbCache) {
+    send(client.dbCache['fgoProfile_' + message.author.id], message, func);
+  } else {
+    client.db.get('fgoProfile_' + message.author.id, function (err, result) {
+      client.dbCache['fgoProfile_' + message.author.id] = result;
+      send(result, message, func);
+    });
+  }
 }

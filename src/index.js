@@ -12,6 +12,7 @@ exports.exec = (client) => {
   client.load = require('./load.js').exec;
   client.exec = require('./exec.js').exec;
   client.db = require('redis').createClient(process.env.REDIS_URL);
+  client.dbCache = {};
 
   client.load(client, function() {
     client.bot.login(client.config.botToken || process.env.TOKEN2).catch(console.log);

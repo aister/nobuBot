@@ -13,7 +13,7 @@ exports.func = (obj) => {
     description: "\u200b",
     fields: obj.fields
   };
-  if (obj.image) result.image = { url: obj.image };
+  if (obj.img) result.image = { url: obj.img };
   return result;
 }
 exports.exec = (client, message, msgArray, callback) => {

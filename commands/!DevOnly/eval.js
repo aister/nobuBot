@@ -9,18 +9,18 @@ function removeToken(client, str) {
 exports.exec = (client, message, msgArray, callback) => {
   if (message.author.id == client.config.ownerID) {
     log = (content) => { message.channel.sendMessage(content); };
-    command = (c) => {
+    commands = (c) => {
       cl = [];
       if (c) {
         if (client.commands[c]) return client.commands[c].count;
         else return "'" + c + "' is not a command";
       } else {
-        for (c in client.commands) {
-          cl.push(c + ": " + client.commands[c].count);
+        for (c in client.commands) { if (client.commands[c].count) cl.push(c + ": " + client.commands[c].count);
         }
         return cl.join('\n');
       }
     }
+    command = commands();
     code = msgArray.slice(1).join(' ');
     if (!code.length) return message.channel.sendMessage('there\'s no code!').then(callback);
     try {

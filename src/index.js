@@ -1,9 +1,4 @@
 var Discord = require("discord.js");
-function isBlacklist(list, text) {
-  if (list) return list.indexOf(text) >= 0;
-  else return false;
-}
-
 exports.exec = (client) => {
   console.log('Initiate Client');
   client.initTime = Date.now();

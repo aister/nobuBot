@@ -1,5 +1,5 @@
 request = require('request');
-exports.help = "item <item ID or name> :: Get drop info for a certain item. Omit <item ID or name> to get list of all items";
+exports.help = "item <item ID or name> :: Get drop info for a certain item. Omit <item ID or name> to get list of all items\n\nAscension List is made by Enkicon";
 exports.exec = (client, message, msgArray, callback) => {
   if (msgArray.length > 1) {
     msgArray = msgArray.slice(1).join(' ');
@@ -26,6 +26,8 @@ exports.exec = (client, message, msgArray, callback) => {
           thumbnail: { url: item.img }
         };
         message.channel.sendMessage('', {embed});
+      } else {
+        message.channel.sendFile('http://aister.site90.com/Ascensionx.gif', 'Ascensionx.gif', 'List of available items:')
       }
     });
   } else {

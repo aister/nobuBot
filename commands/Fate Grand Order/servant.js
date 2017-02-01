@@ -15,6 +15,7 @@ exports.exec = (bot, message, msgArray, callback) => {
             case "03": return "Buster, ";
           }
         }).slice(0, -2);
+        if (body.note == "\n") body.note = "None";
         field = [
           {
             name: "Rarity",

@@ -18,7 +18,8 @@ exports.func = (user, obj) => {
   if (obj.support) embed.image = { url: obj.support }
   return embed;
 }
-function send(result, message, func) {
+function send(client, message, func, client) {
+  result = client.dbCache['fgoProfile_' + message.author.id];
   if (result) {
     obj = JSON.parse(result);
     message.channel.sendMessage('', {embed: func(message.author, obj)});
@@ -29,11 +30,11 @@ function send(result, message, func) {
 exports.exec = (client, message, msgArray, callback) => {
   func = this.func;
   if (('fgoProfile_' + message.author.id) in client.dbCache) {
-    send(client.dbCache['fgoProfile_' + message.author.id], message, func);
+    send(client, message, func);
   } else {
     client.db.get('fgoProfile_' + message.author.id, function (err, result) {
       client.dbCache['fgoProfile_' + message.author.id] = result;
-      send(result, message, func);
+      send(client, message, func);
     });
   }
 }

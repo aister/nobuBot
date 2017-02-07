@@ -4,7 +4,7 @@ var emojis = {
   "huhu": "http://i.imgur.com/Vpsng9m.png",
   "rip": "http://i.imgur.com/CXFDRZg.png",
   "noob": "http://i.imgur.com/v7r7fwG.gif",
-  "jam": "http://i.imgur.com/1ogkphl.jpg",
+  "jam": "http://i.imgur.com/ZXlW6fi.png",
   "yorokobe": "http://i.imgur.com/CGj0vTt.png",
   "lewd": "http://i.imgur.com/XH34as1.jpg",
   "lenny": "( ͡° ͜ʖ ͡°)",

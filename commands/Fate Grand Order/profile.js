@@ -18,7 +18,7 @@ exports.func = (user, obj) => {
   if (obj.support) embed.image = { url: obj.support }
   return embed;
 }
-function send(client, message, func, client) {
+function send(client, message, func) {
   result = client.dbCache['fgoProfile_' + message.author.id];
   if (result) {
     obj = JSON.parse(result);

@@ -1,5 +1,5 @@
 var request = require('request');
-exports.help = "servant <search term> :: Search for servants with a specific search category\n\nStart search term with 'id:' to search with ID";
+exports.help = "servant <name> :: Search for a servant with the name\n\nStart search term with 'id:' to search with ID";
 exports.exec = (bot, message, msgArray, callback) => {
   if (msgArray.length > 1) {
     msgArg = msgArray.slice(1).join(' ');
@@ -20,7 +20,13 @@ exports.exec = (bot, message, msgArray, callback) => {
         field = [
           {
             name: "Rarity",
-            value: body.rarity
+            value: body.rarity,
+            inline: true
+          },
+          {
+            name: "Alignment",
+            value: body.alignment,
+            inline: true
           },
           {
             name: "Class",
@@ -47,12 +53,16 @@ exports.exec = (bot, message, msgArray, callback) => {
             value: attack
           },
           {
+            name: "NP",
+            value: body.NP
+          },
+          {
             name: "Description",
             value: body.description
           },
           {
             name: 'Note',
-            value: (body.note || "none")
+            value: (body.note || "None")
           }
         ];
         if (result.other) {

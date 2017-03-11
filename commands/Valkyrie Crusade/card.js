@@ -31,7 +31,6 @@ exports.exec = (bot, message, msgArray, callback) => {
           },
           url: body.link
         }
-        console.log(embed);
         message.channel.sendMessage('', {embed}).then(callback).catch(console.log);
       } else message.channel.sendMessage("Not found").then(callback);
     });

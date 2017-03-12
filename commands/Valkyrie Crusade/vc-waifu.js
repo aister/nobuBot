@@ -5,8 +5,8 @@ exports.exec = (bot, message, msgArray, callback) => {
   let time = 0;
   if (!cooldown[message.author.id]) cooldown[message.author.id] = message.createdTimestamp;
   else time = message.createdTimestamp - cooldown[message.author.id] - 900000;
-  if (time < 0) {
-    message.channel.sendMessage("You can only use this command once every 15 minutes. You can use it again in " + Math.ceil( - time / 60000) + " minutes");
+  if (time < 0 &&  && message.author.id != bot.config.ownerID) {
+    message.channel.sendMessage("You can only use this command once every 15 minutes. You can use it again in " + Math.floor( - time / 60000) + " minutes " + (Math.ceil( - time / 1000) % 60) + " seconds");
   } else {
     cooldown[message.author.id] = message.createdTimestamp;
     msgArg = "http://aister.site90.com/api.php?mode=rand&db=vc&c=rarity&query=";

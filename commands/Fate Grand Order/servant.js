@@ -15,7 +15,7 @@ exports.exec = (bot, message, msgArray, callback) => {
             case "03": return "Buster, ";
           }
         }).slice(0, -2);
-        body.note = body.note.replace(/ +\n?/g, "\n");
+        body.note = body.note.replace(/ +(\n|$)/g, "\n");
         if (body.note == "\n") body.note = "None";
         field = [
           {
@@ -58,7 +58,7 @@ exports.exec = (bot, message, msgArray, callback) => {
           },
           {
             name: "Description",
-            value: body.description
+            value: body.description || "None"
           },
           {
             name: 'Note',

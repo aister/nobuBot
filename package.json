@@ -16,7 +16,8 @@
     "google-translate-api": "^2.2.2",
     "html-entities": "^1.2.0",
     "request": "^2.79.0",
-    "redis": "^2.6.3"
+    "redis": "^2.6.3",
+    "canvas": "^1.6.4"
   },
   "keywords": [
     "node",

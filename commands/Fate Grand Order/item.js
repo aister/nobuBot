@@ -4,14 +4,24 @@ exports.exec = (client, message, msgArray, callback) => {
   if (msgArray.length > 1) {
     msgArray = msgArray.slice(1).join(' ');
     request({
-      url: 'http://aister.site90.com/api.php?mode=item&q=' + encodeURI(msgArray),
-      json: true,
-      followRedirect: false
+      url: 'https://raw.githubusercontent.com/aister/nobuDB/master/item.json',
+      json: true
     }, function(err, res, result) {
-      if (res.statusCode != 302 && result.item) {
-        item = result.item[0];
+      let item = "";
+      console.log(msgArray);
+      if (isNaN(msgArray)) {
+        result.forEach((i, index) => {
+          if (i.name.toLowerCase().includes(msgArray.toLowerCase())) {
+            msgArray = index;
+            item = i;
+          }
+        });
+      } else {
+        item = result[msgArray];
+      }
+      if (item) {
         embed = {
-          title: item.name + " - ID: " + item.itemID,
+          title: item.name + " - ID: " + msgArray,
           description: '\u200b',
           fields: [
             {
@@ -27,10 +37,10 @@ exports.exec = (client, message, msgArray, callback) => {
         };
         message.channel.sendMessage('', {embed});
       } else {
-        message.channel.sendFile('http://aister.site90.com/Ascensionx.gif', 'Ascensionx.gif', 'List of available items:')
+        message.channel.sendFile('https://raw.githubusercontent.com/aister/nobuDB/master/Ascensionx.gif', 'Ascensionx.gif', 'List of available items:')
       }
     });
   } else {
-    message.channel.sendFile('http://aister.site90.com/Ascensionx.gif', 'Ascensionx.gif', 'List of available items:')
+    message.channel.sendFile('https://raw.githubusercontent.com/aister/nobuDB/master/Ascensionx.gif', 'Ascensionx.gif', 'List of available items:')
   }
 }

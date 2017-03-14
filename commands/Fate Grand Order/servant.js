@@ -3,10 +3,18 @@ exports.help = "servant <name> :: Search for a servant with the name\n\nStart se
 exports.exec = (bot, message, msgArray, callback) => {
   if (msgArray.length > 1) {
     msgArg = msgArray.slice(1).join(' ');
-    if (msgArg.startsWith('id:')) msgArg = "http://aister.site90.com/api.php?mode=servants&c=dataID&query=" + encodeURI(msgArg.slice(3));
-    else msgArg = "http://aister.site90.com/api.php?mode=servants&c=name&query=" + encodeURI(msgArg);
-    request({ url: msgArg, json: true, followRedirect: false }, function(err, res, result) {
-      if (res.statusCode != 302 && result.item) {
+    request({ url: "https://raw.githubusercontent.com/aister/nobuDB/master/fgo_main.json", json: true, followRedirect: false }, function(err, res, body) {
+      let result = "";
+      if (msgArg.startsWith('id:')) result = {item: body[msgArg.slice(3)]};
+      else {
+        for (let item in body) {
+          if (body[item].name.toLowerCase().includes(msgArg.toLowerCase())) {
+            if (result) result.other.push(body[item].id);
+            else result = {item: body[item], other: []};
+          }
+        }
+      }
+      if (result) {
         body = result.item;
         attack = body.attacks.replace(/.{2}/g, function (match) {
           switch (match) {
@@ -30,7 +38,7 @@ exports.exec = (bot, message, msgArray, callback) => {
           },
           {
             name: "Class",
-            value: body.class,
+            value: body.servantClass,
             inline: true
           },
           {
@@ -65,15 +73,15 @@ exports.exec = (bot, message, msgArray, callback) => {
             value: (body.note || "None")
           }
         ];
-        if (result.other) {
+        if (result.other && result.other.length) {
           field[field.length - 1].value += "\n\u200b";
           field.push({
             name: "Other results (in servant ID)",
-            value: result.other + "\n\nUse `id:<servantID>` for precise search"
+            value: result.other.join(' | ') + "\n\nUse `id:<servantID>` for precise search"
           })
         }
         embed = {
-          title: body.name + ' (ID: ' + body.dataID + ')',
+          title: body.name + ' (ID: ' + body.id + ')',
           color: 0xff0000,
           fields: field,
           description: "\u200b",

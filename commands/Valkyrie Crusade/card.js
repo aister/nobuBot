@@ -3,26 +3,39 @@ exports.help = "card <card name> :: Show info of the card\n\nStart search term w
 exports.exec = (bot, message, msgArray, callback) => {
   if (msgArray.length > 1) {
     msgArg = msgArray.slice(1).join(' ');
-    if (msgArg.startsWith('id:')) msgArg = "http://aister.site90.com/api.php?mode=vc&c=ID&query=" + encodeURI(msgArg.slice(3));
-    else msgArg = "http://aister.site90.com/api.php?mode=vc&c=name&query=" + encodeURI(msgArg);
-    request({ url: msgArg, json: true, followRedirect: false }, function(err, res, result) {
-      if (res.statusCode != 302 && result.item) {
+    request({ url: "https://raw.githubusercontent.com/aister/nobuDB/master/vc.json", json: true, followRedirect: false }, function(err, res, body) {
+      let result = "";
+      if (msgArg.startsWith('id:')) {
+        msgArray = msgArg.slice(3);
+        result = {item: body[msgArray]};
+      } else {
+        body.forEach((item, i) => {
+          if (item.name.toLowerCase().includes(msgArg.toLowerCase())) {
+            if (result) result.other.push(i);
+            else {
+              msgArray = i;
+              result = {item: item, other: []};
+            }
+          }
+        });
+      }
+      if (result) {
         body = result.item;
         fields = [
           {name: "Element", value: body.element, inline: true},
           {name: "Rarity", value: body.rarity, inline: true}
         ];
-        JSON.parse(body.skills).forEach(item => {
+        body.skill.forEach(item => {
           fields.push(item);
         });
         if (result.other) {
           fields.push({
             name: "Other results (in card ID)",
-            value: result.other + "\n\nUse `id:<cardID>` for precise search"
+            value: result.other.join(' | ') + "\n\nUse `id:<cardID>` for precise search"
           })
         }
         embed = {
-          title: body.name + ' (ID: ' + body.ID + ')',
+          title: body.name + ' (ID: ' + msgArray + ')',
           color: 0xff0000,
           fields: fields,
           description: "\u200b",

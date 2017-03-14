@@ -3,10 +3,18 @@ exports.help = "skill <servant name> :: Show skills of a certain servant\n\nStar
 exports.exec = (bot, message, msgArray, callback) => {
   if (msgArray.length > 1) {
     msgArg = msgArray.slice(1).join(' ');
-    if (msgArg.startsWith('id:')) msgArg = "http://aister.site90.com/api.php?mode=servants&c=dataID&query=" + encodeURI(msgArg.slice(3));
-    else msgArg = "http://aister.site90.com/api.php?mode=servants&c=name&query=" + encodeURI(msgArg);
-    request({ url: msgArg, json: true, followRedirect: false }, function(err, res, result) {
-      if (res.statusCode != 302 && result.item) {
+    request({ url: "https://raw.githubusercontent.com/aister/nobuDB/master/fgo_main.json", json: true, followRedirect: false }, function(err, res, body) {
+      let result = "";
+      if (msgArg.startsWith('id:')) result = {item: body[msgArg.slice(3)]};
+      else {
+        for (let item in body) {
+          if (body[item].name.toLowerCase().includes(msgArg.toLowerCase())) {
+            if (result) result.other.push(body[item].id);
+            else result = {item: body[item], other: []};
+          }
+        }
+      }
+      if (result) {
         body = result.item;
         fields = [];
         msgArg = body.skills.split('\n\n');

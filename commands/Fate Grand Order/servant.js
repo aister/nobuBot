@@ -66,7 +66,7 @@ exports.exec = (bot, message, msgArray, callback) => {
           },
           {
             name: "Description",
-            value: body.description || "None"
+            value: body.desc || "None"
           },
           {
             name: 'Note',

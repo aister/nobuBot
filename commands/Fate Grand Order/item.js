@@ -8,16 +8,13 @@ exports.exec = (client, message, msgArray, callback) => {
       json: true
     }, function(err, res, result) {
       let item = "";
-      console.log(msgArray);
-      if (isNaN(msgArray)) {
+      if (item = result[msgArray]) {
         result.forEach((i, index) => {
           if (i.name.toLowerCase().includes(msgArray.toLowerCase())) {
             msgArray = index;
             item = i;
           }
         });
-      } else {
-        item = result[msgArray];
       }
       if (item) {
         embed = {

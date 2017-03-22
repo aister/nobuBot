@@ -1,4 +1,4 @@
-exports.help = "vc-waifu :: Marry a random maiden in Valkyrie Crusade";
+exports.help = "ship :: shipping two random people in the guild";
 exports.exec = (bot, message, msgArray, callback) => {
   if (!message.guild) return;
   let gm = message.guild.members;

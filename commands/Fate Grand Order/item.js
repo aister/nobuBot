@@ -8,13 +8,14 @@ exports.exec = (client, message, msgArray, callback) => {
       json: true
     }, function(err, res, result) {
       let item = "";
-      if (item = result[msgArray]) {
-        result.forEach((i, index) => {
+      if (!(item = result[msgArray])) {
+        for (index in result) {
+          i = result[index];
           if (i.name.toLowerCase().includes(msgArray.toLowerCase())) {
             msgArray = index;
             item = i;
           }
-        });
+        }
       }
       if (item) {
         embed = {

@@ -8,7 +8,7 @@ exports.exec = (bot, message, msgArray, callback) => {
     img_bg.onload = function () {
       ctx.drawImage(img_bg, 0, 0, 504, 594);
       ctx.font = "bold 40px Arial";
-      var words = msgArray.slice(1);
+      var words = msgArray.slice(1).join(' ');
       var metrics = ctx.measureText(words);
       ctx.fillText(words, 237 - metrics.width / 2, 330);
       ctx.font = "bold 30px Arial";

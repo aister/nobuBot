@@ -52,52 +52,52 @@ function replyResult (text, prefix) {
   prefix + "feedback` command"
 };
 exports.exec = (bot, message, msgArray, callback) => {
-  let time = 0;
-  if (!fgo_cooldown[message.author.id]) fgo_cooldown[message.author.id] = message.createdTimestamp;
-  else time = message.createdTimestamp - fgo_cooldown[message.author.id] - 900000;
-  if (time < 0 && message.author.id != bot.config.ownerID) {
-    message.channel.sendMessage("You can only use this command once every 15 minutes. You can use it again in " + Math.floor( - time / 60000) + " minutes " + (Math.ceil( - time / 1000) % 60) + " seconds");
-  } else {
-    let canvas = "";
-    let ctx = "";
-    if (message.content.toLowerCase().includes("eventlist")) {
-      request({
-        url: db_path + "gacha_event.json",
-        json: true
-      }, function (err, res, gEvent) {
-        gEvent = gEvent.map((event, i) => {
-          return "**__" + event.name + " (ID: " + (i + 1) + ")__**\n" + event.desc;
-        });
-        message.channel.sendMessage(gEvent.join('\n\n')).catch(() => {});
+  let canvas = "";
+  let ctx = "";
+  if (message.content.toLowerCase().includes("eventlist")) {
+    request({
+      url: db_path + "gacha_event.json",
+      json: true
+    }, function (err, res, gEvent) {
+      gEvent = gEvent.map((event, i) => {
+        return "**__" + event.name + " (ID: " + (i + 1) + ")__**\n" + event.desc;
       });
-    } else {
-      request({
-        url: db_path + "gatcha.json",
-        json: true
-      }, function (err, res, body) {
-        if (msgArray.includes("yolo")) {
-          canvas = new Canvas(129, 222);
-          ctx = canvas.getContext('2d');
-          if (event = message.content.match(/event\d+/g)) {
-            request({
-              url: db_path + "gacha_event.json",
-              json: true
-            }, function (err, res, gEvent) {
-              event = event[0].slice(5);
-              for (i = 0; i <= 5; i++) {
-                if (gEvent[event].servants && gEvent[event].servants[i]) body.servants[i] = body.servants[i].concat(gEvent[event].servants[i]);
-                if (gEvent[event].ce && gEvent[event].ce[i]) body.ce[i] = body.ce[i].concat(gEvent[event].ce[i]);
-              }
-              console.log(body.servants["5"]);
-              roll1(ctx, body, [0, 0]).then((result) => {
-                message.channel.sendFile(canvas.toBuffer(), "result.png", replyResult(result, bot.config.prefix));
-              });
-            })
-          } else {
+      message.channel.sendMessage(gEvent.join('\n\n')).catch(() => {});
+    });
+  } else {
+    request({
+      url: db_path + "gatcha.json",
+      json: true
+    }, function (err, res, body) {
+      if (msgArray.includes("yolo")) {
+        canvas = new Canvas(129, 222);
+        ctx = canvas.getContext('2d');
+        if (event = message.content.match(/event\d+/g)) {
+          request({
+            url: db_path + "gacha_event.json",
+            json: true
+          }, function (err, res, gEvent) {
+            event = event[0].slice(5);
+            for (i = 0; i <= 5; i++) {
+              if (gEvent[event].servants && gEvent[event].servants[i]) body.servants[i] = body.servants[i].concat(gEvent[event].servants[i]);
+              if (gEvent[event].ce && gEvent[event].ce[i]) body.ce[i] = body.ce[i].concat(gEvent[event].ce[i]);
+            }
+            console.log(body.servants["5"]);
             roll1(ctx, body, [0, 0]).then((result) => {
-              message.channel.sendFile(canvas.toBuffer(), "result.png", replyResult(result, bot.config.prefix));
+              message.channel.sendFile(canvas.toBuffer(), "result.png", replyResult(result, bot.prefix));
             });
-          }
+          })
+        } else {
+          roll1(ctx, body, [0, 0]).then((result) => {
+            message.channel.sendFile(canvas.toBuffer(), "result.png", replyResult(result, bot.prefix));
+          });
+        }
+      } else {
+        let time = 0;
+        if (!fgo_cooldown[message.author.id]) fgo_cooldown[message.author.id] = message.createdTimestamp;
+        else time = message.createdTimestamp - fgo_cooldown[message.author.id] - 900000;
+        if (time < 0 && message.author.id != bot.ownerID) {
+          message.channel.sendMessage("You can only use this command once every 15 minutes. You can use it again in " + Math.floor( - time / 60000) + " minutes " + (Math.ceil( - time / 1000) % 60) + " seconds");
         } else {
           canvas = new Canvas(645, 444);
           ctx = canvas.getContext('2d');
@@ -114,17 +114,17 @@ exports.exec = (bot, message, msgArray, callback) => {
               console.log(body.servants["5"]);
               roll10(ctx, body).then(() => {
                 results = results.slice(0, 5).join(' | ') + "\n" + results.slice(5).join(' | ');
-                message.channel.sendFile(canvas.toBuffer(), "result.png", replyResult(results, bot.config.prefix));
+                message.channel.sendFile(canvas.toBuffer(), "result.png", replyResult(results, bot.prefix));
               });
             });
           } else {
             roll10(ctx, body).then((results) => {
               results = results.slice(0, 5).join(' | ') + "\n" + results.slice(5).join(' | ');
-              message.channel.sendFile(canvas.toBuffer(), "result.png", replyResult(results, bot.config.prefix));
+              message.channel.sendFile(canvas.toBuffer(), "result.png", replyResult(results, bot.prefix));
             });
           }
         }
-      });
-    }
+      }
+    });
   }
 }

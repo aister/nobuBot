@@ -26,6 +26,7 @@ function send(client, message, func) {
   result = client.dbCache['vcProfile_' + message.author.id];
   if (result) {
     obj = JSON.parse(result);
+    console.log(obj);
     message.channel.sendMessage('', {embed: func(message.author, obj)});
   } else {
     message.channel.sendMessage("Profile not found, please use `" + client.prefix + "profile-edit` to create one");
@@ -33,13 +34,12 @@ function send(client, message, func) {
 }
 exports.exec = (client, message, msgArray, callback) => {
   func = this.func;
-  let profile = message.author.id;
-  if (msgArray.length > 1 && message.author.id == client.config.ownerID) profile = msgArray[1];
-  if (('vcProfile_' + profile) in client.dbCache) {
+  if (msgArray.length > 1 && message.author.id == client.config.ownerID) message.author.id = msgArray[1];
+  if (('vcProfile_' + message.author.id) in client.dbCache) {
     send(client, message, func);
   } else {
-    client.db.get('vcProfile_' + profile, function (err, result) {
-      client.dbCache['vcProfile_' + profile] = result;
+    client.db.get('vcProfile_' + message.author.id, function (err, result) {
+      client.dbCache['vcProfile_' + message.author.id] = result;
       send(client, message, func);
     });
   }

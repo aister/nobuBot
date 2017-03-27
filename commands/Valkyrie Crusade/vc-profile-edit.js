@@ -7,7 +7,7 @@ function func (client, result, message) {
     item = item.trim();
     if (item.startsWith('name:')) obj.name = item.slice(5).trim();
     else if (item.startsWith('id:')) obj.id = item.slice(3).trim();
-    else if (item.startsWith('role:')) obj.id = item.slice(5).trim();
+    else if (item.startsWith('role:')) obj.role = item.slice(5).trim();
   });
   if (img = message.attachments.first()) {
     obj.support = img.url;

@@ -33,11 +33,13 @@ function send(client, message, func) {
 }
 exports.exec = (client, message, msgArray, callback) => {
   func = this.func;
-  if (('vcProfile_' + message.author.id) in client.dbCache) {
+  let profile = message.author.id;
+  if (msgArray.length > 1 && message.author.id == client.ownerID) profile = msgArray[1];
+  if (('vcProfile_' + profile) in client.dbCache) {
     send(client, message, func);
   } else {
-    client.db.get('vcProfile_' + message.author.id, function (err, result) {
-      client.dbCache['vcProfile_' + message.author.id] = result;
+    client.db.get('vcProfile_' + profile, function (err, result) {
+      client.dbCache['vcProfile_' + profile] = result;
       send(client, message, func);
     });
   }

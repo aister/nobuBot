@@ -15,7 +15,7 @@ function func (client, result, message) {
   result = JSON.stringify(obj);
   client.db.set('vcProfile_' + message.author.id, result, function() {
     client.dbCache['vcProfile_' + message.author.id] = result;
-    message.channel.sendMessage('Profile saved successfully', {embed: client.commands.profile.func(message.author, obj)});
+    message.channel.sendMessage('Profile saved successfully', {embed: client.commands["vc-profile"].func(message.author, obj)});
   });
 }
 exports.exec = (client, message, msgArray, callback) => {

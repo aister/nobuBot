@@ -99,6 +99,7 @@ exports.exec = (bot, message, msgArray, callback) => {
         if (time < 0 && message.author.id != bot.ownerID) {
           message.channel.sendMessage("You can only use this command once every 15 minutes. You can use it again in " + Math.floor( - time / 60000) + " minutes " + (Math.ceil( - time / 1000) % 60) + " seconds");
         } else {
+          fgo_cooldown[message.author.id] = message.createdTimestamp;
           canvas = new Canvas(645, 444);
           ctx = canvas.getContext('2d');
           if (event = message.content.match(/event\d+/g)) {

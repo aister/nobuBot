@@ -96,7 +96,7 @@ exports.exec = (bot, message, msgArray, callback) => {
         let time = 0;
         if (!fgo_cooldown[message.author.id]) fgo_cooldown[message.author.id] = message.createdTimestamp;
         else time = message.createdTimestamp - fgo_cooldown[message.author.id] - 900000;
-        if (time < 0 && message.author.id != bot.ownerID) {
+        if (time < 0 && message.author.id != bot.config.ownerID) {
           message.channel.sendMessage("You can only use this command once every 15 minutes. You can use it again in " + Math.floor( - time / 60000) + " minutes " + (Math.ceil( - time / 1000) % 60) + " seconds");
         } else {
           fgo_cooldown[message.author.id] = message.createdTimestamp;

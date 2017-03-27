@@ -34,7 +34,7 @@ function send(client, message, func) {
 exports.exec = (client, message, msgArray, callback) => {
   func = this.func;
   let profile = message.author.id;
-  if (msgArray.length > 1 && message.author.id == client.ownerID) profile = msgArray[1];
+  if (msgArray.length > 1 && message.author.id == client.config.ownerID) profile = msgArray[1];
   if (('vcProfile_' + profile) in client.dbCache) {
     send(client, message, func);
   } else {

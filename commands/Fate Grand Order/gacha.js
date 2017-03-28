@@ -78,9 +78,11 @@ exports.exec = (bot, message, msgArray, callback) => {
             json: true
           }, function (err, res, gEvent) {
             event = event[0].slice(5);
-            for (i = 0; i <= 5; i++) {
-              if (gEvent[event].servants && gEvent[event].servants[i]) body.servants[i] = body.servants[i].concat(gEvent[event].servants[i]);
-              if (gEvent[event].ce && gEvent[event].ce[i]) body.ce[i] = body.ce[i].concat(gEvent[event].ce[i]);
+            if (gEvent[event]) {
+              for (i = 0; i <= 5; i++) {
+                if (gEvent[event].servants && gEvent[event].servants[i]) body.servants[i] = body.servants[i].concat(gEvent[event].servants[i]);
+                if (gEvent[event].ce && gEvent[event].ce[i]) body.ce[i] = body.ce[i].concat(gEvent[event].ce[i]);
+              }
             }
             console.log(body.servants["5"]);
             roll1(ctx, body, [0, 0]).then((result) => {
@@ -108,12 +110,13 @@ exports.exec = (bot, message, msgArray, callback) => {
               json: true
             }, function (err, res, gEvent) {
               event = parseInt(event[0].slice(5)) - 1;
-              for (i = 0; i <= 5; i++) {
-                if (gEvent[event].servants && gEvent[event].servants[i]) body.servants[i] = body.servants[i].concat(gEvent[event].servants[i]);
-                if (gEvent[event].ce && gEvent[event].ce[i]) body.ce[i] = body.ce[i].concat(gEvent[event].ce[i]);
+              if (gEvent[event]) {
+                for (i = 0; i <= 5; i++) {
+                  if (gEvent[event].servants && gEvent[event].servants[i]) body.servants[i] = body.servants[i].concat(gEvent[event].servants[i]);
+                  if (gEvent[event].ce && gEvent[event].ce[i]) body.ce[i] = body.ce[i].concat(gEvent[event].ce[i]);
+                }
               }
-              console.log(body.servants["5"]);
-              roll10(ctx, body).then(() => {
+              roll10(ctx, body).then((results) => {
                 results = results.slice(0, 5).join(' | ') + "\n" + results.slice(5).join(' | ');
                 message.channel.sendFile(canvas.toBuffer(), "result.png", replyResult(results, bot.prefix));
               });

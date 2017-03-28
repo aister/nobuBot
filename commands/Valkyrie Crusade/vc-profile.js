@@ -28,7 +28,7 @@ function send(client, message, func) {
     obj = JSON.parse(result);
     message.channel.sendMessage('', {embed: func(message.author, obj)});
   } else {
-    message.channel.sendMessage("Profile not found, please use `" + client.prefix + "profile-edit` to create one");
+    message.channel.sendMessage("Profile not found, please use `" + client.prefix + "vc-profile-edit` to create one");
   }
 }
 exports.exec = (client, message, msgArray, callback) => {

@@ -8,6 +8,7 @@ exports.exec = (bot, message, msgArray, callback) => {
       if (m.member) { seme.set(m.author.id, m.member); }
     });
     let uke = seme.random();
+    seme.delete(uke.id);
     if (seme.size) seme = seme.random();
     else seme = uke;
     message.channel.sendMessage("Psshh, I saw " + uke.displayName + " holding hands with " + seme.displayName + " while walking down the street last night!!");

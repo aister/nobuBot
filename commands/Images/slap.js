@@ -11,7 +11,7 @@ exports.exec = (bot, message, msgArray, callback) => {
         if (mentions.id == "184369428002111488") {
           words = mentions.username;
           if (message.guild) words = message.member.displayName;
-        } else if (message.guild) {
+        } else if (message.guild && message.guild.member(mentions)) {
           words = message.guild.member(mentions).displayName;
         } else {
           words = mentions.username;
@@ -20,7 +20,7 @@ exports.exec = (bot, message, msgArray, callback) => {
         words = msgArray.slice(1).join(' ');
       }
       ctx.drawImage(img_bg, 0, 0, 576, 300);
-      ctx.font = "bold 20px Arial";
+      ctx.font = "bold 30px Arial";
       ctx.fillStyle = "white";
       var metrics = ctx.measureText(words);
       ctx.strokeStyle = "black";

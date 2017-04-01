@@ -1,6 +1,6 @@
 var request = require('request');
 exports.help = "vc-roleplay :: Change your nickname to a random maiden in Valkyrie Crusade\n\nCurrent Rate: 0.2% LR | 2.8% UR | 17% SR | 30% R | 50% N";
-let cooldown = {};
+vcRPcooldown = {};
 exports.exec = (bot, message, msgArray, callback) => {
   if (!message.guild.member(bot.bot.user.id).hasPermission('MANAGE_NICKNAMES')) {
     message.channel.sendMessage("This command can't be used, because the bot can't change your nickname");
@@ -9,12 +9,12 @@ exports.exec = (bot, message, msgArray, callback) => {
   let name = message.author.username;
   if (message.member) name = message.member.displayName;
   let time = 0;
-  if (!cooldown[message.author.id]) cooldown[message.author.id] = message.createdTimestamp;
-  else time = message.createdTimestamp - cooldown[message.author.id] - 3600000;
+  if (!vcRPcooldown[message.author.id]) vcRPcooldown[message.author.id] = message.createdTimestamp;
+  else time = message.createdTimestamp - vcRPcooldown[message.author.id] - 3600000;
   if (time < 0 && message.author.id != bot.config.ownerID) {
     message.channel.sendMessage("You can only use this command once every hour. You can use it again in " + Math.floor( - time / 60000) + " minutes " + (Math.ceil( - time / 1000) % 60) + " seconds");
   } else {
-    cooldown[message.author.id] = message.createdTimestamp;
+    vcRPcooldown[message.author.id] = message.createdTimestamp;
     let chance = Math.random();
     if (chance <= 0.002) msgArg = "LR";
     else if (chance <= 0.03) msgArg = "UR";

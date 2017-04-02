@@ -30,8 +30,8 @@ exports.exec = (client, message, msgArray, callback) => {
     }
   } else {
     result = msgArray.slice(4).join(' ');
-    client.db.set('fgoProfile_' + target.id, result, function() {
-      client.dbCache['fgoProfile_' + target.id] = result;
+    client.db.set(db + 'Profile_' + target.id, result, function() {
+      client.dbCache[db + 'Profile_' + target.id] = result;
       message.channel.sendMessage('done');
     });
   }

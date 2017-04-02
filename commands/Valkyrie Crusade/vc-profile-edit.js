@@ -1,4 +1,4 @@
-exports.help = "vc-profile-edit name: <Your IGN> | id: <Friend ID> | role: <FAWK, LAWK, Sender, etc.> :: Save or edit FGO profile\n\n" +
+exports.help = "vc-profile-edit name: <Your IGN> | id: <Friend ID> | role: <FAWK, LAWK, Sender, etc.> | alliance: <alliance name> :: Save or edit VC profile\n\n" +
                 "Also you can attach an image along with the command to put it into your profile";
 function func (client, result, message) {
   if (result) obj = JSON.parse(result);
@@ -8,6 +8,7 @@ function func (client, result, message) {
     if (item.startsWith('name:')) obj.name = item.slice(5).trim();
     else if (item.startsWith('id:')) obj.id = item.slice(3).trim();
     else if (item.startsWith('role:')) obj.role = item.slice(5).trim();
+    else if (item.startsWith('alliance:')) obj.alliance = item.slice(9).trim();
   });
   if (img = message.attachments.first()) {
     obj.support = img.url;

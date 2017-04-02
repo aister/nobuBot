@@ -1,12 +1,14 @@
 var request = require('request');
 var Decode = require('html-entities').AllHtmlEntities;
 var decode = new Decode();
-var fml = [];
+fml = [];
 function load() {
   request('http://www.fmylife.com/random', function(err, res, body) {
     if (body) {
-      body.replace(/<p class="content"><a href="[^>]+>([^<]+)/g, function(match, text) {
-        fml.push(text);
+      body = body.slice(0, body.indexOf('/birthdays'));
+      body.replace(/<p class="block">\n<a href="[^>]+>([^<]+)/g, function(match, text) {
+        text = text.replace(/\n/g, '');
+        if (text) fml.push(text);
       });
     }
   });

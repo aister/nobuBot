@@ -13,7 +13,7 @@ exports.exec = (bot, message, msgArray, callback) => {
             body2 = body2.items[body.items[0].id];
             if (body2.thumbnail) {
               msg.delete();
-              message.channel.sendFile(body2.thumbnail, "image.png", body2.abstract.replace(/\[view\] \u2022 \[talk\] /g, "") + "\n\n<http://" + msgArray[1] + ".wikia.com" + body2.url + ">").then(callback);
+              message.channel.sendFile(body2.thumbnail.replace(/\/revision.+/g, ''), "image.png", body2.abstract.replace(/\[view\] \u2022 \[talk\] /g, "") + "\n\n<http://" + msgArray[1] + ".wikia.com" + body2.url + ">").then(callback);
             } else msg.edit(body2.abstract.replace(/\[view\] \u2022 \[talk\] /g, "") + "\n\n<http://" + msgArray[1] + ".wikia.com" + body2.url + ">").then(callback);
           });
         } else msg.edit("Not found").then(callback);

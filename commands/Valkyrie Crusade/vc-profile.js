@@ -8,12 +8,18 @@ exports.func = (user, obj) => {
         value: obj.name || "Not Provided"
       },
       {
+        name: "Alliance",
+        value: obj.alliance || "Not Provided"
+      },
+      {
         name: "Friend ID",
-        value: obj.id || "Not Provided"
+        value: obj.id || "Not Provided",
+        inline: true
       },
       {
         name: "Role",
-        value: obj.role || "Not Provided"
+        value: obj.role || "Not Provided",
+        inline: true
       }
     ],
     description: "\u200b",

@@ -5,6 +5,10 @@ Array.prototype.rand = function() {
   return this[Math.floor(Math.random()*this.length)];
 }
 exports.exec = (bot, message, msgArray, callback) => {
+  if (fgo_quiz[message.channel.id]) {
+    message.channel.sendMessage("Another quiz is currently taking place, please wait until it's done to start a new one");
+    return;
+  }
   request({ 
     url: "https://raw.githubusercontent.com/aister/nobuDB/master/fgo_main.json", 
     json: true
@@ -33,7 +37,7 @@ exports.exec = (bot, message, msgArray, callback) => {
         description: "\u200b\n" + body.desc.replace(new RegExp(body.name, 'g'), '[REMOVED]') + "\n\nYou have 5 minutes to answer (case insensitive)"
       }
     }
-
+    fgo_quiz[message.channel.id] = 1;
     message.channel.sendMessage("", { embed: result }).then(() => {
       message.channel.awaitMessages(m => body.name.toLowerCase() == m.content.toLowerCase(), {
         max: 1,
@@ -41,8 +45,10 @@ exports.exec = (bot, message, msgArray, callback) => {
         errors: ['time']
       }).then(m => {
         message.channel.sendMessage('Congratulation! ' + m.first().author + ' has got the correct answer! The answer is ' + body.name + ' (ID: ' + body.id + ')');
+        fgo_quiz[message.channel.id] = 0;
       }).catch(() => {
         message.channel.sendMessage('5 minutes has passed, and no one has the answer. The correct answer is ' + body.name + ' (ID: ' + body.id + ')');
+        fgo_quiz[message.channel.id] = 0;
       });
     })
   });

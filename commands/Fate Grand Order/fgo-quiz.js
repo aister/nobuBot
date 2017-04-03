@@ -13,22 +13,36 @@ exports.exec = (bot, message, msgArray, callback) => {
     for (item in body) {
       servantList.push(body[item]);
     }
-    servantList = servantList.rand();
-    console.log(servantList);
-    message.channel.sendMessage("", {
-      embed: {
-        title: "Which servant is this?",
-        description: "\u200b\n" + servantList.desc + "\n\nYou have 5 minutes to answer (case insensitive)"
+    body = Math.random();
+    if (body <= 0.5) {
+      body = servantList.rand();
+      console.log(body.name);
+      result = body.NP.split('\n').slice(0, 2).join('\n').replace(/\([^\)]+\) /g, '');
+      result = {
+        title: "Which servant has this Noble Phantasm?",
+        description: "\u200b\n" + result + "\n\nYou have 5 minutes to answer (case insensitive)"
       }
-    }).then(() => {
-      message.channel.awaitMessages(m => servantList.name.toLowerCase() == m.content.toLowerCase(), {
+    } else {
+      body = { desc: "None" };
+      while (body.desc == "None") {
+        body = servantList.rand();
+      }
+      console.log(body.name);
+      result = {
+        title: "Which servant is this?",
+        description: "\u200b\n" + body.desc.replace(new RegExp(body.name, 'g'), '[REMOVED]') + "\n\nYou have 5 minutes to answer (case insensitive)"
+      }
+    }
+
+    message.channel.sendMessage("", { embed: result }).then(() => {
+      message.channel.awaitMessages(m => body.name.toLowerCase() == m.content.toLowerCase(), {
         max: 1,
         time: 300000, 
         errors: ['time']
       }).then(m => {
-        message.channel.sendMessage('Congratulation! ' + m.first().author + ' has got the correct answer! The answer is ' + servantList.name + ' (ID: ' + servantList.id + ')');
+        message.channel.sendMessage('Congratulation! ' + m.first().author + ' has got the correct answer! The answer is ' + body.name + ' (ID: ' + body.id + ')');
       }).catch(() => {
-        message.channel.sendMessage('5 minutes has passed, and no one has the answer. The correct answer is ' + servantList.name + ' (ID: ' + servantList.id + ')');
+        message.channel.sendMessage('5 minutes has passed, and no one has the answer. The correct answer is ' + body.name + ' (ID: ' + body.id + ')');
       });
     })
   });

@@ -11,6 +11,7 @@ var emojis = {
   "tableflip": "(╯°□°）╯︵ ┻━┻",
   "unflip": "┬─┬﻿ ノ( ゜-゜ノ)",
   "shrug": "¯\\_(ツ)_/¯",
+  "police": "http://i.imgur.com/YCxseg7.png"
 }
 emojiList = [];
 for (item in emojis) { emojiList.push(item); }

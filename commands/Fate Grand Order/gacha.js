@@ -11,17 +11,22 @@ fgo_cooldown = {};
 Array.prototype.rand = function() {
   return this[Math.floor(Math.random()*this.length)];
 }
+function func (data) {
+  let dice = Math.random();
+  let item = "";
+  if (dice <= 0.01)      item = 'S/'  + data.servants["5"].rand(); 
+  else if (dice <= 0.04) item = 'S/'  + data.servants["4"].rand();
+  else if (dice <= 0.44) item = 'S/'  + data.servants["3"].rand();
+  else if (dice <= 0.48) item = 'CE/' + data.ce["5"].rand();
+  else if (dice <= 0.6)  item = 'CE/' + data.ce["4"].rand();
+  else                   item = 'CE/' + data.ce["3"].rand();
+  return item;
+}
+exports.func = func;
 function roll1 (ctx, data, pos) {
+  item = func(data);
   return new Promise((resolve, reject) => {
     let card = new Canvas.Image();
-    let dice = Math.random();
-    let item = "";
-    if (dice <= 0.01)      item = 'S/'  + data.servants["5"].rand(); 
-    else if (dice <= 0.04) item = 'S/'  + data.servants["4"].rand();
-    else if (dice <= 0.44) item = 'S/'  + data.servants["3"].rand();
-    else if (dice <= 0.48) item = 'CE/' + data.ce["5"].rand();
-    else if (dice <= 0.6)  item = 'CE/' + data.ce["4"].rand();
-    else                   item = 'CE/' + data.ce["3"].rand();
     request({
       url: db_path + 'images/' + item + '.png',
       encoding: null

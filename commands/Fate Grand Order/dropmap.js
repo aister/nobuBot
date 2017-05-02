@@ -7,11 +7,11 @@ dropMap = {
   'america': 'http://vignette3.wikia.nocookie.net/fategrandorder/images/a/af/E_Pluribus_Unum_Ascension_Map.jpg',
   'camelot': 'http://vignette3.wikia.nocookie.net/fategrandorder/images/a/a6/CamelotAscensionMap.png'
 }
-mapList = [];
+dropMapList = [];
 for (m in dropMap) {
-  mapList.push(m.charAt(0).toUpperCase() + m.slice(1));
+  dropMapList.push(m.charAt(0).toUpperCase() + m.slice(1));
 }
-mapList = mapList.join(' | ');
+dropMapList = dropMapList.join(' | ');
 exports.help = "dropmap <map name> :: Get the drop map of certain stage. Omit <map name> to get list of all maps\n\nMaps images are screenshots from Cirnopedia";
 exports.exec = (client, message, msgArray, callback) => {
   if (msgArray.length > 1) {
@@ -19,9 +19,9 @@ exports.exec = (client, message, msgArray, callback) => {
     if (dropMap[item]) {
       message.channel.sendFile(dropMap[item], item + '.png', 'Drop Map for ' + item.charAt(0).toUpperCase() + item.slice(1) + ':');
     } else {
-      message.channel.sendMessage('List of all available maps:\n' + mapList);
+      message.channel.sendMessage('List of all available maps:\n' + dropMapList);
     }
   } else {
-    message.channel.sendMessage('List of all available maps:\n' + mapList);
+    message.channel.sendMessage('List of all available maps:\n' + dropMapList);
   }
 }

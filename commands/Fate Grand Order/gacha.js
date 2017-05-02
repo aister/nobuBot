@@ -26,7 +26,8 @@ exports.func = func;
 function roll1 (ctx, data, pos) {
   return new Promise((resolve, reject) => {
     let card = new Canvas.Image();
-    item = func(data);
+    let item = func(data);
+    console.log(item);
     request({
       url: db_path + 'images/' + item + '.png',
       encoding: null

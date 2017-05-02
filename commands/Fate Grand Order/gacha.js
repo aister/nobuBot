@@ -21,12 +21,12 @@ function func (data) {
   else if (dice <= 0.6)  item = 'CE/' + data.ce["4"].rand();
   else                   item = 'CE/' + data.ce["3"].rand();
   return item;
-}
+} 
 exports.func = func;
 function roll1 (ctx, data, pos) {
-  item = func(data);
   return new Promise((resolve, reject) => {
     let card = new Canvas.Image();
+    item = func(data);
     request({
       url: db_path + 'images/' + item + '.png',
       encoding: null
@@ -89,7 +89,6 @@ exports.exec = (bot, message, msgArray, callback) => {
                 if (gEvent[event].ce && gEvent[event].ce[i]) body.ce[i] = body.ce[i].concat(gEvent[event].ce[i]);
               }
             }
-            console.log(body.servants["5"]);
             roll1(ctx, body, [0, 0]).then((result) => {
               message.channel.sendFile(canvas.toBuffer(), "result.png", replyResult(result, bot.prefix));
             });

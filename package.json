@@ -13,7 +13,7 @@
   "dependencies": {
     "discord.js": "11.0.0",
     "flip-text": "^1.1.0",
-    "google-translate-api": "^2.2.2",
+    "google-translate-api": "arthurlacoste/google-translate-api",
     "html-entities": "^1.2.0",
     "request": "^2.79.0",
     "redis": "^2.6.3",

@@ -8,9 +8,6 @@ exports.help = "gacha <optional arguments> :: Do a simulated FGO Gacha\n\n" +
   "== Roll rate\nServant :: 1% SSR | 3% SR | 40% R\nCE      :: 4% SSR | 12% SR | 40% R\n\n" + 
   "Note: Pick up rate and guaranteed cards are not considered";
 fgo_cooldown = {};
-Array.prototype.rand = function() {
-  return this[Math.floor(Math.random()*this.length)];
-}
 function func (data) {
   let dice = Math.random();
   let item = "";

@@ -22,7 +22,7 @@ exports.exec = (client, callback) => {
         }
       }
     });
-    client.help += help.join(' | ') + '\n';
+    client.help += help.join(' | ') + '\n\n';
   });
   fs.readdirSync(__dirname + '/../events/').forEach(function(file) {
     var name = file.replace('.js', '');

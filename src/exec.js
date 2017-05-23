@@ -15,8 +15,8 @@ exports.exec = (client, message, ping) => {
       }
     } else {
       if (msg in client.emoji) {
-        if (client.emoji[msg].includes("http://")) message.channel.sendFile(client.emoji[msg]);
-        else message.channel.sendMessage(client.emoji[msg]);
+        if (client.emoji[msg].includes("http://")) message.channel.send("", {file: {attachment: client.emoji[msg]}});
+        else message.channel.send(client.emoji[msg]);
       }
     }
   }

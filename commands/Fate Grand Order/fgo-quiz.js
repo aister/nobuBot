@@ -16,7 +16,7 @@ exports.exec = (bot, message, msgArray, callback) => {
     }
     body = Math.random();
     if (body <= 0.5) {
-      body = servantList.rand();
+      body = arrayRand(servantList);
       console.log(body.name);
       result = body.NP.split('\n').slice(0, 2).join('\n').replace(/\([^\)]+\) /g, '');
       result = {
@@ -26,7 +26,7 @@ exports.exec = (bot, message, msgArray, callback) => {
     } else {
       body = { desc: "None" };
       while (body.desc == "None") {
-        body = servantList.rand();
+        body = arrayRand(servantList);
       }
       console.log(body.name);
       result = {

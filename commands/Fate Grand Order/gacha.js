@@ -11,12 +11,12 @@ fgo_cooldown = {};
 function func (data) {
   let dice = Math.random();
   let item = "";
-  if (dice <= 0.01)      item = 'S/'  + data.servants["5"].rand(); 
-  else if (dice <= 0.04) item = 'S/'  + data.servants["4"].rand();
-  else if (dice <= 0.44) item = 'S/'  + data.servants["3"].rand();
-  else if (dice <= 0.48) item = 'CE/' + data.ce["5"].rand();
-  else if (dice <= 0.6)  item = 'CE/' + data.ce["4"].rand();
-  else                   item = 'CE/' + data.ce["3"].rand();
+  if (dice <= 0.01)      item = 'S/'  + arrayRand(data.servants["5"]); 
+  else if (dice <= 0.04) item = 'S/'  + arrayRand(data.servants["4"]);
+  else if (dice <= 0.44) item = 'S/'  + arrayRand(data.servants["3"]);
+  else if (dice <= 0.48) item = 'CE/' + arrayRand(data.ce["5"]);
+  else if (dice <= 0.6)  item = 'CE/' + arrayRand(data.ce["4"]);
+  else                   item = 'CE/' + arrayRand(data.ce["3"]);
   return item;
 } 
 exports.func = func;

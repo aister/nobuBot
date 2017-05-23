@@ -9,7 +9,7 @@ exports.exec = (client) => {
   client.db = require('redis').createClient(process.env.REDIS_URL);
   client.dbCache = {};
   client.getDB = (value) => {
-    new Promise(resolve => {
+    return new Promise(resolve => {
       if (value in client.dbCache) {
         resolve();
       } else {

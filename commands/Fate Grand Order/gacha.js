@@ -9,6 +9,9 @@ exports.help = "gacha <optional arguments> :: Do a simulated FGO Gacha\n\n" +
   "Note: Pick up rate and guaranteed cards are not considered";
 fgo_cooldown = {};
 function func (data) {
+  function arrayRand(arr) {
+    return arr[Math.floor(Math.random()*arr.length)];
+  }
   let dice = Math.random();
   let item = "";
   if (dice <= 0.01)      item = 'S/'  + arrayRand(data.servants["5"]); 

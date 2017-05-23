@@ -2,6 +2,9 @@ var request = require('request');
 exports.help = "fgo-quiz :: get a quiz of a random Servant in Fate Grand Order";
 fgo_quiz = {};
 exports.exec = (bot, message, msgArray, callback) => {
+  function arrayRand(arr) {
+    return arr[Math.floor(Math.random()*arr.length)];
+  }
   if (fgo_quiz[message.channel.id]) {
     message.channel.send("Another quiz is currently taking place, please wait until it's done to start a new one");
     return;

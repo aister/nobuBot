@@ -1,8 +1,5 @@
 var Discord = require("discord.js");
 exports.exec = (client) => {
-  function arrayRand(arr) {
-    return arr[Math.floor(Math.random()*arr.length)];
-  }
   console.log('Initiate Client');
   client.initTime = Date.now();
   client.bot = new Discord.Client();

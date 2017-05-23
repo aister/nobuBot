@@ -4,8 +4,8 @@ exports.exec = (bot, message, msgArray, callback) => {
     title: "Feedback received!",
     description: msgArray.slice(1).join(' '),
     footer: {
-      text: "Sent by " + message.author.username + " (" + message.author.id + ")"
+      text: "Sent by " + message.author.username + " (" + message.author.id + ") from channel " + message.channel.id
     }
   }
-  bot.bot.channels.get('265147311615639553').sendMessage('', {embed}).catch(console.log)
+  bot.bot.channels.get('265147311615639553').send('', {embed}).catch(console.log)
 }

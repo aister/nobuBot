@@ -5,7 +5,7 @@ exports.exec = (client, message, msgArray, callback) => {
     message.content = client.prefix + msgArray.slice(1).join(' ');
     client.exec(client, message, ping);
   } else {
-    message.channel.sendMessage('Pinging...').then(msg => {
+    message.channel.send('Pinging...').then(msg => {
       msg.edit('Pong! It took ' + (Date.now() - ping) + 'ms');
     });
   }

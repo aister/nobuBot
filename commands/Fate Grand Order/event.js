@@ -2,9 +2,9 @@ exports.help = "event :: Get info for the current, or next event";
 function send(result, message, func) {
   if (result) {
     obj = JSON.parse(result);
-    message.channel.sendMessage('', {embed: func(obj) });
+    message.channel.send('', {embed: func(obj) });
   } else {
-    message.channel.sendMessage("Event not found.");
+    message.channel.send("Event not found.");
   }
 }
 exports.func = (obj) => {

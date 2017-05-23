@@ -5,7 +5,7 @@ let cooldown = {};
 exports.exec = (bot, message, msgArray, callback) => {
   if (message.attachments.first()) msgArg = message.attachments.first().url;
   else msgArg = "http://i.imgur.com/b00ZHMN.png";
-  message.channel.sendFile(msgArg, "image.png", "Converting, please wait...").then(m => {
+  message.channel.send("Converting, please wait...", {file: {attachment: msgArg, name: "image.png"}}).then(m => {
     msgArg = m.attachments.first().url;
     request({url: msgArg, encoding: null}, function (err, res, body) {
       //Canvas.registerFont('honoka.ttf', {family: 'FGO'});
@@ -112,7 +112,7 @@ exports.exec = (bot, message, msgArray, callback) => {
 
 
                 m.delete();
-                message.channel.sendFile(canvas.toBuffer());
+                message.channel.send("", {file: {attachment: canvas.toBuffer()}});
               };
               img_logo.src = body;
             });

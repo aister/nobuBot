@@ -6,7 +6,7 @@ exports.exec = (bot, message, msgArray, callback) => {
       title: "Google Translation",
       description: '```\n' + res.text + "```"
     }
-    message.channel.sendMessage('', {embed});
+    message.channel.send('', {embed});
   }).catch(err => {
       console.error(err);
   });

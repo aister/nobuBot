@@ -8,7 +8,7 @@ function removeToken(client, str) {
 }
 exports.exec = (client, message, msgArray, callback) => {
   if (message.author.id == client.config.ownerID) {
-    log = (content) => { message.channel.sendMessage(content); };
+    log = (content) => { message.channel.send(content); };
     commands = (c) => {
       cl = [];
       if (c) {
@@ -22,15 +22,15 @@ exports.exec = (client, message, msgArray, callback) => {
     }
     command = commands();
     code = msgArray.slice(1).join(' ');
-    if (!code.length) return message.channel.sendMessage('there\'s no code!').then(callback);
+    if (!code.length) return message.channel.send('there\'s no code!').then(callback);
     try {
       var evaled = eval(code);
       if (typeof evaled == "object")
-        message.channel.sendMessage("`EVAL TO:`\n```js\n" + removeToken(client, util.inspect(evaled, {depth: 0})) + "\n```").then(callback);
+        message.channel.send("`EVAL TO:`\n```js\n" + removeToken(client, util.inspect(evaled, {depth: 0})) + "\n```").then(callback);
       else
-        message.channel.sendMessage("`EVAL TO:`\n```js\n" + removeToken(client, evaled) + "\n```").then(callback);
+        message.channel.send("`EVAL TO:`\n```js\n" + removeToken(client, evaled) + "\n```").then(callback);
     } catch(err) {
-        message.channel.sendMessage("`ERROR:`\n```js\n" + err + "\n```").then(callback);
+        message.channel.send("`ERROR:`\n```js\n" + err + "\n```").then(callback);
     }
   }
 }

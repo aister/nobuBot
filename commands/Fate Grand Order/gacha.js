@@ -27,7 +27,6 @@ function roll1 (ctx, data, pos) {
   return new Promise((resolve, reject) => {
     let card = new Canvas.Image();
     let item = func(data);
-    console.log(item);
     request({
       url: db_path + 'images/' + item + '.png',
       encoding: null
@@ -55,7 +54,7 @@ let db_path = 'https://raw.githubusercontent.com/aister/nobuDB/master/';
 function replyResult (text, prefix) {
   return "The results are in, here are the cards you get (in card ID):```\n" + 
   text + "```\nIf you see a card that are out of place, please report it to Aister via `" + 
-  prefix + "feedback` command"
+  prefix + "feedback` command\n\nPlease note that guaranteed 4\* as well as guaranteed at least 3\* servant for 10-roll isn't included in this gacha simulator"
 };
 exports.exec = (bot, message, msgArray, callback) => {
   let canvas = "";
@@ -68,7 +67,7 @@ exports.exec = (bot, message, msgArray, callback) => {
       gEvent = gEvent.map((event, i) => {
         return "**__" + event.name + " (ID: " + (i + 1) + ")__**\n" + event.desc;
       });
-      message.channel.sendMessage(gEvent.join('\n\n')).catch(() => {});
+      message.channel.send(gEvent.join('\n\n')).catch(() => {});
     });
   } else {
     request({
@@ -91,12 +90,12 @@ exports.exec = (bot, message, msgArray, callback) => {
               }
             }
             roll1(ctx, body, [0, 0]).then((result) => {
-              message.channel.sendFile(canvas.toBuffer(), "result.png", replyResult(result, bot.prefix));
+              message.channel.send(replyResult(results, bot.prefix), {file: {attachment: canvas.toBuffer(), name: "result.png"}});
             });
           })
         } else {
           roll1(ctx, body, [0, 0]).then((result) => {
-            message.channel.sendFile(canvas.toBuffer(), "result.png", replyResult(result, bot.prefix));
+            message.channel.send(replyResult(results, bot.prefix), {file: {attachment: canvas.toBuffer(), name: "result.png"}});
           });
         }
       } else {
@@ -104,7 +103,7 @@ exports.exec = (bot, message, msgArray, callback) => {
         if (!fgo_cooldown[message.author.id]) fgo_cooldown[message.author.id] = message.createdTimestamp;
         else time = message.createdTimestamp - fgo_cooldown[message.author.id] - 900000;
         if (time < 0 && message.author.id != bot.config.ownerID) {
-          message.channel.sendMessage("You can only use this command once every 15 minutes. You can use it again in " + Math.floor( - time / 60000) + " minutes " + (Math.ceil( - time / 1000) % 60) + " seconds");
+          message.channel.send("You can only use this command once every 15 minutes. You can use it again in " + Math.floor( - time / 60000) + " minutes " + (Math.ceil( - time / 1000) % 60) + " seconds");
         } else {
           fgo_cooldown[message.author.id] = message.createdTimestamp;
           canvas = new Canvas(645, 444);
@@ -123,13 +122,13 @@ exports.exec = (bot, message, msgArray, callback) => {
               }
               roll10(ctx, body).then((results) => {
                 results = results.slice(0, 5).join(' | ') + "\n" + results.slice(5).join(' | ');
-                message.channel.sendFile(canvas.toBuffer(), "result.png", replyResult(results, bot.prefix));
+                message.channel.send(replyResult(results, bot.prefix), {file: {attachment: canvas.toBuffer(), name: "result.png"}});
               });
             });
           } else {
             roll10(ctx, body).then((results) => {
               results = results.slice(0, 5).join(' | ') + "\n" + results.slice(5).join(' | ');
-              message.channel.sendFile(canvas.toBuffer(), "result.png", replyResult(results, bot.prefix));
+              message.channel.send(replyResult(results, bot.prefix), {file: {attachment: canvas.toBuffer(), name: "result.png"}});
             });
           }
         }

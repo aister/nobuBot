@@ -29,7 +29,7 @@ exports.exec = (bot, message, msgArray, callback) => {
         ],
         thumbnail: { url: user.avatarURL }
       };
-      message.channel.sendMessage('', {embed});
+      message.channel.send('', {embed});
     });
   });
 }

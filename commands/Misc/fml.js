@@ -16,9 +16,9 @@ function load() {
 load();
 exports.help = "fml :: Random fml story";
 exports.exec = (bot, message, msgArray, callback) => {
-  if (fml.length == 0) message.channel.sendMessage("I'm not ready yet!!");
+  if (fml.length == 0) message.channel.send("I'm not ready yet!!");
   else {
-    message.channel.sendMessage(decode.decode(fml.shift()));
+    message.channel.send(decode.decode(fml.shift()));
     if (fml.length == 0) load();
   }
 }

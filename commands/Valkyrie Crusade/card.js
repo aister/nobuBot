@@ -44,10 +44,10 @@ exports.exec = (bot, message, msgArray, callback) => {
           },
           url: body.link
         }
-        message.channel.sendMessage('', {embed}).then(callback).catch(console.log);
-      } else message.channel.sendMessage("Not found").then(callback);
+        message.channel.send('', {embed}).then(callback).catch(console.log);
+      } else message.channel.send("Not found").then(callback);
     });
   } else {
-    message.channel.sendMessage('Wrong syntax');
+    message.channel.send('Wrong syntax');
   }
 }

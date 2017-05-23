@@ -11,6 +11,6 @@ exports.exec = (bot, message, msgArray, callback) => {
     seme.delete(uke.id);
     if (seme.size) seme = seme.random();
     else seme = uke;
-    message.channel.sendMessage("Psshh, I saw " + uke.displayName + " holding hands with " + seme.displayName + " while walking down the street last night!!");
+    message.channel.send("Psshh, I saw " + uke.displayName + " holding hands with " + seme.displayName + " while walking down the street last night!!");
   }).catch(console.log);
 }

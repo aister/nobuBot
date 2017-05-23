@@ -19,6 +19,6 @@ exports.exec = (bot, message, msgArray, callback) => {
       fields,
       description: "\u200b"
     }
-    message.channel.sendMessage('', {embed}).then(callback).catch(console.log);
+    message.channel.send('', {embed}).then(callback).catch(console.log);
   });
 }

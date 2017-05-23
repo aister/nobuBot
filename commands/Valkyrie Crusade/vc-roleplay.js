@@ -3,7 +3,7 @@ exports.help = "vc-roleplay :: Change your nickname to a random maiden in Valkyr
 vcRPcooldown = {};
 exports.exec = (bot, message, msgArray, callback) => {
   if (!message.guild.member(bot.bot.user.id).hasPermission('MANAGE_NICKNAMES')) {
-    message.channel.sendMessage("This command can't be used, because the bot can't change your nickname");
+    message.channel.send("This command can't be used, because the bot can't change your nickname");
     return;
   }
   let name = message.author.username;
@@ -12,7 +12,7 @@ exports.exec = (bot, message, msgArray, callback) => {
   if (!vcRPcooldown[message.author.id]) vcRPcooldown[message.author.id] = message.createdTimestamp;
   else time = message.createdTimestamp - vcRPcooldown[message.author.id] - 3600000;
   if (time < 0 && message.author.id != bot.config.ownerID) {
-    message.channel.sendMessage("You can only use this command once every hour. You can use it again in " + Math.floor( - time / 60000) + " minutes " + (Math.ceil( - time / 1000) % 60) + " seconds");
+    message.channel.send("You can only use this command once every hour. You can use it again in " + Math.floor( - time / 60000) + " minutes " + (Math.ceil( - time / 1000) % 60) + " seconds");
   } else {
     vcRPcooldown[message.author.id] = message.createdTimestamp;
     let chance = Math.random();
@@ -33,7 +33,7 @@ exports.exec = (bot, message, msgArray, callback) => {
             url: body.image
           }
         }
-        message.channel.sendMessage('', {embed}).then(callback).catch(console.log);
+        message.channel.send('', {embed}).then(callback).catch(console.log);
       });
     });
   }

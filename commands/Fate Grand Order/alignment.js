@@ -24,10 +24,10 @@ exports.exec = (bot, message, msgArray, callback) => {
           color: 0xff0000,
           description: "\u200b\n" + result.join('\n\n') + '\n\nPlease use `' + bot.prefix + 'alignment ' + temp + ' <page number>` to go to other pages'
         }
-        message.channel.sendMessage('', {embed}).then(callback).catch(console.log);
-      } else message.channel.sendMessage("Not found").then(callback);
+        message.channel.send('', {embed}).then(callback).catch(console.log);
+      } else message.channel.send("Not found").then(callback);
     });
   } else {
-    message.channel.sendMessage('Wrong syntax');
+    message.channel.send('Wrong syntax');
   }
 }

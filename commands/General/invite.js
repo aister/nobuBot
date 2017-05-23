@@ -6,7 +6,7 @@ exports.exec = (bot, message, msgArray, callback) => {
   if (message.mentions.channels.size > 0) channelID = message.mentions.channels.first().id;
   message.guild.fetchInvites().then(invites => {
     invites = invites.filter(i => i.channel.id == channelID);
-    if (invites.size > 0) message.channel.sendMessage("<http://discord.gg/" + invites.first().code + ">");
-    else message.channel.sendMessage("No invite found for this channel");
+    if (invites.size > 0) message.channel.send("<http://discord.gg/" + invites.first().code + ">");
+    else message.channel.send("No invite found for this channel");
   });
 }

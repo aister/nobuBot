@@ -1,12 +1,15 @@
 exports.exec = (client) => {
   return (member) => {
     if (!client.config.selfbot) {
-      member.guild.defaultChannel.sendMessage('Welcome ' + member + ' to ' + member.guild + '! Enjoy your stay!');
-      if (member.guild.id == "274433246299684864") {
-        member.guild.channels.get("286680607260672000").fetchMessage("290206770293374986").then(m => {
-          member.sendMessage("Welcome " + member + " to " + member.guild.name + "\n\n" + m.content);
-        });
-      }
+      client.getDB('config_' + member.guild.id).then(() => {
+        if (result = JSON.parse(client.dbCache['config_' + member.guild.id])) result = result.welcome;
+        else result = undefined;
+        if (result == undefined || result !== false) {
+          result = result || "Welcome [member] to [guild]! Enjoy your stay!";
+          result = result.replace(/\[member]/g, member).replace(/\[guild]/g, member.guild);
+          member.guild.defaultChannel.send(result);
+        }
+      });
     }
   }
 }

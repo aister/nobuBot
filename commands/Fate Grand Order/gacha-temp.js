@@ -17,10 +17,10 @@ exports.exec = (client, message, msgArray, callback) => {
               if (gEvent[event].servants && gEvent[event].servants[i]) body.servants[i] = body.servants[i].concat(gEvent[event].servants[i]);
               if (gEvent[event].ce && gEvent[event].ce[i]) body.ce[i] = body.ce[i].concat(gEvent[event].ce[i]);
             }
-            message.channel.sendMessage(check("S/" + msgArray[1], body, client.commands.gacha.func));
-          } else message.channel.sendMessage(check("S/" + msgArray[1], body, client.commands.gacha.func));
+            message.channel.send(check("S/" + msgArray[1], body, client.commands.gacha.func));
+          } else message.channel.send(check("S/" + msgArray[1], body, client.commands.gacha.func));
         });
-      } else message.channel.sendMessage(check("S/" + msgArray[1], body, client.commands.gacha.func));
+      } else message.channel.send(check("S/" + msgArray[1], body, client.commands.gacha.func));
     });
   }
 }

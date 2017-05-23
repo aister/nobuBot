@@ -8,7 +8,7 @@ exports.exec = (bot, message, msgArray, callback) => {
   if (!cooldown[message.author.id]) cooldown[message.author.id] = message.createdTimestamp;
   else time = message.createdTimestamp - cooldown[message.author.id] - 900000;
   if (time < 0 && message.author.id != bot.config.ownerID) {
-    message.channel.sendMessage("You can only use this command once every 15 minutes. You can use it again in " + Math.floor( - time / 60000) + " minutes " + (Math.ceil( - time / 1000) % 60) + " seconds");
+    message.channel.send("You can only use this command once every 15 minutes. You can use it again in " + Math.floor( - time / 60000) + " minutes " + (Math.ceil( - time / 1000) % 60) + " seconds");
   } else {
     cooldown[message.author.id] = message.createdTimestamp;
     let chance = Math.random();
@@ -28,7 +28,7 @@ exports.exec = (bot, message, msgArray, callback) => {
           url: body.image
         }
       }
-      message.channel.sendMessage('', {embed}).then(callback).catch(console.log);
+      message.channel.send('', {embed}).then(callback).catch(console.log);
     });
   }
 }

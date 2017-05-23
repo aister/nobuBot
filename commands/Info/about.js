@@ -35,5 +35,5 @@ exports.exec = (client, message, msgArray, callback) => {
       }
     ]
   };
-  message.channel.sendMessage('', {embed})
+  message.channel.send('', {embed})
 }

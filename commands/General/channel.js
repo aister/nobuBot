@@ -1,10 +1,8 @@
 exports.help = "channel :: Check current channel info";
 exports.exec = (bot, message, msgArray, callback) => {
   if (!message.guild) return;
-    console.log('server');
     var invite = "Not created";
     message.guild.fetchInvites().then(invites => {
-      console.log('yo');
       invites = invites.filter(i => i.channel.id == message.channel.id);
       if (invites.size > 0) {
         invite = "<http://discord.gg/" + invites.first().code + ">";
@@ -36,6 +34,6 @@ exports.exec = (bot, message, msgArray, callback) => {
         ],
         description: "Topic: " + topic + "\n\u200b"
       }
-      message.channel.sendMessage('', { embed }).catch(console.log);
+      message.channel.send('', { embed }).catch(console.log);
     });
 }

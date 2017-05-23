@@ -6,5 +6,5 @@ exports.func = (max, min) => {
   else return false;
 }
 exports.exec = (bot, message, msgArray, callback) => {
-  message.channel.sendMessage(this.func(msgArray[2], msgArray[1])).then(callback);
+  message.channel.send(this.func(msgArray[2], msgArray[1])).then(callback);
 }

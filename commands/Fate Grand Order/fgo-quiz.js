@@ -6,7 +6,7 @@ Array.prototype.rand = function() {
 }
 exports.exec = (bot, message, msgArray, callback) => {
   if (fgo_quiz[message.channel.id]) {
-    message.channel.sendMessage("Another quiz is currently taking place, please wait until it's done to start a new one");
+    message.channel.send("Another quiz is currently taking place, please wait until it's done to start a new one");
     return;
   }
   request({ 
@@ -38,16 +38,16 @@ exports.exec = (bot, message, msgArray, callback) => {
       }
     }
     fgo_quiz[message.channel.id] = 1;
-    message.channel.sendMessage("", { embed: result }).then(() => {
+    message.channel.send("", { embed: result }).then(() => {
       message.channel.awaitMessages(m => body.name.toLowerCase() == m.content.toLowerCase(), {
         max: 1,
         time: 300000, 
         errors: ['time']
       }).then(m => {
-        message.channel.sendMessage('Congratulation! ' + m.first().author + ' has got the correct answer! The answer is ' + body.name + ' (ID: ' + body.id + ')');
+        message.channel.send('Congratulation! ' + m.first().author + ' has got the correct answer! The answer is ' + body.name + ' (ID: ' + body.id + ')');
         fgo_quiz[message.channel.id] = 0;
       }).catch(() => {
-        message.channel.sendMessage('5 minutes has passed, and no one has the answer. The correct answer is ' + body.name + ' (ID: ' + body.id + ')');
+        message.channel.send('5 minutes has passed, and no one has the answer. The correct answer is ' + body.name + ' (ID: ' + body.id + ')');
         fgo_quiz[message.channel.id] = 0;
       });
     })

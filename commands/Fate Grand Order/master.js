@@ -5,10 +5,10 @@ exports.exec = (client, message, msgArray, callback) => {
     url: 'https://raw.githubusercontent.com/aister/nobuDB/master/master.json',
     json: true
   }, function(err, res, body) {
-    if (body.master) message.channel.sendMessage('', { embed: {
+    if (body.master) message.channel.send('', { embed: {
       title: "Master Mission for this week",
       description: "\u200b\n" + body.master
     }});
-    else message.channel.sendMessage('Some error occured, please try again later');
+    else message.channel.send('Some error occured, please try again later');
   });
 }

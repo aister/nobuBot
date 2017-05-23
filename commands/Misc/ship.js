@@ -6,5 +6,5 @@ exports.exec = (bot, message, msgArray, callback) => {
   gm.delete(uke.id);
   uke = uke.displayName;
   let seme = message.guild.members.random().displayName;
-  message.channel.sendMessage(uke + " x " + seme + " OTP!!");
+  message.channel.send(uke + " x " + seme + " OTP!!");
 }

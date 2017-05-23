@@ -15,9 +15,9 @@ exports.exec = (bot, message, msgArray, callback) => {
         title: "Changelog",
         description: 'Version ' + process.env.HEROKU_RELEASE_VERSION + ': ' + body.message
       }
-      message.channel.sendMessage('', {embed}).then(callback);
+      message.channel.send('', {embed}).then(callback);
     });
   } else {
-    message.channel.sendMessage('Cannot retrieve changelog').then(callback);
+    message.channel.send('Cannot retrieve changelog').then(callback);
   }
 }

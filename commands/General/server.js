@@ -35,6 +35,6 @@ exports.exec = (bot, message, msgArray, callback) => {
         url: message.guild.iconURL
       }
     }
-    message.channel.sendMessage('', {embed}).catch(console.log);
+    message.channel.send('', {embed}).catch(console.log);
   });
 }

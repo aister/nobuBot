@@ -7,13 +7,13 @@ exports.exec = (client, message, msgArray, callback) => {
       followRedirect: false
     }, function(err, res, body) {
       if (res.statusCode == 301) {
-        message.channel.sendMessage(res.headers.location);
+        message.channel.send(res.headers.location);
         callback();
       } else {
-        message.channel.sendMessage(res.request.href);
+        message.channel.send(res.request.href);
       }
     });
   } else {
-    message.channel.sendMessage("Wrong syntax");
+    message.channel.send("Wrong syntax");
   }
 }

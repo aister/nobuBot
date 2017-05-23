@@ -17,11 +17,11 @@ exports.exec = (client, message, msgArray, callback) => {
   if (msgArray.length > 1) {
     item = msgArray.slice(1).join(' ');
     if (dropMap[item]) {
-      message.channel.sendFile(dropMap[item], item + '.png', 'Drop Map for ' + item.charAt(0).toUpperCase() + item.slice(1) + ':');
+      message.channel.send('Drop Map for ' + item.charAt(0).toUpperCase() + item.slice(1) + ':', {file: {attachment: dropMap[item], name: item + '.png'}});
     } else {
-      message.channel.sendMessage('List of all available maps:\n' + dropMapList);
+      message.channel.send('List of all available maps:\n' + dropMapList);
     }
   } else {
-    message.channel.sendMessage('List of all available maps:\n' + dropMapList);
+    message.channel.send('List of all available maps:\n' + dropMapList);
   }
 }

@@ -18,10 +18,10 @@ for (item in emojis) { emojiList.push(item); }
 exports.exec = (client, message, msgArray, callback) => {
   msgArray = msgArray.slice(1).join(' ');
   if (msgArray.length && (msgArray in emojis)) {
-    if (emojis[msgArray].startsWith('http')) message.channel.sendFile(emojis[msgArray]);
-    else message.channel.sendMessage(emojis[msgArray]);
+    if (emojis[msgArray].startsWith('http')) message.channel.send("", {file: {attachment: emojis[msgArray]}});
+    else message.channel.send(emojis[msgArray]);
   } else {
-    message.channel.sendMessage('', {embed: {
+    message.channel.send('', {embed: {
       title: "List of all emojis",
       description: "\u200b\n" + emojiList.join(' | ')
     }});

@@ -33,12 +33,12 @@ exports.exec = (client, message, msgArray, callback) => {
           ],
           thumbnail: { url: item.img }
         };
-        message.channel.sendMessage('', {embed});
+        message.channel.send('', {embed});
       } else {
-        message.channel.sendFile('https://raw.githubusercontent.com/aister/nobuDB/master/Ascensionx.gif', 'Ascensionx.gif', 'List of available items:')
+        message.channel.send('List of available items:', {file: {attachment: 'https://raw.githubusercontent.com/aister/nobuDB/master/Ascensionx.gif', name: 'Ascensionx.gif'}});
       }
     });
   } else {
-    message.channel.sendFile('https://raw.githubusercontent.com/aister/nobuDB/master/Ascensionx.gif', 'Ascensionx.gif', 'List of available items:')
+    message.channel.send('List of available items:', {file: {attachment: 'https://raw.githubusercontent.com/aister/nobuDB/master/Ascensionx.gif', name: 'Ascensionx.gif'}});
   }
 }

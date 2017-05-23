@@ -5,6 +5,6 @@ exports.func = (client, str) => {
   return str[client.commands.rnd.func(str.length - 1)];
 }
 exports.exec = (client, message, msgArray, callback) => {
-  if (msgArray.length > 1) message.channel.sendMessage(this.func(client, msgArray.slice(1).join(' '))).then(callback);
-  else message.channel.sendMessage('Unable to get straw, no option provided').then(callback);
+  if (msgArray.length > 1) message.channel.send(this.func(client, msgArray.slice(1).join(' '))).then(callback);
+  else message.channel.send('Unable to get straw, no option provided').then(callback);
 }

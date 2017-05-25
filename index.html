@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset = "utf-8">
+    <meta name = "viewport" content = "width = device-width, initial-scale = 1">
+    <title>NobuBot - The best anime-related Discord bot (probably)</title>
+    <style type = "text/css">
+      body {
+        background-image: url('img/bg.png');
+        background-repeat: no-repeat;
+        background-position: right -50px top;
+        background-color: #ffe7e7;
+        background-size: contain;
+        background-attachment: fixed;
+        margin: 0;
+        height: 100vh;
+        color: #a53333;
+      }
+      a {
+        color: #ff3333;
+        text-decoration: none
+      }
+      #header {
+        height: 50px;
+      }
+      .header_item {
+        float: left;
+        color: #a53333;
+        padding: 16px 30px;
+        cursor: pointer;
+      }
+      .content {
+        width: 600px;
+        margin-left: 30px;
+        text-align: justify;
+      }
+      .content-item {
+        margin: 20px 0;
+      }
+      .content-title {
+        font-weight: bold;
+        font-size: 20px;
+        padding: 5px 0;
+      }
+      td {
+        vertical-align: top;
+        border-top: 1px solid black;
+        padding: 10px;
+      }
+      table {
+        border-collapse: collapse;
+        text-align: left;
+      }
+      .command-title {
+        font-size: 20px;
+        font-weight: bold;
+        text-align: center;
+        margin-bottom: 10px;
+      }
+    </style>
+    <script type="text/javascript" src="commands.js"></script>
+  </head>
+  <body onload="load_docs()">
+    <div id="header">
+      <a class="header_item" href="#about">About</a>
+      <a class="header_item" href="#commands">Commands</a>
+      <a href="https://github.com/aister/nobuBot" class="header_item">Github</a>
+      <a href="https://discordapp.com/oauth2/authorize?scope=bot&client_id=228126136192860160" class="header_item">Invite</a>
+      <a href="https://discord.gg/c3v5QeP" class="header_item">Support Server</a>
+    </div>
+    <div class="content" id="about">
+      <div class="content-item">
+        <div class="content-title">About</div>
+        NobuBot is a Discord bot as well as bot framework made by Aister. It was made as an experiment in making the basic command object handlers, which Aister has wrote up <a href="https://aister.gitbooks.io/discord-js-command-handlers/content/advanced-command-objects.html">a guide about it</a>
+      </div>
+      <div class="content-item">
+        <div class="content-title">Engines and Modules</div>
+        <div id="engine"></div>
+      </div>
+      <div class="content-item">
+        <div class="content-title">Hosting</div>
+        <p>NobuBot is hosted on Heroku, because Aister is a cheapstake who won't pay for proper hosting.</p>
+      </div>
+    </div>
+    <div class="content" id="commands">
+      <div class="content-item">
+        <div class="content-title">Commands</div>
+        <div id="command-content"></div>
+    </div>
+    <script>
+      function load_docs() {
+        var html = "";
+        var comcat = "";
+        var i = 0;
+        for (item in commands) {
+          comcat += "<li><a style=\"color: #a53333\" href=\"#comcat_" + i + "\">" + item + "</a></li>";
+          html += "<div class=\"command_cat\"><div class=\"command-title\" id=\"comcat_" + i + "\">" + item + "</div><table style=\"width: 100%; border-bottom: 1px solid black; margin: 20px 0\">";
+          html += "<tr><td style=\"width: 30%; font-weight: bold\">Commands</td><td style=\"width: 70%; font-weight: bold\">Explanation</td></tr>";
+          for (item2 in commands[item]) {
+            html += "<tr><td style=\"font-weight: bold\">";
+            html += commands[item][item2]
+              .replace(/</g, '[')
+              .replace(/>/g, ']')
+              .replace(/\n/g, '<br>')
+              .replace('::', '</td><td>');
+              + "</td></tr>";
+          }
+          html += "</table></div>";
+          i++;
+        }
+        document.getElementById("command-content").innerHTML = "<span style=\"font-weight: bold\">Command Categories:</span><ul>" + comcat + "</ul>" + html;
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+          if (this.readyState == 4 && this.status == 200) {
+            var result = JSON.parse(this.responseText).dependencies;
+            for (item in result) {
+              if (item == "discord.js") {
+                html = "NobuBot is made using <a href=\"https://github.com/hydrabolt/discord.js\">Discord.js version " + result[item] + "</a>, a discord bot framework for NodeJS, along with these modules:<ul>";
+              } else {
+                html += "<li>" + item + " (" + result[item].replace('^', 'version ') + ")</li>";
+              }
+            }
+            html += "</ul>";
+            document.getElementById("engine").innerHTML = html;
+          }
+        };
+        xhttp.open("GET", "package.json", true);
+        xhttp.send();
+      }
+    </script>
+  </body>
+</html>

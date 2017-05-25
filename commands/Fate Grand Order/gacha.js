@@ -90,12 +90,12 @@ exports.exec = (bot, message, msgArray, callback) => {
               }
             }
             roll1(ctx, body, [0, 0]).then((result) => {
-              message.channel.send(replyResult(results, bot.prefix), {file: {attachment: canvas.toBuffer(), name: "result.png"}});
+              message.channel.send(replyResult(result, bot.prefix), {file: {attachment: canvas.toBuffer(), name: "result.png"}});
             });
           })
         } else {
           roll1(ctx, body, [0, 0]).then((result) => {
-            message.channel.send(replyResult(results, bot.prefix), {file: {attachment: canvas.toBuffer(), name: "result.png"}});
+            message.channel.send(replyResult(result, bot.prefix), {file: {attachment: canvas.toBuffer(), name: "result.png"}});
           });
         }
       } else {

@@ -3,6 +3,7 @@ exports.exec = (client, message, msgArray, callback) => {
   if (message.member.hasPermission('MANAGE_GUILD')) {
     client.getDB('config_' + message.guild.id).then(() => {
       result = JSON.parse(client.dbCache['config_' + message.guild.id]) || {};
+      content = msgArray.slice(1).join(' ');
       if (content.includes('[disable]')) {
         result.welcome = false;
         message.channel.send("Welcome message has been disabled successfully!");

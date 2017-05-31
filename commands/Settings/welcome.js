@@ -11,6 +11,7 @@ exports.exec = (client, message, msgArray, callback) => {
         message.channel.send("Welcome message has been changed successfully!")
       }
       result = JSON.stringify(result);
+      console.log(result);
       client.db.set('config_' + message.guild.id, result, function() {
         client.dbCache['config_' + message.guild.id] = result;
       });

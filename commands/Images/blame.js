@@ -1,7 +1,6 @@
 var Canvas = require('canvas');
 exports.help = "blame <text> :: Blame someone???";
 exports.exec = (bot, message, msgArray, callback) => {
-  console.log(msgArray);
   let canvas = new Canvas(300, 200);
   let ctx = canvas.getContext('2d');
   var maxWidth = 280;

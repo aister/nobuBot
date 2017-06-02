@@ -1,7 +1,6 @@
 var request = require('request');
 exports.help = "danbooru <tags>:: Search for random image with tags\n\nAutomatically turn on safe mode if used outside nsfw channel";
 exports.exec = (client, message, msgArray, callback) => {
-  console.log(msgArray[0]);
   var tag = "";
   if (message.channel.name == "nsfw") {
     if (message.guild.id == "232256303509012480") tag = "rating:q ";

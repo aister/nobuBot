@@ -26,7 +26,6 @@ exports.exec = (bot, message, msgArray, callback) => {
             value: item.slice(1).join('\n') + "\n\u200b"
           });
         });
-        console.log(fields);
         if (result.other) {
           fields.push({
             name: "Other results (in servant ID)",

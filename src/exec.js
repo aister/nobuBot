@@ -9,8 +9,9 @@ exports.exec = (client, message, ping) => {
         client.commands[msgArray[0].toLowerCase()].count++;
         client.commands[msgArray[0].toLowerCase()].exec(client, message, msgArray, function() {
           if (ping) {
-            message.channel.sendMessage('That command took ' + (Date.now() - ping) + ' ms, approx.');
+            message.channel.send('That command took ' + (Date.now() - ping) + ' ms, approx.');
           }
+          console.log("Command " + msgArray[0].toLowerCase() + " was triggered");
         });
       }
     } else {

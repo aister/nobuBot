@@ -7,7 +7,7 @@ exports.exec = (client) => {
         if (result == undefined || result !== false) {
           result = result || "Welcome [member] to [guild]! Enjoy your stay!";
           result = result.replace(/\[member]/g, member).replace(/\[guild]/g, member.guild);
-          member.guild.defaultChannel.send(result);
+          member.guild.defaultChannel.send(result).catch(e => console.log("Can't post welcome message: " + e));
         }
       });
     }

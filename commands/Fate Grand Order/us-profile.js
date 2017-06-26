@@ -26,7 +26,7 @@ exports.exec = (client, message, msgArray, callback) => {
       obj = JSON.parse(result);
       message.channel.send('', {embed: func(message.author, obj)});
     } else {
-      message.channel.send("Profile not found, please use `" + client.prefix + "profile-edit` to create one");
+      message.channel.send("Profile not found, please use `" + client.prefix + "us-profile-edit` to create one");
     }
   });
 }

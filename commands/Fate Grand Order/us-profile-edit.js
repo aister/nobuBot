@@ -1,4 +1,4 @@
-exports.help = "profile-edit name: <Your IGN> | id: <Friend ID> :: Save or edit FGO profile\n\n" +
+exports.help = "us-profile-edit name: <Your IGN> | id: <Friend ID> :: Save or edit FGO profile\n\n" +
                 "Also attach an image that show your support servants (can be screenshot or custom design) by uploading to discord";
 exports.exec = (client, message, msgArray, callback) => {
   client.getDB('fgoUSProfile_' + message.author.id).then(() => {

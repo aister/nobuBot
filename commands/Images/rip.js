@@ -13,7 +13,7 @@ exports.exec = (bot, message, msgArray, callback) => {
       ctx.fillText(words, 237 - metrics.width / 2, 330);
       ctx.font = "bold 30px Arial";
       ctx.fillText("???? - 2017", 160, 380);
-      message.channel.sendFile(canvas.toBuffer());
+      message.channel.send("", {file: {attachment:canvas.toBuffer()}});
     };
     img_bg.src = body;
   });

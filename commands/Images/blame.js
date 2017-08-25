@@ -32,5 +32,5 @@ exports.exec = (bot, message, msgArray, callback) => {
     x = 150 - ctx.measureText(line).width / 2;
     ctx.fillText(line, x, y + (i + 1)*lineHeight);
   });
-  message.channel.sendFile(canvas.toBuffer());
+  message.channel.send("", {file: {attachment: canvas.toBuffer()}});
 }

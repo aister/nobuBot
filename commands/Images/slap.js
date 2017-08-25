@@ -26,7 +26,7 @@ exports.exec = (bot, message, msgArray, callback) => {
       ctx.strokeStyle = "black";
       ctx.strokeText(words, 430 - metrics.width / 2, 130);
       ctx.fillText(words, 430 - metrics.width / 2, 130);
-      message.channel.sendFile(canvas.toBuffer());
+      message.channel.send("", {file: {attachment:canvas.toBuffer()}});
     };
     img_bg.src = body;
   });

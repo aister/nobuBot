@@ -9,6 +9,6 @@ exports.exec = (client, message, msgArray, callback) => {
       title: "Master Mission for this week",
       description: "\u200b\n" + body.master
     }});
-    else message.channel.send('Some error occured, please try again later');
+    else message.channel.send('Some error occured, R~ might have messed up somewhere... again...');
   });
 }

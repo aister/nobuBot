@@ -1,7 +1,9 @@
 const Collection = require('discord.js').Collection;
 const Rumors = [
   "Psshh, I saw [1] holding hands with [2] while walking down the street last night!!",
-  "Psshh, I saw [1] hugging [2] in the amusement park yesterday!!"
+  "Psshh, I saw [1] hugging [2] in the amusement park yesterday!!",
+  "Psshh, I saw [1] touching [2] under nitocris's sheets the other day!",
+  "Psshh, I saw [1] having mana transfer with [2] in the school gym the other day!!"
 ];
 exports.help = "rumor :: spread rumors about two random people in the guild\n\n(It's actually two random people who has said something in the last 100 messages but shhhhhh)";
 exports.exec = (bot, message, msgArray, callback) => {

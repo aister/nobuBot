@@ -16,7 +16,7 @@ exports.exec = (client, message, msgArray, callback) => {
             item = i;
           }
         }
-      }
+      } else item = result[msgArray.toUpperCase()];
       if (item) {
         embed = {
           title: item.name + " - ID: " + msgArray,

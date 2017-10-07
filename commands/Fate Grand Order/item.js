@@ -8,14 +8,12 @@ exports.exec = (client, message, msgArray, callback) => {
       json: true
     }, function(err, res, result) {
       let item = "";
-      if (!(item = result[msgArray])) {
-        if (!(item = result[msgArray.toUpperCase()])) {
-          for (index in result) {
-            i = result[index];
-            if (i.name.toLowerCase().includes(msgArray.toLowerCase())) {
-              msgArray = index;
-              item = i;
-            }
+      if (!(item = result[msgArray.toUpperCase()])) {
+        for (index in result) {
+          i = result[index];
+          if (i.name.toLowerCase().includes(msgArray.toLowerCase())) {
+            msgArray = index;
+            item = i;
           }
         }
       } 

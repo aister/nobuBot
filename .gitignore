@@ -4,3 +4,4 @@ config.json
 selfbot
 *.tmp
 *.bat
+package-lock.json

@@ -1,18 +1,14 @@
-exports.exec = (client, message, ping) => {
+exports.exec = (client, message) => {
   var msg = message.content.trim().replace(/ +/g, ' ');
   if (!message.author.bot) {
-    if (client.config.selfbot && message.author.id !== client.config.ownerID) return;
+    if ((client.config.selfbot || process.env.SELFBOT) && message.author.id !== client.config.ownerID) return;
     if (msg.startsWith(client.prefix)) {
       msg = msg.slice(client.prefix.length);
       msgArray = msg.split(' ');
       if (msgArray[0].toLowerCase() in client.commands) {
         client.commands[msgArray[0].toLowerCase()].count++;
-        client.commands[msgArray[0].toLowerCase()].exec(client, message, msgArray, function() {
-          if (ping) {
-            message.channel.send('That command took ' + (Date.now() - ping) + ' ms, approx.');
-          }
-          console.log("Command " + msgArray[0].toLowerCase() + " was triggered");
-        });
+        client.commands[msgArray[0].toLowerCase()].exec(client, message, msgArray);
+        console.log("Command " + msgArray[0].toLowerCase() + " was triggered");
       }
     } else {
       if (msg in client.emoji) {

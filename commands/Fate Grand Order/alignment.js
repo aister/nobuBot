@@ -11,18 +11,27 @@ exports.exec = (bot, message, msgArray, callback) => {
       temp = msgArray.slice(1, -1).join(' ');
     }
     if (page < 1) page = 1;
-    msgArg = "https://raw.githubusercontent.com/aister/nobuDB/master/fgo_alignments.json";
+    msgArg = "https://raw.githubusercontent.com/aister/nobuDB/master/fgo_main.json";
     request({ url: msgArg, json: true, followRedirect: false }, function(err, res, result) {
-      if (result = result[temp.toLowerCase()]) {
-        maxPage = Math.ceil(result.length / 10);
+      msgArg = [];
+      for (let id in result) {
+        if (result[id].alignment.toLowerCase().includes(temp.toLowerCase())) {
+          msgArg.push({
+            name: result[id].name,
+            id: result[id].id
+          });
+        }
+      }
+      if (msgArg) {
+        maxPage = Math.ceil(msgArg.length / 10);
         if (page > maxPage) {
           page = maxPage;
         }
-        result = result.slice((page - 1) * 10, page * 10).map(item => {return item.name + " (ID: " + item.id + ")"});
+        msgArg = msgArg.slice((page - 1) * 10, page * 10).map(item => {return item.name + " (ID: " + item.id + ")"});
         embed = {
           title: "Servants with " + temp + ' alignment (Page ' + page + '/' + maxPage +'):',
           color: 0xff0000,
-          description: "\u200b\n" + result.join('\n\n') + '\n\nPlease use `' + bot.prefix + 'alignment ' + temp + ' <page number>` to go to other pages'
+          description: "\u200b\n" + msgArg.join('\n\n') + '\n\nPlease use `' + bot.prefix + 'alignment ' + temp + ' <page number>` to go to other pages'
         }
         message.channel.send('', {embed}).then(callback).catch(console.log);
       } else message.channel.send("Not found").then(callback);

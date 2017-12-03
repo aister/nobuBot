@@ -1,5 +1,5 @@
 var request = require('request');
-exports.help = "vc-waifu :: Marry a random maiden in Valkyrie Crusade\n\nCurrent Rate: 0.2% LR | 2.8% UR | 17% SR | 30% R | 50% N";
+exports.help = "fgo-waifu :: Marry a random Servant in Fate Grand Order. Could be male or female though!\n\nCurrent Rate: 1% 5* | 7% 4* | 20% 3* | 30% 2* | 42% 1*";
 let cooldown = {};
 exports.exec = (bot, message, msgArray, callback) => {
   let name = message.author.username;
@@ -12,20 +12,23 @@ exports.exec = (bot, message, msgArray, callback) => {
   } else {
     cooldown[message.author.id] = message.createdTimestamp;
     let chance = Math.random();
-    if (chance <= 0.002) msgArg = "LR";
-    else if (chance <= 0.03) msgArg = "UR";
-    else if (chance <= 0.2) msgArg = "SR";
-    else if (chance <= 0.5) msgArg = "R";
-    else msgArg = "N";
-    request({ url: "https://raw.githubusercontent.com/aister/nobuDB/master/vc.json", json: true, followRedirect: false }, function(err, res, result) {
-      body = result.filter(item => { return item.rarity == msgArg; });
+    if (chance <= 0.01) msgArg = "5";
+    else if (chance <= 0.03) msgArg = "4";
+    else if (chance <= 0.2) msgArg = "3";
+    else if (chance <= 0.5) msgArg = "2";
+    else msgArg = "1";
+    request({ url: "https://raw.githubusercontent.com/aister/nobuDB/master/fgo_main.json", json: true, followRedirect: false }, function(err, res, result) {
+      let body = [];
+      for (let id in result) {
+        if (result[id].rarity == msgArg) body.push(result[id]);
+      }
       body = body[bot.commands.rnd.func(body.length - 1, 0)];
       embed = {
         title: "Congratulation!!",
         color: 0xff0000,
-        description: "\u200b\nCongratulation! " + name + " has married to " + body.name + "! She has a rarity of " + body.rarity + ", how lucky!",
+        description: "\u200b\nCongratulation! " + name + " has married to " + body.name + "! He/She has a rarity of " + body.rarity + ", how lucky!",
         image: {
-          url: body.image
+          url: `https://fate-go.cirnopedia.org/icons/servant_card/${body.id}1.jpg`
         }
       }
       message.channel.send('', {embed}).then(callback).catch(console.log);

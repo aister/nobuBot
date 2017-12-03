@@ -1,6 +1,6 @@
 exports.exec = (client) => {
   return (member) => {
-    if (!client.config.selfbot) {
+    if (!client.config.selfbot && !process.env.SELFBOT) {
       client.getDB('config_' + member.guild.id).then(() => {
         if (result = JSON.parse(client.dbCache['config_' + member.guild.id])) result = result.welcome;
         else result = undefined;

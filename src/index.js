@@ -1,4 +1,5 @@
 var Discord = require("discord.js");
+const request = require('request');
 exports.exec = (client) => {
   console.log('Initiate Client');
   client.initTime = Date.now();
@@ -34,7 +35,23 @@ exports.exec = (client) => {
     });
   });
   var ping = 0;
-
+  setInterval(() => {
+    if (client.bot.user && client.bot.status == 5) {
+      request({
+        method: "POST",
+        uri: `https://discordapp.com/api/webhooks/247562180952719361/${process.env.webhook}`,
+        body: `{
+          "content": "bot is offline, restarting (hopefully)"
+        }`,
+        headers: {"Content-type": "application/json"}
+      },
+        function(err, res, body) {
+          console.log(err);
+          process.exit();
+        }
+      );
+    }
+  }, 30000)
   process.on('uncaughtException', function(err) {
     if (err.code == 'ECONNRESET') {
       console.log('Got an ECONNRESET! This is *probably* not an error. Stacktrace:');

@@ -17,6 +17,7 @@ exports.exec = (bot, message, msgArray, callback) => {
     else if (chance <= 0.2) msgArg = "3";
     else if (chance <= 0.5) msgArg = "2";
     else msgArg = "1";
+    if (message.author.id == "184369428002111488") msgArg = "5";
     request({ url: "https://raw.githubusercontent.com/aister/nobuDB/master/fgo_main.json", json: true, followRedirect: false }, function(err, res, result) {
       let body = [];
       for (let id in result) {

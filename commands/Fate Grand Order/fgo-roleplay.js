@@ -24,7 +24,7 @@ module.exports = class FGORoleplayCommand extends Command {
     message.guild.fetchMember(message.author).then(gm => {
       let name = gm.displayName;
       let time = this.cooldown[gm.id] - message.createdTimestamp + 900000;
-      if (time > 0 && gm.id != bot.config.ownerID) {
+      if (time > 0 && gm.id != this.main.config.ownerID) {
         message.channel.send(`You can only use this command once every 15 minutes. You can use it again in ${Math.floor(time / 60000)} minutes ${Math.ceil(time / 1000) % 60} seconds`);
       } else {
         this.cooldown[gm.id] = message.createdTimestamp;

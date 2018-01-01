@@ -73,7 +73,7 @@ module.exports = class GachaCommand extends Command {
         });
       } else {
         let time = this.cooldown[message.author.id] - message.createdTimestamp + 900000;
-        if (time > 0 && message.author.id != bot.config.ownerID) {
+        if (time > 0 && message.author.id != this.main.config.ownerID) {
           message.channel.send(`You can only use this command once every 15 minutes. You can use it again in ${Math.floor(time / 60000)} minutes ${Math.ceil(time / 1000) % 60} seconds`);
         } else {
           this.cooldown[message.author.id] = message.createdTimestamp;

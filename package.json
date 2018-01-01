@@ -3,7 +3,7 @@
   "version": "2.1.0",
   "description": "A discord bot",
   "engines": {
-    "node": "7.0.0",
+    "node": "9.2.0",
     "npm": "3.10.8"
   },
   "main": "index.js",

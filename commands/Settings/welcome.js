@@ -1,22 +1,40 @@
-exports.help = "welcome <message> :: set welcome message for new members (only for users with Manage Server permission)\n\nUse [member] and [guild] (the square brackets are included) as placeholder for new member's name and guild's name\nUse [disable] (square brackets included) to disable welcoming message";
-exports.exec = (client, message, msgArray, callback) => {
-  if (message.member.hasPermission('MANAGE_GUILD')) {
-    client.getDB('config_' + message.guild.id).then(() => {
-      result = JSON.parse(client.dbCache['config_' + message.guild.id]) || {};
-      content = msgArray.slice(1).join(' ');
-      if (content.includes('[disable]')) {
-        result.welcome = false;
-        message.channel.send("Welcome message has been disabled successfully!");
+const Command = require('../../main/command');
+
+module.exports = class WelcomeCommand extends Command {
+  constructor(main) {
+    super(main, {
+      name: "welcome",
+      category: "Setting",
+      args: [
+        {
+          name: "Message",
+          desc: "The message to show whenever "
+        },
+        {
+          name: "Tag content",
+          desc: "The content for the tags. Omit to delete tag"
+        }
+      ],
+      help: "Edit custom tags, or see the list of all tags. Tags are guild-exclusive.",
+      caseSensitive: true
+    })
+  }
+  run(message, args, prefix) {
+    args = args.join(' ');
+    this.main.db.get(`config_${message.guild.id}`).then(config => {
+      if (config) config = JSON.parse(config);
+      else config = {};
+      args = args.join(' ');
+      if (args == "[disable]") {
+        config.welcome = false;
+        args = "Welcome message has been disabled successfully!";
       } else {
-        result.welcome = content;
-        message.channel.send("Welcome message has been changed successfully!")
+        config.welcome = `${message.channel.id}:${args}`;
+        args = "Welcome message has been changed successfully!";
       }
-      result = JSON.stringify(result);
-      client.db.set('config_' + message.guild.id, result, function() {
-        client.dbCache['config_' + message.guild.id] = result;
+      this.main.db.set(`config_${message.guild.id}`, JSON.stringify(config)).then(() => {
+        message.channel.send(args);
       });
     });
-  } else {
-    message.channel.send("You don't have MANAGE SERVER permission, you can't use this command");
   }
 }

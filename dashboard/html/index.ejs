@@ -1,0 +1,39 @@
+<% include ./header %>
+    <div class="content">
+      <div class="main">
+        <div class="content-item">
+          <div class="title">About</div>
+          <div>NobuBot is a Discord bot as well as bot framework made by Aister. It was made as an experiment in making the basic command object handlers, which Aister has wrote up a <a href="https://aister.gitbooks.io/discord-js-command-handlers/content/advanced-command-objects.html">guide</a> about it</div>
+        </div>
+        <div class="content-item">
+          <div class="title">Engines</div>
+          <div id="engine"><a href="https://github.com/hydrabolt/discord.js">Discord.js version <%= djs %></a></div>
+        </div>
+        <div class="content-item">
+          <div class="title">Hosting</div>
+          <div>NobuBot is hosted on Heroku, because Aister is a cheapstake who won't pay for proper hosting.</div>
+        </div>
+        <div class="content-item">
+          <div class="title">Main Features</div>
+          <div>
+            <ul>
+              <li>Fate Grand Order related commands, including Servant search, Item drop list and Profile</li>
+              <li>Image Generation</li>
+              <li>Pun and Straw commands</li>
+              <li>Valkyrie Crusade related commands, including Card search and Profile</li>
+              <li>And many more...</li>
+            </ul>
+          </div>
+        </div>
+        <div class="content-item">
+          <div class="title">Source Code</div>
+          <div>NobuBot is fully open sourced (except for the authentication tokens obviously). The source code can be found <a href="https://github.com/aister/nobuBot">here</a>. But i-i-it's not like I w-w-want you to look at it or something ok?</div>
+        </div>
+      </div>
+      <div class="sidebar">
+        <% include ./sidebar %>
+      </div>
+    </div>
+    <% include ./footer %>
+  </body>
+</html>

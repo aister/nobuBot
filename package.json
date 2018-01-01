@@ -13,12 +13,13 @@
   "dependencies": {
     "canvas": "^1.6.7",
     "discord.js": "11.1.0",
+    "ejs": "^2.5.7",
+    "express": "^4.16.2",
     "flip-text": "^1.1.0",
-    "gifencoder": "^1.1.0",
     "google-translate-api": "arthurlacoste/google-translate-api",
     "html-entities": "^1.2.0",
     "redis": "^2.6.3",
-    "request": "^2.79.0"
+    "ws": "^3.3.3"
   },
   "keywords": [
     "node",

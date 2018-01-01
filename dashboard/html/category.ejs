@@ -1,0 +1,22 @@
+<% include ./header %>
+    <div class="content">
+      <div class="main">
+        <% categories.forEach(function (category) { %>
+          <div class="content-item">
+            <div class="title" id="<%= encodeURI(category[0]); %>"><%= category[0] %></div>
+            <div class="flex">
+              <% category[1].forEach(function (command) { %>
+                <div class="command-name"><a href="/command/<%= command.name %>"><%= command.name %></a></div>
+                <div class="command-desc"><%- command.desc %></div>
+              <% }) %>
+            </div>
+          </div>
+        <% }) %>
+      </div>
+      <div class="sidebar">
+        <% include ./sidebar %>
+      </div>
+    </div>
+    <% include ./footer %>
+  </body>
+</html>

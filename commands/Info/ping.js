@@ -1,12 +1,16 @@
-exports.help = "ping :: Poke the bot, see if it's alive";
-exports.exec = (client, message, msgArray, callback) => {
-  ping = Date.now();
-  if (msgArray.length > 1) {
-    message.content = client.prefix + msgArray.slice(1).join(' ');
-    client.exec(client, message, ping);
-  } else {
+const Command = require('../../main/command');
+
+module.exports = class PingCommand extends Command {
+  constructor(main) {
+    super(main, {
+      name: "ping",
+      category: "Bot Info",
+      help: "Poke the bot, see if it's alive"
+    });
+  }
+  run(message, args, prefix) {
     message.channel.send('Pinging...').then(msg => {
-      msg.edit('Pong! It took ' + (Date.now() - ping) + 'ms');
+      msg.edit(`Pong! It took ${msg.createdTimestamp - message.createdTimestamp}ms. Hearbeat ping is ${Math.round(this.main.client.ping)}ms`);
     });
   }
 }

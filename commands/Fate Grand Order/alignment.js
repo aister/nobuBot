@@ -1,42 +1,65 @@
-var request = require('request');
-exports.help = "alignment <search term> <page number>:: Search for servants with a specific alignment";
-exports.exec = (bot, message, msgArray, callback) => {
-  if (msgArray.length > 1) {
-    if (isNaN(msgArray[msgArray.length - 1])) {
-      page = 1;
-      temp = msgArray.slice(1).join(' ');
-    }
-    else {
-      page = parseInt(msgArray[msgArray.length - 1]);
-      temp = msgArray.slice(1, -1).join(' ');
-    }
-    if (page < 1) page = 1;
-    msgArg = "https://raw.githubusercontent.com/aister/nobuDB/master/fgo_main.json";
-    request({ url: msgArg, json: true, followRedirect: false }, function(err, res, result) {
-      msgArg = [];
-      for (let id in result) {
-        if (result[id].alignment.toLowerCase().includes(temp.toLowerCase())) {
-          msgArg.push({
-            name: result[id].name,
-            id: result[id].id
-          });
+const snek = require('snekfetch');
+const Command = require('../../main/command');
+const Constants = require('../../main/const');
+
+module.exports = class AlignmentCommand extends Command {
+  constructor(main) {
+    super(main, {
+      name: "alignment",
+      category: "Fate Grand Order",
+      args: [
+        {
+          name: "Search Term",
+          desc: "The search terms (Chaotic, Neutral, Good, etc.)"
+        },
+        {
+          name: "Page Number",
+          desc: "Should be number, obviously. This is optional and will be 1 if omitted"
         }
+      ],
+      help: "Search for servants with a specific alignment"
+    })
+  }
+  run(message, args, prefix) {
+    let page;
+    let searchTerm;
+    if (args.length) {
+      if (isNaN(args[args.length - 1])) {
+        page = 1;
+        searchTerm = args.slice(1).join(' ');
+      } else {
+        page = parseInt(args[args.length - 1]);
+        searchTerm = args.slice(1, -1).join(' ');
       }
-      if (msgArg) {
-        maxPage = Math.ceil(msgArg.length / 10);
-        if (page > maxPage) {
-          page = maxPage;
+      if (page < 1) page = 1;
+      snek.get(`${Constants.db}fgo_main.json`).then(r => {
+        let result = [];
+        r = JSON.parse(r.text);
+        for (let id in r) {
+          if (r[id].alignment.toLowerCase().includes(searchTerm)) {
+            result.push({
+              name: r[id].name,
+              id: r[id].id
+            });
+          }
         }
-        msgArg = msgArg.slice((page - 1) * 10, page * 10).map(item => {return item.name + " (ID: " + item.id + ")"});
-        embed = {
-          title: "Servants with " + temp + ' alignment (Page ' + page + '/' + maxPage +'):',
-          color: 0xff0000,
-          description: "\u200b\n" + msgArg.join('\n\n') + '\n\nPlease use `' + bot.prefix + 'alignment ' + temp + ' <page number>` to go to other pages'
+        if (result) {
+          let maxPage = Math.ceil(result.length / 10);
+          if (page > maxPage) page = maxPage;
+          result = result.slice((page - 1) * 10, page * 10).map(item => { return `${item.name} (ID: ${item.id})` });
+          message.channel.send('', {
+            embed: {
+              title: `Servants with ${searchTerm} alignment (Page ${page}/${maxPage}):`,
+              description: `\u200b\n${result.join('\n\n')}\n\nPlease use \`${prefix}alignment ${searchTerm} <page number>\` to go to other pages`,
+              color: 0xff0000
+            }
+          });
+        } else {
+          message.channel.send(`Cannot found servants with ${searchTerm} alignment. Please recheck your search terms and try again`);
         }
-        message.channel.send('', {embed}).then(callback).catch(console.log);
-      } else message.channel.send("Not found").then(callback);
-    });
-  } else {
-    message.channel.send('Wrong syntax');
+      });
+    } else {
+      message.channel.send(`You didn't provide an argument, please provide an argument or consult \`${prefix}help alignment\` for more info`);
+    }
   }
 }

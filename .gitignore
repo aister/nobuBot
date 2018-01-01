@@ -1,7 +1,5 @@
-*.bak
 node_modules
-config.json
 selfbot
-*.tmp
 *.bat
 package-lock.json
+test.js

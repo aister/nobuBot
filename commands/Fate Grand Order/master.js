@@ -1,14 +1,32 @@
-var request = require('request');
-exports.help = "master :: Show info for the current week's master missions";
-exports.exec = (client, message, msgArray, callback) => {
-  request({
-    url: 'https://raw.githubusercontent.com/aister/nobuDB/master/master.json',
-    json: true
-  }, function(err, res, body) {
-    if (body.master) message.channel.send('', { embed: {
+const Command = require('../../main/command');
+const Constants = require('../../main/const');
+const snek = require('snekfetch');
+
+module.exports = class FGOMasterCommand extends Command {
+  constructor(main) {
+    super(main, {
+      name: "master",
+      category: "Fate Grand Order",
+      help: "Get the current Master Missions."
+    });
+    this.cache = false;
+  }
+  fetch() {
+    return new Promise((resolve, reject) => {
+      snek.get('https://fate-go.cirnopedia.org/master_mission.php').then(r => {
+        r = r.text.match(/id="mini(?:(?!<\/table)[\s\S])+/g)[0].match(/desc">\n.+\n.+/g).map(item => {
+          return item.slice(7).replace('<br>', '');
+        });
+        this.cache = r;
+        resolve(r);
+      });
+    })
+  }
+  async run(message, args, prefix) {
+    if (!this.cache) await this.fetch();
+    message.channel.send('', { embed: {
       title: "Master Mission for this week",
-      description: "\u200b\n" + body.master
+      description: `\u200b\n${this.cache.join('\n\n')}`
     }});
-    else message.channel.send('Some error occured, R~ might have messed up somewhere... again...');
-  });
+  }
 }

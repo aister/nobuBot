@@ -1,26 +1,75 @@
-exports.help = "vc-profile-edit name: <Your IGN> | id: <Friend ID> | role: <FAWK, LAWK, Sender, etc.> | alliance: <alliance name> :: Save or edit VC profile\n\n" +
-                "Also you can attach an image along with the command to put it into your profile";
-function func (client, result, message) {
-}
-exports.exec = (client, message, msgArray, callback) => {
-  client.getDB('vcProfile_' + message.author.id).then(() => {
-    result = client.dbCache['vcProfile_' + message.author.id];
-    if (result) obj = JSON.parse(result);
-    else obj = {};
-    msgArray.slice(1).join(' ').replace(/ ?\| ?/g, '|').split('|').forEach(item => {
-      item = item.trim();
-      if (item.startsWith('name:')) obj.name = item.slice(5).trim();
-      else if (item.startsWith('id:')) obj.id = item.slice(3).trim();
-      else if (item.startsWith('role:')) obj.role = item.slice(5).trim();
-      else if (item.startsWith('alliance:')) obj.alliance = item.slice(9).trim();
+const Command = require('../../main/command');
+const Constants = require('../../main/const');
+const snek = require('snekfetch');
+
+module.exports = class FGOProfileEditCommand extends Command {
+  constructor(main) {
+    super(main, {
+      name: "vc-profile-edit",
+      category: "Valkyrie Crusade",
+      help: "Save or edit your VC Profile",
+      argsSep: ' | ',
+      args: [
+        {
+          name: "IGN",
+          desc: "Your IGN. Format: `name: IGN`"
+        },
+        {
+          name: "Friend ID",
+          desc: "Your Friend ID. Format: `id: FriendID`"
+        },
+        {
+          name: "Support Image",
+          desc: "The image link showing your support list. Format: `support: Image Link`. You can also upload the image along with the command."
+        },
+        {
+          name: "Privacy",
+          desc: "Privacy Setting for your profile. Format: `privacy: true/false`. If set to `false`, everyone can use command to see your profile. Optional, default to true"
+        },
+        {
+          name: "Role",
+          desc: "Your role in game. For example, FAWK, LAWK, Sender, Alliance Leader, etc. Format: `role: Role name`"
+        },
+        {
+          name: "Alliance",
+          desc: "Your alliance name. Format: `alliance: Alliance name`"
+        }
+      ],
+      caseSensitive: true
     });
-    if (img = message.attachments.first()) {
-      obj.support = img.url;
+  }
+  run(message, args, prefix) {
+    args = args.join(' ');
+    if (args) {
+      this.main.db.get(`vcProfile_${message.author.id}`).then(profile => {
+        if (profile) profile = JSON.parse(profile);
+        else profile = {};
+        let modified = false;
+        args = args.match(/((?:name)|(?:id)|(?:support)|(?:privacy)|(?:role)|(?:alliance)) ?: ?[^\|]+/gi).forEach(item => {
+          item = item.split(':');
+          item[0] = item[0].toLowerCase().trim();
+          item[1] = item.slice(1).join(':').trim();
+          profile[item[0]] = item[1];
+          modified = true;
+          if (item[0] == "privacy") {
+            if (item[1] == "false") profile.privacy = false;
+            else profile.privacy = true;
+          }
+        });
+        let img = message.attachments.first();
+        if (img) {
+          profile.support = img.url;
+          modified = true;
+        }
+        if (modified) {
+          console.log(profile);
+          this.main.db.set(`vcProfile_${message.author.id}`, JSON.stringify(profile)).then(() => {
+            message.channel.send('Profile saved successfully', {embed: this.main.util.fgoProfile(message.author, profile)});
+          });
+        } else message.channel.send(`Error: No argument provided. Please consult \`${prefix}help vc-profile-edit\` for more information.`);
+      });
+    } else {
+      message.channel.send(`Error: No argument provided. Please consult \`${prefix}help vc-profile-edit\` for more information.`);
     }
-    result = JSON.stringify(obj);
-    client.db.set('vcProfile_' + message.author.id, result, function() {
-      client.dbCache['vcProfile_' + message.author.id] = result;
-      message.channel.send('Profile saved successfully', {embed: client.commands["vc-profile"].func(message.author, obj)});
-    });
-  });
+  }
 }

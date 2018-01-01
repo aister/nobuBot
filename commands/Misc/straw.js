@@ -1,10 +1,23 @@
-exports.help = "straw <option 1> | <option 2> | <etc.> :: Get a random number within <min> and <max>";
-exports.func = (client, str) => {
-  str = str.replace(/ ?\| ?/g, '|');
-  str = str.split('\|');
-  return str[client.commands.rnd.func(str.length - 1)];
-}
-exports.exec = (client, message, msgArray, callback) => {
-  if (msgArray.length > 1) message.channel.send(this.func(client, msgArray.slice(1).join(' '))).then(callback);
-  else message.channel.send('Unable to get straw, no option provided').then(callback);
+const Command = require('../../main/command');
+
+module.exports = class StrawCommand extends Command {
+  constructor(main) {
+    super(main, {
+      name: "straw",
+      category: "Misc",
+      help: "Let the bot pick a random item out of the provided list",
+      args: [
+        {
+          name: "List",
+          desc: "The list of items, each items need to be separated with a ` | `"
+        }
+      ]
+    });
+  }
+
+  run(message, args, prefix) {
+    args = args.join(' ').split('|');
+    if (args) message.channel.send(this.main.util.ARand(args));
+    else message.channel.send(`Error: No argument provided. Please consult \`${prefix}help straw\` for more information`);
+  }
 }

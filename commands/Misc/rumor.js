@@ -1,22 +1,35 @@
-const Collection = require('discord.js').Collection;
-const Rumors = [
-  "Psshh, I saw [1] holding hands with [2] while walking down the street last night!!",
-  "Psshh, I saw [1] hugging [2] in the amusement park yesterday!!",
-  "Psshh, I saw [1] touching [2] under nitocris's sheets the other day!",
-  "Psshh, I saw [1] having mana transfer with [2] in the school gym the other day!!"
-];
-exports.help = "rumor :: spread rumors about two random people in the guild\n\n(It's actually two random people who has said something in the last 100 messages but shhhhhh)";
-exports.exec = (bot, message, msgArray, callback) => {
-  if (!message.guild) return;
-  message.channel.fetchMessages({limit: 100}).then(messages => {
-    let seme = new Collection();
-    messages.forEach(m => {
-      if (m.member) { seme.set(m.author.id, m.member); }
+const Command = require('../../main/command');
+
+module.exports = class RumorsCommand extends Command {
+  constructor(main) {
+    super(main, {
+      name: "rumor",
+      category: "Misc",
+      help: "Spread rumors about two random people in the guild"
     });
-    let uke = seme.random();
-    seme.delete(uke.id);
-    if (seme.size) seme = seme.random();
-    else seme = uke;
-    message.channel.send(Rumors[bot.commands.rnd.func(Rumors.length - 1)].replace('[1]', uke.displayName).replace('[2]', seme.displayName));
-  }).catch(console.log);
+    this.rumors = [
+      "Psshh, I saw [1] holding hands with [2] while walking down the street last night!!",
+      "Psshh, I saw [1] hugging [2] in the amusement park yesterday!!",
+      "Psshh, I saw [1] touching [2] under nitocris's sheets the other day!",
+      "Psshh, I saw [1] having mana transfer with [2] in the school gym the other day!!"
+    ];
+  }
+
+  run(message, args, prefix) {
+    if (message.guild) {
+      message.channel.fetchMessages({limit: 100}).then(messages => {
+        let members = new Map();
+        messages.map(m => { if (m.member) {
+          members.set(m.member.id, m.member);
+        }});
+        if (members.size >= 3) members.delete(this.main.client.user.id);
+        let player1 = this.main.util.ARand(Array.from(members.values()));
+        members.delete(player1.id);
+        let player2 = this.main.util.ARand(Array.from(members.values()));
+        message.channel.send(this.main.util.ARand(this.rumors).replace('[1]', player1.displayName).replace('[2]', player2.displayName));
+      })
+    } else {
+      message.channel.send("This command can only be used in guilds");
+    }
+  }
 }

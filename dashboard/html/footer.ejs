@@ -1,0 +1,20 @@
+<div style="clear: both"></div>
+<div id="footer">
+  © 2018 Aister. All rights reserved.
+</div>
+<script>
+  var HOST = location.origin.replace(/^http/, 'ws')
+  var ws = new WebSocket(HOST);
+  ws.onmessage = function (event) {
+    event = JSON.parse(event.data);
+    console.log(event);
+    switch(event.type) {
+      case "commandUsage":
+        document.getElementById('commandCount').innerHTML = parseInt(document.getElementById('commandCount').innerHTML) + 1;
+        break;
+      case "guildChange":
+        document.getElementById('commandCount').innerHTML = event.data;
+        break;
+    }
+  }
+</script>

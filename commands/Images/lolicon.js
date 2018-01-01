@@ -1,18 +1,29 @@
-var Canvas = require('canvas');
-exports.help = "lolicon :: coming out of the closet";
-exports.exec = (bot, message, msgArray, callback) => {
-  request({url: "https://i.imgur.com/ulQiHQO.png", encoding: null}, function (err, res, body) {
-    let canvas = new Canvas(617, 319);
-    let ctx = canvas.getContext('2d');
-    const img_bg = new Canvas.Image();
-    img_bg.onload = function () {
-      ctx.drawImage(img_bg, 0, 0, 617, 319);
-      ctx.font = "bold 30px Arial";
-      var words = message.author.username;
-      var metrics = ctx.measureText(words);
-      ctx.fillText(words, 300 - metrics.width / 2, 150);
-      message.channel.send("", {file: {attachment:canvas.toBuffer()}});
-    };
-    img_bg.src = body;
-  });
+const Command = require('../../main/command');
+const Canvas = require('canvas');
+const snek = require('snekfetch');
+
+module.exports = class LoliconCommand extends Command {
+  constructor(main) {
+    super(main, {
+      name: "lolicon",
+      category: "Image Generation",
+      help: "Oniichan, are you a lolicon?"
+    });
+
+  }
+  run(message, args, prefix) {
+    snek.get("https://i.imgur.com/ulQiHQO.png").then(r => {
+      const canvas = new Canvas(617, 319);
+      const ctx = canvas.getContext('2d');
+      const img_bg = new Canvas.Image();
+      img_bg.onload = function () {
+        ctx.drawImage(img_bg, 0, 0, 617, 319);
+        ctx.font = "bold 30px Arial";
+        args = message.author.username;
+        ctx.fillText(args, 300 - ctx.measureText(args).width / 2, 150);
+        message.channel.send("", {file: {attachment:canvas.toBuffer()}});
+      };
+      img_bg.src = r.body;
+    });
+  }
 }

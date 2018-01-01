@@ -1,24 +1,29 @@
-var request = require('request');
-exports.help = "image <image search query> :: Image Search";
-exports.exec = (bot, message, msgArray, callback) => {
-  searchTerm = msgArray.slice(1).join(' ');
-  message.channel.send("Searching...").then(msg => {
-    request('http://www.bing.com/images/search?q=' + encodeURI(searchTerm), function(err, res, body) {
-      if (err) callback(err);
-      else {
-        msg.delete();
-        if (body.indexOf('class="thumb" ') > -1) {
-          body = body.slice(body.indexOf('class="thumb" '));
-          body = body.slice(body.indexOf('href="') + 6);
-          body = body.slice(0, body.indexOf('"'));
-          body = decodeURIComponent(body);
-          message.channel.send("First image found for query: " + searchTerm, {file: {attachment: body, name: "image.png"}}).then(callback);
-        } else message.channel.send("There is no image found for query " + searchTerm).then(callback);
-      }
+const Command = require('../../main/command');
+const snek = require('snekfetch');
+
+module.exports = class ImageSearchCommand extends Command {
+  constructor(main) {
+    super(main, {
+      name: "image",
+      category: "Search",
+      help: "Search for an image",
+      args: [
+        {
+          name: "Search Terms",
+          desc: "What you want to search for"
+        }
+      ],
+      caseSensitive: true
     });
-  });
+  }
+
+  async run(message, args, prefix) {
+    args = args.join(' ');
+    if (args) {
+      let m = await message.channel.send('Searching');
+      let result = await snek.get(`http://www.bing.com/images/search?q=${encodeURI(args)}`);
+      if (result = result.text.match(/class="thumb"(?:(?!href)[\s\S])+href="([^"]+)/)) m.edit(`First result found for query ${args}: ${result[1]}`);
+      else m.edit(`There is no result for query ${args}`);
+    } else message.channel.send(`Error: No argument provided. Please consult \`${prefix}help image\` for more information`);
+  }
 }
-
-
-
-

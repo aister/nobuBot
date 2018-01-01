@@ -1,0 +1,35 @@
+<% include ./header %>
+    <div class="content">
+      <div class="main">
+        <% if (help) { %>
+          <div class="content-item">
+            <div class="title"><%= help.title %></div>
+            <div class="flex">
+              <div class="command-name">Default Prefix</div>
+              <div class="command-desc"><%= prefix %></div>
+              <% help.fields.forEach( function(item) { %>
+                <div class="command-name"><%= item.name %></div>
+                <div class="command-desc"><%- item.value %></div>
+              <% }); %>
+            </div>
+          </div>
+          <div class="content-item">
+            <div class="title">In same category:</div>
+            <div class="flex">
+              <% categories.forEach(function (command) { %>
+                <div class="command-name"><a href="/command/<%= command.name %>"><%= command.name %></a></div>
+                <div class="command-desc"><%- command.desc %></div>
+              <% }) %>
+            </div>
+          </div>
+        <% } else { %>
+          <div class="title">Command not found</div>
+        <% } %>
+      </div>
+      <div class="sidebar">
+        <% include ./sidebar %>
+      </div>
+    </div>
+    <% include ./footer %>
+  </body>
+</html>

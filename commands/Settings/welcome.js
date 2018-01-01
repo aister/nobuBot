@@ -20,7 +20,6 @@ module.exports = class WelcomeCommand extends Command {
     })
   }
   run(message, args, prefix) {
-    args = args.join(' ');
     this.main.db.get(`config_${message.guild.id}`).then(config => {
       if (config) config = JSON.parse(config);
       else config = {};

@@ -26,13 +26,15 @@ module.exports = class HelpCommand extends Command {
       };
       let categories = {};
       this.main.commands.forEach(item => {
-        if (!categories[item.category]) categories[item.category] = [ item.name ];
-        else if (!item.devOnly) categories[item.category].push(item.name);
+        if (!item.devOnly) {
+          if (!categories[item.category]) categories[item.category] = [];
+          categories[item.category].push(item.name);
+        }
       });
       for (let item in categories) {
         embed.fields.push({
           name: item,
-          value: categories[item].join(', ')
+          value: categories[item].map(command => { return `[${command}](https://nobubot.herokuapp.com/command/${command})`;}).join(', ')
         });
       }
       message.channel.send('' , { embed });

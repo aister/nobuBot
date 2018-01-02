@@ -22,11 +22,11 @@ module.exports = class NobuBot {
         loginTime = Date.now();
       });
       this.client.on('guildCreate', () => {
-        this.dashboard.update({ type: "guildChange", data: this.client.guilds.size });
+        if (this.dashboard) this.dashboard.update({ type: "guildChange", data: this.client.guilds.size });
         this.client.channels.get('265147163321958400').send(`${this.client.user.username} has been added to another guild! Total guild count: ${this.client.guilds.size}`);
       });
       this.client.on('guildDelete', () => {
-        this.dashboard.update({ type: "guildChange", data: this.client.guilds.size });
+        if (this.dashboard) this.dashboard.update({ type: "guildChange", data: this.client.guilds.size });
         this.client.channels.get('265147163321958400').send(`${this.client.user.username} has been removed from a guild! Total guild count: ${this.client.guilds.size}`);
       });
       this.client.on('guildMemberAdd', m => {

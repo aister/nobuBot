@@ -18,12 +18,12 @@ module.exports = class StatCommand extends Command {
       fields: [
         {
           name: "Bot uptime",
-          value: `${Math.floor(bot.uptime / 864000)}d : ${Math.floor(bot.uptime / 3600) % 24}h : ${Math.floor(bot.uptime / 60) % 60}m : ${bot.uptime % 60}s`,
+          value: `${Math.floor(bot.uptime / 864000000)}d : ${Math.floor(bot.uptime / 3600000) % 24}h : ${Math.floor(bot.uptime / 60000) % 60}m : ${Math.floor(bot.uptime / 1000) % 60}s`,
           inline: true
         },
         {
           name: "Process uptime",
-          value: `${Math.floor(process.uptime() / 864000)}d : ${Math.floor(process.uptime() / 3600) % 24}h : ${Math.floor(process.uptime() / 60) % 60}m : ${process.uptime() % 60}s`,
+          value: `${Math.floor(process.uptime() / 864000)}d : ${Math.floor(process.uptime() / 3600) % 24}h : ${Math.floor(process.uptime() / 60) % 60}m : ${Math.floor(process.uptime()) % 60}s`,
           inline: true
         },
         {

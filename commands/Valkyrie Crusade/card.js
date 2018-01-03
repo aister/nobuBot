@@ -24,21 +24,22 @@ module.exports = class VCCardCommand extends Command {
         if (result) result = {item: r[result[1]]};
         else {
           result = false;
-          for (let item in r) {
-            if (r[item].name.toLowerCase().includes(args.toLowerCase())) {
-              if (result) result.other.push(r[item].id);
-              else result = {item: r[item], other: []};
+          r.forEach((item, i) => {
+            if (item.name.toLowerCase().includes(args.toLowerCase())) {
+              item.id = i;
+              if (result) result.other.push(i);
+              else result = {item, other: []};
             }
-          }
+          });
         }
         if (result) {
           args = result.item;
           let embed = {
-            title: r.name + ' (ID: ' + args.id + ')',
+            title: args.name + ' (ID: ' + args.id + ')',
             color: 0xff0000,
             fields: [
-              {name: "Element", value: r.element, inline: true},
-              {name: "Rarity", value: r.rarity, inline: true}
+              {name: "Element", value: args.element, inline: true},
+              {name: "Rarity", value: args.rarity, inline: true}
             ],
             description: "\u200b",
             image: {
@@ -46,7 +47,7 @@ module.exports = class VCCardCommand extends Command {
             },
             url: args.link
           }
-          r.skill.forEach(item => {
+          args.skill.forEach(item => {
             embed.fields.push(item);
           });
           if (result.other) {

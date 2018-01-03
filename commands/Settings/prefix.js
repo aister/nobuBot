@@ -16,10 +16,14 @@ module.exports = class CustomCommand extends Command {
     })
   }
   run(message, args, prefix) {
+    if (!message.member.hasPermission('MANAGE_GUILD')) {
+      return message.channel.send("Error: You need MANAGE SERVER permission to use this command.");
+    }
     args = args.join(' ');
     this.main.db.get(`config_${message.guild.id}`).then(config => {
       if (config) config = JSON.parse(config);
       else config = {};
+      args = args || `@{this.main.client.user.username}`;
       if (args == "[disable]") {
         config.prefix = false;
         args = "Prefix has been disabled successfully!";

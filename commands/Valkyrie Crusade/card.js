@@ -34,11 +34,11 @@ module.exports = class VCCardCommand extends Command {
         if (result) {
           args = result.item;
           let embed = {
-            title: body.name + ' (ID: ' + args.id + ')',
+            title: r.name + ' (ID: ' + args.id + ')',
             color: 0xff0000,
             fields: [
-              {name: "Element", value: body.element, inline: true},
-              {name: "Rarity", value: body.rarity, inline: true}
+              {name: "Element", value: r.element, inline: true},
+              {name: "Rarity", value: r.rarity, inline: true}
             ],
             description: "\u200b",
             image: {

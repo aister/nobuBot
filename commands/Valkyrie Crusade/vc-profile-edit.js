@@ -40,7 +40,8 @@ module.exports = class FGOProfileEditCommand extends Command {
   }
   run(message, args, prefix) {
     args = args.join(' ');
-    if (args) {
+    let img = message.attachments.first();
+    if (args || img) {
       this.main.db.get(`vcProfile_${message.author.id}`).then(profile => {
         if (profile) profile = JSON.parse(profile);
         else profile = {};
@@ -56,7 +57,6 @@ module.exports = class FGOProfileEditCommand extends Command {
             else profile.privacy = true;
           }
         });
-        let img = message.attachments.first();
         if (img) {
           profile.support = img.url;
           modified = true;

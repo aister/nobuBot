@@ -20,6 +20,9 @@ module.exports = class WelcomeCommand extends Command {
     })
   }
   run(message, args, prefix) {
+    if (!message.member.hasPermission('MANAGE_GUILD')) {
+      return message.channel.send("Error: You need MANAGE SERVER permission to use this command.");
+    }
     this.main.db.get(`config_${message.guild.id}`).then(config => {
       if (config) config = JSON.parse(config);
       else config = {};

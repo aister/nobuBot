@@ -32,23 +32,26 @@ module.exports = class FGOProfileEditCommand extends Command {
   }
   run(message, args, prefix) {
     args = args.join(' ');
-    if (args) {
+    let img = message.attachments.first();
+    if (args || img) {
       this.main.db.get(`fgoProfile_${message.author.id}`).then(profile => {
         if (profile) profile = JSON.parse(profile);
         else profile = {};
         let modified = false;
-        args = args.match(/((?:name)|(?:id)|(?:support)|(?:privacy)) ?: ?[^\|]+/gi).forEach(item => {
-          item = item.split(':');
-          item[0] = item[0].toLowerCase().trim();
-          item[1] = item.slice(1).join(':').trim();
-          profile[item[0]] = item[1];
-          modified = true;
-          if (item[0] == "privacy") {
-            if (item[1] == "false") profile.privacy = false;
-            else profile.privacy = true;
-          }
-        });
-        let img = message.attachments.first();
+        args = args.match(/((?:name)|(?:id)|(?:support)|(?:privacy)) ?: ?[^\|]+/gi);
+        if (args) {
+          args.forEach(item => {
+            item = item.split(':');
+            item[0] = item[0].toLowerCase().trim();
+            item[1] = item.slice(1).join(':').trim();
+            profile[item[0]] = item[1];
+            modified = true;
+            if (item[0] == "privacy") {
+              if (item[1] == "false") profile.privacy = false;
+              else profile.privacy = true;
+            }
+          });
+        }
         if (img) {
           profile.support = img.url;
           modified = true;

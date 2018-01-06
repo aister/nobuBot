@@ -4,6 +4,7 @@ const Config = require('./config');
 const Database = require('./db');
 const Constants = require('./const.js');
 const Dashboard = require('../dashboard/server.js');
+const http = require('http');
 module.exports = class NobuBot {
   constructor(option) {
     this.client = new Discord.Client();

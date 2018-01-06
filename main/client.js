@@ -79,5 +79,8 @@ module.exports = class NobuBot {
       });
       this.client.login(this.config.token).catch(console.log);
     }).catch(console.log);
+    setInterval(function() {
+      http.get("http://nobubot.herokuapp.com");
+    }, 300000);    
   }
 }

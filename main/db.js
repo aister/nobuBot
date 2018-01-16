@@ -9,11 +9,11 @@ module.exports = class Database {
       if (key in this.cache) {
         resolve(this.cache[key]);
       } else {
-        if (err) {
-          console.log(err);
-          reject(err);
-        }
         this.client.get(key, (err, result) => {
+          if (err) {
+            console.log(err);
+            reject(err);
+          }
           this.cache[key] = result;
           resolve(result);
         });

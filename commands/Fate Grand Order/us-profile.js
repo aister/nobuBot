@@ -18,7 +18,11 @@ module.exports = class FGOUSProfileCommand extends Command {
   }
   run(message, args, prefix) {
     let player = message.author.id;
-    if (args = args.join(' ')) player = args.match(/(?:<@!?)?(\d+)/)[1];
+    if (args = args.join(' ')) {
+      let mentionID = args.match(/(?:<@!?)?(\d+)/);
+      if (mentionID) player = mentionID[1];
+      else player = "";
+    }
     Promise.all([this.main.db.get(`fgoUSProfile_${player}`), this.main.client.fetchUser(player)]).then((profile) => {
       if (profile[0]) {
         profile[0] = JSON.parse(profile[0]);

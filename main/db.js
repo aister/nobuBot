@@ -9,6 +9,10 @@ module.exports = class Database {
       if (key in this.cache) {
         resolve(this.cache[key]);
       } else {
+        if (err) {
+          console.log(err);
+          reject(err);
+        }
         this.client.get(key, (err, result) => {
           this.cache[key] = result;
           resolve(result);
@@ -18,7 +22,11 @@ module.exports = class Database {
   }
   set(key, value) {
     return new Promise((resolve, reject) => {
-      this.client.set(key, value, () => {
+      this.client.set(key, value, (err) => {
+        if (err) {
+          console.log(err);
+          reject(err);
+        }
         this.cache[key] = value;
         resolve(value);
       });

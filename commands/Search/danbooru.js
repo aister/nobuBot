@@ -18,13 +18,14 @@ module.exports = class ImageSearchCommand extends Command {
   }
 
   async run(message, args, prefix) {
-    let tag, url;
+    let tag = "";
+    let url = "";
     if (message.channel.nsfw) {
       if (message.guild.id == "232256303509012480") tag = "rating:q ";
       else tag = "rating:e ";
       url = 'https://danbooru.donmai.us/posts.json?random=true&limit=1&tags=';
     } else url = 'https://safebooru.donmai.us/posts.json?random=true&limit=1&tags=';
-    args = args.filter(i => { !i.startsWith('rating:') });
+    args = args.filter(i => { return !i.startsWith('rating:') });
     tag += `*${args.join('* *')}*`;
 
     snek.get(url + encodeURI(tag)).then(r => {

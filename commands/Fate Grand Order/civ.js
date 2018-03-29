@@ -17,7 +17,7 @@ module.exports = class CivilizationCommand extends Command {
   run(message, args, prefix) {
     args = message.mentions.users.first() || message.author;
     message.guild.fetchMember(args).then(i => {
-      if (this.main.util.rand(0, 1) > 0.5) message.channel.send(`${i.displayName} is a good civilization!`);
+      if (this.main.util.rand(0, 1)) message.channel.send(`${i.displayName} is a good civilization!`);
       else message.channel.send(`${i.displayName} is a bad civilization!`);
     });
   }

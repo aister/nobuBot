@@ -15,12 +15,7 @@ module.exports = class CivilizationCommand extends Command {
     })
   }
   run(message, args, prefix) {
-    args = message.mentions.members.first() || message.member;
-    let id = args.id;
-    id = id.match(/\d{1}/g);
-    let final = 0;
-    id.forEach(i => { final += parseInt(i); });
-    if (final % 2) message.channel.send(`${args.displayName} is a good civilization!`);
+    if (this.main.util.rand(0, 1) > 0.5) message.channel.send(`${args.displayName} is a good civilization!`);
     else message.channel.send(`${args.displayName} is a bad civilization!`);
   }
 }

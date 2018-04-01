@@ -32,7 +32,7 @@ module.exports = class HelpCommand extends Command {
         }
       });
       for (let item in categories) {
-        let ctg = [];
+        let ctg = [[]];
         let index = 0;
         categories[item].forEach(command => {
           args = `${ctg[index].join(', ')}, [${command}](https://nobubot.herokuapp.com/command/${command})`;

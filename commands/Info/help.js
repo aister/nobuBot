@@ -32,10 +32,19 @@ module.exports = class HelpCommand extends Command {
         }
       });
       for (let item in categories) {
-        embed.fields.push({
-          name: item,
-          value: categories[item].map(command => { return `[${command}](https://nobubot.herokuapp.com/command/${command})`;}).join(', ')
+        let ctg = [];
+        let index = 0;
+        categories[item].forEach(command => {
+          args = `${ctg[index].join(', ')}, [${command}](https://nobubot.herokuapp.com/command/${command})`;
+          if (args.length) index++;
+          ctg[index].push(`[${command}](https://nobubot.herokuapp.com/command/${command})`);
         });
+        ctg.forEach((command, index) => {
+          if (ctg.length > 1) index = `${item} (${index})`;
+          embed.fields.push({
+            name: index,
+            value: command.join(', ')
+          });
       }
       message.channel.send('' , { embed });
     }

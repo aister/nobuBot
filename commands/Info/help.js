@@ -43,7 +43,7 @@ module.exports = class HelpCommand extends Command {
           ctg[index].push(`[${command}](https://nobubot.herokuapp.com/command/${command})`);
         });
         ctg.forEach((command, index) => {
-          if (ctg.length > 1) index = `${item} (${index})`;
+          if (ctg.length > 1) index = `${item} (${index + 1})`;
           else index = item;
           embed.fields.push({
             name: index,

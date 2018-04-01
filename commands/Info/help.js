@@ -41,10 +41,12 @@ module.exports = class HelpCommand extends Command {
         });
         ctg.forEach((command, index) => {
           if (ctg.length > 1) index = `${item} (${index})`;
+          else index = item;
           embed.fields.push({
             name: index,
             value: command.join(', ')
           });
+        });
       }
       message.channel.send('' , { embed });
     }

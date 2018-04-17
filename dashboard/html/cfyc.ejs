@@ -5,5 +5,7 @@
   ws.onmessage = function (data) {
     document.getElementById('main').innerHTML = data;
   }
-  ws.send({type: "cfyc"});
+  ws.onopen = function () {
+    ws.send({type: "cfyc"});
+  }
 </script>

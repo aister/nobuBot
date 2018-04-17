@@ -78,7 +78,7 @@ module.exports = class Dashboard {
 
     app.get('/cfyc', (req, res) => {
       res.render('cfyc', data);
-      }
+    });
     
     this.wss = new SocketServer({ server });
     this.wss.on('connection', (ws, req) => {

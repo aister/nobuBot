@@ -49,7 +49,7 @@ module.exports = class CirnoCommand extends Command {
             let testLine = line + item + ' ';
             let metrics = ctx.measureText(testLine);
             let testWidth = metrics.width;
-            if (testWidth > maxWidth && n > 0) {
+            if (testWidth > maxWidth) {
               lines.push(line);
               line = item + ' ';
               y += lineHeight;

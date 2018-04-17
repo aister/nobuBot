@@ -3,8 +3,8 @@
   var HOST = location.origin.replace(/^http/, 'ws')
   var ws = new WebSocket(HOST);
   ws.onmessage = function (event) {
-    console.log(event.data)
-    document.getElementById('main').innerHTML = event.data;
+    event = event.data;
+    if (event.type == "cfyc") document.getElementById('main').innerHTML = event.img;
   }
   ws.onopen = function () {
     ws.send({type: "cfyc"});

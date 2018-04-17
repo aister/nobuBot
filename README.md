@@ -48,7 +48,7 @@ I use [Heroku](https://www.heroku.com/) since it's cheap and works fine with any
 ## Authors
 
 * **Aister** - *Forked from* - [aister](https://github.com/aister)
-* **Diego** - *Initial Work* - [Jubokko](https://github.com/Jubokko)
+* **Diego** - *Adding functionality* - [Jubokko](https://github.com/Jubokko)
 
 ## Contributors
 

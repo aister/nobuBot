@@ -5,7 +5,7 @@ const Database = require('./db');
 const Constants = require('./const.js');
 const Dashboard = require('../dashboard/server.js');
 const http = require('http');
-module.exports = class NobuBot {
+module.exports = class Gorgon {
   constructor(option) {
     this.client = new Discord.Client();
     this.config = new Config(option);
@@ -81,7 +81,7 @@ module.exports = class NobuBot {
       this.client.login(this.config.token).catch(console.log);
     }).catch(console.log);
     setInterval(function() {
-      http.get("http://nobubot.herokuapp.com");
+      http.get("http://gorgon.herokuapp.com");
     }, 300000);    
   }
 }

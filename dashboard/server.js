@@ -84,7 +84,7 @@ module.exports = class Dashboard {
     this.wss.on('connection', (ws, req) => {
       ws.on('error', () => {});
       ws.on('message', data => {
-        console.log(data);
+        console.log(data.type);
         if (data.type == "cfyc") {
           snek.get('http://www.cfyc.com.vn/en/schedule').then(body => {
             body = body.match(/https%3A%2F%2Fimages.cfyc.com.vn%2Fphn_image%2Fschedule%2F(Phu-Nhuan|Quan-3)-\d+\.jpg/g).map(i => {

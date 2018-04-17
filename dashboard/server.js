@@ -3,6 +3,7 @@ const SocketServer = require('ws').Server;
 const path = require('path');
 const ejs = require('ejs');
 const fs = require('fs');
+const snek = require('snekfetch');
 
 module.exports = class Dashboard {
   constructor(main) {
@@ -75,9 +76,23 @@ module.exports = class Dashboard {
 
     });
 
+    app.get('/cfyc', (req, res) => {
+      res.render('cfyc', data);
+      }
+    
     this.wss = new SocketServer({ server });
     this.wss.on('connection', (ws, req) => {
       ws.on('error', () => {});
+      ws.on('message', data => {
+        if (data.type == "cfyc") {
+          snek.get('http://www.cfyc.com.vn/en/schedule').then(body => {
+            body = body.match(/https%3A%2F%2Fimages.cfyc.com.vn%2Fphn_image%2Fschedule%2F(Phu-Nhuan|Quan-3)-\d+\.jpg/g).map(i => {
+              return `<img src="${decodeURIComponent(i)}">`;
+            }).join("<br>");
+            ws.send(body);
+          });
+        }
+      });
     });
   }
   update(data) {

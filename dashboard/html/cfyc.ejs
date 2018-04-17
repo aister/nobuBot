@@ -1,1 +1,9 @@
-<img src="<% img %>">
+<div id="main"></div>
+<script>
+  var HOST = location.origin.replace(/^http/, 'ws')
+  var ws = new WebSocket(HOST);
+  ws.onmessage = function (data) {
+    document.getElementById('main').innerHTML = data;
+  }
+  ws.send({type: "cfyc"});
+</script>

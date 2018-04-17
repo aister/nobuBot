@@ -28,12 +28,11 @@ module.exports = class DangerousCommand extends Command {
         const img_bg = new Canvas.Image();
         img_bg.onload = function () {
           ctx.drawImage(img_bg, 0, 0, 483, 366);
-          ctx.font = "bold 20px Arial";
+          ctx.font = "bold 15px Arial";
           ctx.fillStyle = "white";
 
-          const x = 250;
-          let y = 170;
-          ctx.save();
+          const x = 115;
+          let y = 280;
           ctx.rotate(-Math.PI/36);
           ctx.fillText(args.trim(), x, y);
           

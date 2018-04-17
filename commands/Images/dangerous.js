@@ -32,7 +32,7 @@ module.exports = class DangerousCommand extends Command {
           ctx.fillStyle = "white";
 
           const x = 115;
-          let y = 280;
+          let y = 290;
           ctx.rotate(-Math.PI/36);
           ctx.fillText(args.trim(), x, y);
           

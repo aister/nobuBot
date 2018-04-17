@@ -33,10 +33,10 @@ module.exports = class DangerousCommand extends Command {
           const x = 170;
           let y = 250;
           ctx.save();
-          context.translate(x, y);
-          context.rotate(-Math.PI/36);
-          context.fillText(args.trim(), x, y);
-          context.restore();
+          ctx.translate(x, y);
+          ctx.rotate(-Math.PI/36);
+          ctx.fillText(args.trim(), x, y);
+          ctx.restore();
           
           message.channel.send("", {file: {attachment:canvas.toBuffer()}});
         };

@@ -2,8 +2,9 @@
 <script>
   var HOST = location.origin.replace(/^http/, 'ws')
   var ws = new WebSocket(HOST);
-  ws.onmessage = function (data) {
-    document.getElementById('main').innerHTML = data;
+  ws.onmessage = function (event) {
+    console.log(event.data)
+    document.getElementById('main').innerHTML = event.data;
   }
   ws.onopen = function () {
     ws.send({type: "cfyc"});

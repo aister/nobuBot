@@ -1,12 +1,15 @@
+<style>
+  img { width: 100%; }
+</style>
 <div id="main"></div>
 <script>
   var HOST = location.origin.replace(/^http/, 'ws')
   var ws = new WebSocket(HOST);
   ws.onmessage = function (event) {
-    event = event.data;
+    event = JSON.parse(event.data);
     if (event.type == "cfyc") document.getElementById('main').innerHTML = event.img;
   }
   ws.onopen = function () {
-    ws.send({type: "cfyc"});
+    ws.send(JSON.stringify({type: "cfyc"}));
   }
 </script>

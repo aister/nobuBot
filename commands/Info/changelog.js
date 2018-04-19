@@ -11,7 +11,7 @@ module.exports = class ChangelogCommand extends Command {
 
   }
   run(message, args, prefix) {
-    snek.get('https://api.github.com/repos/aister/nobuBot/commits').then(r => {
+    snek.get('https://api.github.com/repos/jubokko/gorgon-bot/commits').then(r => {
       r = JSON.parse(r.text);
 
       message.channel.send('', {embed: {

@@ -35,12 +35,12 @@ module.exports = class HelpCommand extends Command {
         let ctg = [[]];
         let index = 0;
         categories[item].forEach(command => {
-          args = `${ctg[index].join(', ')}, [${command}](https://nobubot.herokuapp.com/command/${command})`;
+          args = `${ctg[index].join(', ')}, [${command}](https://gorgon.herokuapp.com/command/${command})`;
           if (args.length > 1024) {
             index++;
             ctg[index] = [];
           }
-          ctg[index].push(`[${command}](https://nobubot.herokuapp.com/command/${command})`);
+          ctg[index].push(`[${command}](https://gorgon.herokuapp.com/command/${command})`);
         });
         ctg.forEach((command, index) => {
           if (ctg.length > 1) index = `${item} (${index + 1})`;

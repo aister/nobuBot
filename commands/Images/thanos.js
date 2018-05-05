@@ -20,7 +20,7 @@ module.exports = class IWCommand extends Command {
     args = message.mentions.users.first() || message.author;
     message.guild.fetchMember(args).then(i => {
       let avatar = i.user.avatarURL.split('?')[0];
-      if (this.main.util.rand(0, 1) || true) {
+      if (this.main.util.rand(0, 1)) {
         snek.get(avatar).then(r => {
           const canvas = new Canvas(150, 150);
           const ctx = canvas.getContext('2d');

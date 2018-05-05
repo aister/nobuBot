@@ -11,6 +11,7 @@ module.exports = class EvalCommand extends Command {
   }
   run(message, args, prefix) {
     if (message.author.id == this.main.config.ownerID) {
+      let client = this.main.client;
       args = args.join(' ');
       let embed = {
         title: "Eval",

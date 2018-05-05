@@ -118,7 +118,7 @@ module.exports = class Util {
           let imgData = ctx.getImageData(30, 0, 120, 150);
           let data = imgData.data;
           for (let i = 0; i < data.length; i += 4) {
-            let rnd = (90 - Math.floor(i / 4) % 120) / 90;
+            let rnd = (120 - Math.floor(i / 4) % 120) / 120;
             if (Math.random() > rnd) data[i + 3] = 0;
           }
           ctx.putImageData(imgData, 30, 0);

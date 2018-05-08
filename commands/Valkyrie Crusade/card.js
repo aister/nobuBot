@@ -21,8 +21,12 @@ module.exports = class VCCardCommand extends Command {
       snek.get(`${Constants.db}vc.json`).then(r => {
         r = JSON.parse(r.text);
         let result = args.match(/^id: *(.+)/);
-        if (result) result = {item: r[result[1]]};
-        else {
+        if (result) {
+          args = result[1];
+          result = r[args];
+          result.id = args;
+          result = { item: result };
+        } else {
           result = false;
           r.forEach((item, i) => {
             if (item.name.toLowerCase().includes(args.toLowerCase())) {

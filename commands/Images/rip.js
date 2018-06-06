@@ -14,7 +14,8 @@ module.exports = class RipCommand extends Command {
           desc: "The text to put in the image"
         }
       ],
-      caseSensitive: true
+      caseSensitive: true,
+      cleanContent: true
     });
   }
   run(message, args, prefix) {
@@ -25,7 +26,7 @@ module.exports = class RipCommand extends Command {
       img_bg.onload = function () {
         ctx.drawImage(img_bg, 0, 0, 504, 594);
         ctx.font = "bold 40px Arial";
-        args = args.join(' ') || message.author.username;
+        args = args.map(i => { return i.replace(/^@/g, ''); }).join(' ') || message.author.username;
         ctx.fillText(args, 237 - ctx.measureText(args).width / 2, 330);
         ctx.font = "bold 30px Arial";
         ctx.fillText(`???? - ${(new Date()).getFullYear()}`, 160, 380);

@@ -17,8 +17,7 @@ module.exports = class FGOAscensionMatsCommand extends Command {
     });
   }
   run(message, args, prefix) {
-    if (args) {
-      args = args.join(' ');
+    if (args = args.join(' ')) {
       snek.get(`${Constants.db}fgo_main.json`).then(r => {
         r = JSON.parse(r.text);
         let result = args.match(/^id: *(.+)/);

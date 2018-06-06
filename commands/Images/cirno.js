@@ -19,7 +19,8 @@ module.exports = class CirnoCommand extends Command {
           desc: "The text to put in the image"
         }
       ],
-      caseSensitive: true
+      caseSensitive: true,
+      cleanContent: true
     });
 
   }

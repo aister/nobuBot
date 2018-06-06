@@ -34,5 +34,6 @@ module.exports = class Command {
     }
     this.timeUsed = 0;
     this.caseSensitive = data.caseSensitive || false;
+    this.cleanContent = data.cleanContent || false;
   }
 }

@@ -54,7 +54,7 @@ module.exports = class NobuBot {
             else if (config.prefix === false) prefix = false;
           }
           let textPrefix = message.guild.me.displayName;
-          if (prefix) textPrefix = new RegExp(`^${prefix.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&')}|<@\!?${this.client.user.id}>|@${textPrefix}`);
+          if (prefix) textPrefix = new RegExp(`^${prefix.replace(/[-[\]{}()*+?.,\\^$|#\s]/gi, '\\$&')}|<@\!?${this.client.user.id}>|@${textPrefix}`);
           else {
             textPrefix = new RegExp(`<@\!?${this.client.user.id}>|@${textPrefix}`);
             prefix = `@${this.client.user.username}`;
@@ -73,6 +73,7 @@ module.exports = class NobuBot {
             if (command.cleanContent) args = message.cleanContent;
             if (!command.caseSensitive) args = args.toLowerCase();
             args = args.replace(textPrefix, '').trim().split(' ');
+            console.log(args);
             command.run(message, args.slice(1), prefix);
             command.timeUsed++;
             this.dashboard.update({ type: "commandUsage" })

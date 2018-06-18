@@ -32,4 +32,16 @@ module.exports = class Database {
       });
     });
   }
+  del(key) {
+    return new Promise((resolve, reject) => {
+      this.client.del(key, (err) => {
+        if (err) {
+          console.log(err);
+          reject(err);
+        }
+        this.cache[key] = undefined;
+        resolve();
+      });
+    });
+  }
 }

@@ -13,9 +13,9 @@ module.exports = class SlapCommand extends Command {
           name: "Target",
           desc: "The target of the slap (he deserved it!)"
         }
-      ]
+      ],
+      caseSensitive: true
     });
-
   }
   run(message, args, prefix) {
     snek.get("http://i.imgur.com/aEGb2tj.png").then(r => {
@@ -29,7 +29,7 @@ module.exports = class SlapCommand extends Command {
           else args = mentions.displayName;
         } else {
           args = args.join(' ');
-          if (args == "Aister") args = message.author.username;
+          if (args.toLowerCase() == "aister") args = message.author.username;
         }
         ctx.drawImage(img_bg, 0, 0, 576, 300);
         ctx.font = "bold 30px Arial";

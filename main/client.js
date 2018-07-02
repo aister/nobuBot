@@ -68,7 +68,8 @@ module.exports = class NobuBot {
           let customCommand;
           if (config && config.commands) customCommand = new Map([...Constants.emoji, ...config.commands]);
           else customCommand = Constants.emoji;
-          if (let command = this.commands.get(args[0].toLowerCase())) {
+          let command = this.commands.get(args[0].toLowerCase());
+          if (command) {
             if (command.cleanContent) {
               args = cleanContent;
               if (!command.caseSensitive) args = args.toLowerCase();
@@ -76,7 +77,6 @@ module.exports = class NobuBot {
             } else if (!command.caseSensitive) {
               args = content.toLowerCase().split(' ');
             }
-            console.log(args);
             command.run(message, args.slice(1), prefix);
             command.timeUsed++;
             this.dashboard.update({ type: "commandUsage" })

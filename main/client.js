@@ -61,18 +61,21 @@ module.exports = class NobuBot {
           }
           if (!message.content.match(textPrefix)) return;
 
-          let args = message.content.replace(textPrefix, '').trim();
-          args = args.toLowerCase().split(' ');
+          let content = message.content.replace(textPrefix, '').trim();
+          let cleanContent = message.cleanContent.replace(textPrefix, '').trim();
+          let args = content.split(' ');
 
           let customCommand;
           if (config && config.commands) customCommand = new Map([...Constants.emoji, ...config.commands]);
           else customCommand = Constants.emoji;
-          if (this.commands.has(args[0])) {
-            let command = this.commands.get(args[0]);
-            args = message.content;
-            if (command.cleanContent) args = message.cleanContent;
-            if (!command.caseSensitive) args = args.toLowerCase();
-            args = args.replace(textPrefix, '').trim().split(' ');
+          if (let command = this.commands.get(args[0].toLowerCase())) {
+            if (command.cleanContent) {
+              args = cleanContent;
+              if (!command.caseSensitive) args = args.toLowerCase();
+              args = args.split(' ');
+            } else if (!command.caseSensitive) {
+              args = content.toLowerCase().split(' ');
+            }
             console.log(args);
             command.run(message, args.slice(1), prefix);
             command.timeUsed++;

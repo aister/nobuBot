@@ -31,7 +31,7 @@ module.exports = class ImageSearchCommand extends Command {
     snek.get(url + encodeURI(tag)).then(r => {
       r = JSON.parse(r.text);
       if (r.length > 0) {
-        if (r[0].file_url) message.channel.send(`<https://danbooru.donmai.us/posts/${r[0].id}>`, {file: {attachment: `https://danbooru.donmai.us/${r[0].file_url}`, name: "image.png"}});
+        if (r[0].file_url) message.channel.send(`<https://danbooru.donmai.us/posts/${r[0].id}>`, {file: {attachment: `${r[0].file_url}`, name: "image.png"}});
         else message.channel.send(`Post found, however no image data can be found\n\nHere's the link: https://danbooru.donmai.us/posts/${r[0].id}`);
       } else message.channel.send('No result found');
     });

@@ -9,9 +9,10 @@ module.exports = class ShipCommand extends Command {
     });
   }
 
-  run(message, args, prefix) {
+  async run(message, args, prefix) {
     if (!message.guild) return;
     let gm = message.guild.members;
+    if (gm.size == 1) gm = await message.guild.fetchMembers();
     let uke = message.guild.members.random();
     gm.delete(uke.id);
     uke = uke.displayName;

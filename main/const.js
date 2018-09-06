@@ -7,7 +7,7 @@ module.exports = {
       GS: {s5: 1, s4: 4, s3: 100},
       Rest: {s5: 1, s4: 4, s3: 20, c5: 24, c4: 36, c3: 100}
     },
-    vc: [2, 30, 200, 500]
+    vc: [2, 30, 200]
   },
   emoji: new Map([
     ["lol", "http://i.imgur.com/NnuU2km.gif"],

@@ -37,8 +37,7 @@ module.exports = class Util {
       if (chance <= rate[0]) chance = "LR";
       else if (chance <= rate[1]) chance = "UR";
       else if (chance <= rate[2]) chance = "SR";
-      else if (chance <= rate[3]) chance = "R";
-      else chance = "N";
+      else chance = "R";
       snek.get(`${Constants.db}vc.json`).then(r => {
         r = JSON.parse(r.text);
         let result = [];

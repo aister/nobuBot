@@ -11,6 +11,7 @@
     "start": "node index.js"
   },
   "dependencies": {
+    "canvas": "^2.0.0",
     "discord.js": "11.1.0",
     "ejs": "^2.5.7",
     "express": "^4.16.2",

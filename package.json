@@ -6,7 +6,6 @@
     "node": "9.2.0",
     "npm": "3.10.8"
   },
-  "stack": "heroku-16",
   "main": "index.js",
   "scripts": {
     "start": "node index.js"

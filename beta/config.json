@@ -1,6 +1,0 @@
-{
-  "prefix": ">>",
-  "selfbot": true,
-  "token": "MjI4MTI2MTM2MTkyODYwMTYw.DRlm2w.eayhLPTROYvk-oZwtivxSmBIpyI",
-  "dbURL": "redis://h:pec085abf031371e9348a26ba1ee6e6d7dab1a45df8e6fc400a1af4dcae91bfd1@ec2-100-26-118-254.compute-1.amazonaws.com:22289"
-}

@@ -11,11 +11,16 @@
     "start": "node index.js"
   },
   "dependencies": {
-    "canvas": "^2.6.1",
+    "canvas": "^1.6.10",
     "discord.js": "11.1.0",
+    "ejs": "^2.5.7",
+    "express": "^4.16.2",
     "flip-text": "^1.1.0",
     "gifencoder": "^1.1.0",
-    "redis": "^2.6.3"
+    "google-translate-api": "arthurlacoste/google-translate-api",
+    "html-entities": "^1.2.0",
+    "redis": "^2.6.3",
+    "ws": "^3.3.3"
   },
   "keywords": [
     "node",
